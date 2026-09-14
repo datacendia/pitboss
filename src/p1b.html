@@ -1,0 +1,396 @@
+<section class="view" id="v-privacy" data-part="I &middot; The Product" data-nav="5. Privacy &amp; governance">
+  <span class="eyebrow">Part I &middot; Module 5</span>
+  <h1 class="vt">Privacy, masking and the compliance conversation</h1>
+  <p class="lede">On a gambling account this is not a module, it is a gate. You will not get a snippet into production until the Data Protection Officer is satisfied, and the fastest route through is to arrive already knowing more about the controls than they expect you to.</p>
+
+  <h2 class="st">Private by default</h2>
+  <p>Fullstory's web capture treats user input as private by default: the <em>values</em> typed into inputs, textareas and select elements are not captured, while the interaction (focus, blur, time in field, whether it was completed, validation errors shown) is. This is the right default and it is your opening line with a DPO: <strong>"We do not capture what players type unless someone explicitly opts a field in, and on your site nothing will be opted in."</strong></p>
+  <p>Element text that is rendered on the page &mdash; a displayed balance, a name in the account header, a bet history table &mdash; <em>is</em> captured unless you exclude or mask it. That is where the real work is.</p>
+
+  <h2 class="st">The three levels of suppression</h2>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Control</th><th>Effect</th><th>Replay shows</th><th>Interaction events</th><th>Use for</th></tr></thead>
+    <tbody>
+      <tr><td class="mono">fs-exclude</td><td>Element and its whole subtree are ignored by capture. Children <strong>cannot</strong> be masked or unmasked back in</td><td>A rectangle of diagonal grey-and-white stripes &mdash; deliberately distinct from genuine white space</td><td class="num"><span class="tag c">Lost</span></td><td>Card entry, document upload, anything you must be able to swear was never transmitted</td></tr>
+      <tr><td class="mono">fs-mask</td><td>Text is not collected; structure and children retained, and specific children can be unmasked</td><td>Correct layout, obfuscated text</td><td class="num"><span class="tag p">Kept</span></td><td>Player name in the header, balance, bet history amounts, chat transcripts</td></tr>
+      <tr><td class="mono">fs-unmask</td><td>Opts an element back in inside a masked ancestor</td><td>Real content</td><td class="num"><span class="tag p">Kept</span></td><td>The label next to a masked value; error messages inside a masked form</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="callout crit">
+    <div class="ci">Two traps</div>
+    <div class="cc">
+      <p><strong>1. Excluding an element throws away its clicks.</strong> Events that target an excluded element &mdash; clicks and changes &mdash; are ignored entirely. Put <code>fs-exclude</code> on the deposit confirm button and you lose the fact that anyone pressed it, which silently breaks your deposit funnel. Exclude the <em>card fields</em>, never the surrounding controls. Masking is the right tool whenever you still need the interaction.</p>
+      <p><strong>2. Masked text cannot be searched by text.</strong> Because the actual strings are never collected, you cannot find a masked element by its copy &mdash; you must search by CSS selector. This is the strongest practical argument for naming your important elements with <code>data-fs-element</code> before you mask anything around them.</p>
+    </div>
+  </div>
+
+  <p>There are also <strong>consent variants</strong> of these classes, which apply only until consent is recorded &mdash; useful in markets where you capture a reduced dataset pre-consent. And where an element matches both a masking and an unmasking rule, <strong>the stricter rule wins</strong>; to unmask inside something stricter you have to create an explicit exception rather than relying on ordering.</p>
+<pre><code>&lt;!-- never leaves the browser --&gt;
+&lt;div class="fs-exclude" id="card-entry"&gt; ... &lt;/div&gt;
+
+&lt;!-- shape kept, content obfuscated --&gt;
+&lt;span class="fs-mask" data-balance&gt;&pound;1,284.50&lt;/span&gt;
+
+&lt;!-- opt a child back in --&gt;
+&lt;div class="fs-mask"&gt;
+  &lt;p class="fs-unmask"&gt;Verification failed: document expired&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+  <p>There are also UI-side rules: in Fullstory's privacy settings an admin can define selector-based blocking and masking that applies without a code change. Use these as a <strong>safety net and for emergencies</strong>, never as the primary mechanism &mdash; rules defined in the UI are invisible to the client's developers and will be broken by the next redesign without anyone noticing. This is not just a preference: <strong>Fullstory's own documentation recommends the code-first approach</strong>, on the grounds that classes in the component library are less brittle and more future-proof than CSS selectors maintained in a settings screen. Quote that when a client's developer resists taking the ticket.</p>
+  <p>Fullstory also publishes a <strong>Privacy Setup Checklist</strong> and documents the <strong>Private by Default</strong> behaviour. Work through the checklist with the client's DPO in the room rather than presenting your own; using the vendor's own artefact shortens the argument considerably.</p>
+
+  <div class="callout crit">
+    <div class="ci">Critical</div>
+    <div class="cc"><p>Masking rules apply at capture time and are not retrospective. If a field was captured unmasked for three weeks, adding <code>fs-exclude</code> today does not clean the history &mdash; that requires deletion via the API or a retention purge. This is the sentence that will one day save you: <strong>test masking in staging, and audit it in production within 24 hours of go-live.</strong></p></div>
+  </div>
+
+  <h2 class="st">The gambling exclusion list</h2>
+  <p>Walk this with the client's DPO and get sign-off in writing. Everything here should be excluded or masked before a single production session is captured.</p>
+  <div class="grid g2">
+    <div class="card"><h4><span class="tag c">Exclude</span> Never capture</h4><ul>
+      <li>Card number, expiry, CVV, cardholder name &mdash; also a PCI-DSS scope question, not only GDPR</li>
+      <li>Bank account and sort code, IBAN</li>
+      <li>National insurance / social security / tax ID numbers</li>
+      <li>Passport, driving licence and ID document numbers and images</li>
+      <li>Source-of-funds and source-of-wealth documents (payslips, bank statements)</li>
+      <li>Full date of birth and full home address</li>
+      <li>Passwords, security answers, one-time codes</li>
+      <li>Free-text support chat content typed by the player</li>
+    </ul></div>
+    <div class="card"><h4><span class="tag w">Mask</span> Capture structure only</h4><ul>
+      <li>Player name and username wherever rendered</li>
+      <li>Account balance, bonus balance, withdrawable balance</li>
+      <li>Transaction history amounts and bet history stakes and returns</li>
+      <li>Email address rendered in account settings</li>
+      <li>Partial card display ("ending 4412")</li>
+      <li>Deposit limit values the player has set</li>
+      <li>Any displayed loss or win totals</li>
+    </ul></div>
+  </div>
+
+  <h3>The special-category question</h3>
+  <p>Gambling behaviour is not formally special-category data under UK/EU GDPR in the way health data is. But <strong>responsible-gambling status is adjacent to health</strong> &mdash; an operator's markers-of-harm model, a self-exclusion flag, or an intervention record can reasonably be argued to reveal information about a person's mental health or addiction. Treat it as if it were special category:</p>
+  <ul>
+    <li>Never send a markers-of-harm score, risk band, or intervention history into Fullstory as a user property.</li>
+    <li>You <em>may</em> capture that an RG tool was <em>used</em> &mdash; that a deposit limit screen was opened, that a reality check was dismissed &mdash; because that is interaction data and it is precisely what the client needs to improve RG journeys. Keep it at the interaction level, not the diagnosis level.</li>
+    <li>Never build a segment whose purpose is to target at-risk players commercially. If a client asks for one, say no, and say why. This is a licence-condition issue for them and a reputational one for LeanConvert.</li>
+  </ul>
+
+  <h2 class="st">Consent management</h2>
+  <p>Most operators run a CMP (OneTrust, Cookiebot, Didomi, Sourcepoint). Capture belongs in the analytics or performance category, and must respect the player's choice. The implementation pattern is the one shown in the identity module: <code>startCaptureManually</code>, then <code>FS('start')</code> on consent, <code>FS('shutdown')</code> on withdrawal.</p>
+  <p>Two things clients get wrong. First, they gate the <em>tag</em> but not the <em>identity call</em>, so a rejected-consent user still gets identified by a race condition. Second, they never test the withdrawal path. Both are five-minute checks in a replay; do them.</p>
+
+  <h2 class="st">Retention, deletion and access</h2>
+  <dl class="deflist">
+    <dt>Retention</dt><dd>Set per contract. Shorter retention is easier to defend to a regulator and cheaper; longer retention lets you analyse seasonality and annual events. For most operators 3&ndash;6 months of replay with warehouse export for anything longer is the defensible compromise.</dd>
+    <dt>Right to erasure</dt><dd>Handled by a server-side API call that deletes a user by uid. The client needs a documented runbook connecting their DSAR process to that call, with an owner and an SLA. Build it during onboarding; it is a two-hour job that prevents a genuine crisis.</dd>
+    <dt>Right of access</dt><dd>A player can ask what has been captured. The honest answer is a list of interaction events and a description of the replay; be ready to help the client word it.</dd>
+    <dt>Processor role</dt><dd>Fullstory is a data processor; the operator is the controller. There will be a DPA, and there may be standard contractual clauses depending on residency. You do not sign these &mdash; but knowing the vocabulary keeps the meeting moving.</dd>
+    <dt>Access control</dt><dd>Not everyone at the client should see replay. Restrict replay access to a named group, keep dashboards open to everyone, and log it. "Who can watch a player's session" is a question a regulator may genuinely ask.</dd>
+  </dl>
+
+  <div class="callout tip">
+    <div class="ci">Deliverable</div>
+    <div class="cc"><p>Produce a one-page <strong>Data Capture Statement</strong> for every client: what is captured, what is excluded, what is masked, retention period, who has access, deletion runbook, and the date of the last masking audit. It takes an hour, it closes the DPO conversation permanently, and it is the single most reused artefact you will build.</p></div>
+  </div>
+</section>
+
+<section class="view" id="v-replay" data-part="I &middot; The Product" data-nav="6. Session replay craft">
+  <span class="eyebrow">Part I &middot; Module 6</span>
+  <h1 class="vt">Replay, used properly</h1>
+  <p class="lede">Anyone can press play. The skill is knowing which twenty sessions out of eleven million to watch, what to look for, and how to turn twelve minutes of watching into a sentence an executive acts on.</p>
+
+  <h2 class="st">The player surface</h2>
+  <ul>
+    <li><strong>Event timeline</strong> down the side: every click, navigation, error and custom event. Click any entry to jump. This is how you skip to the moment that matters instead of scrubbing.</li>
+    <li><strong>Skip inactivity</strong> on by default &mdash; be aware, because a client watching a "fast" session may not realise there was a 40-second wait that was compressed. When you are demonstrating a slow experience, turn it off.</li>
+    <li><strong>Console tab</strong> &mdash; the JavaScript errors and logs from that session, in time order with the replay. This is the feature that converts developers.</li>
+    <li><strong>Network tab</strong> &mdash; request timing and failures. Where you prove that the deposit spinner span eleven seconds because the PSP call hung.</li>
+    <li><strong>Element inspector</strong> &mdash; hover and read the actual selector of what the player clicked.</li>
+    <li><strong>Sharing</strong> &mdash; a link to a session at a timestamp. Respect access rules; do not paste player sessions into open Slack channels.</li>
+  </ul>
+
+  <h2 class="st">How to actually find the right session</h2>
+  <p>Never browse the session list. Always arrive at replay from a question. The disciplined path is: <em>metric moved &rarr; segment that isolates it &rarr; funnel step where it breaks &rarr; the sessions that failed at that step &rarr; watch five.</em></p>
+  <ol class="steps">
+    <li><b>Start from the anomaly</b> "Deposit success on Apple Pay fell from 94% to 81% on Tuesday." Build the segment: deposit attempted, method Apple Pay, outcome failed, last 7 days.</li>
+    <li><b>Sort for signal, not recency</b> Prefer sessions that also contain an error click or a JS error, or that ended in a support contact. Those sessions carry the causal chain.</li>
+    <li><b>Watch five, not fifty</b> Five sessions from a tight segment almost always reveal the pattern. If five do not, your segment is too loose &mdash; go back and tighten it rather than watching more.</li>
+    <li><b>Watch for the pause</b> The moment of truth is nearly always a hesitation: cursor stops, the player rereads, they scroll back up. That is where comprehension broke.</li>
+    <li><b>Confirm at scale before you claim it</b> One replay is a hypothesis. Turn the pattern into a segment, count it, express it as a rate and an absolute number of players per month. Only then does it go in a deck.</li>
+  </ol>
+
+  <div class="callout warn">
+    <div class="ci">Discipline</div>
+    <div class="cc"><p>The single most common failure of a new Fullstory account is <strong>replay tourism</strong> &mdash; the client watches sessions, finds something interesting, and mistakes an anecdote for evidence. Your job from week one is to model the opposite: every replay observation you present is paired with a number. "I saw it happen" is worthless; "I saw it happen, and it happens to 4,100 players a month, 38% of whom never deposit again" is a roadmap item.</p></div>
+  </div>
+
+  <h2 class="st">Gaming-specific replay realities</h2>
+  <div class="grid g2">
+    <div class="card"><h4>The game is a black box</h4><p>Slots, live dealer and most sportsbook in-play widgets render in canvas or a third-party iframe. Replay will show a blank rectangle. You instrument the <em>edges</em>: launch requested, load succeeded or failed, time to playable, exit, and the return-to-lobby state. That is where the UX problems actually live anyway &mdash; almost no losses happen inside the game, they happen getting into it and getting money in.</p></div>
+    <div class="card"><h4>Sessions are long and bursty</h4><p>A casino session can run for hours with long idle periods. Use event-timeline jumps rather than scrubbing, and be careful quoting "average session duration" to a client &mdash; in gambling it correlates with spend but it is also the metric most contaminated by idle tabs.</p></div>
+    <div class="card"><h4>Balance is masked, so infer</h4><p>You will not see the player's balance. Infer state from behaviour: repeated cashier opens, a deposit attempt immediately after a game exit, stake-size changes. Instrument a <code>balanceBucket</code> property if the client will allow it &mdash; it is a powerful segmentation dimension and it is not directly identifying.</p></div>
+    <div class="card"><h4>Multi-tab play is normal</h4><p>Serious players run several games at once, sometimes across tabs. Fullstory captures each tab; sessions can look fragmentary. Do not interpret a "half-finished" journey as abandonment without checking whether the player continued in another tab.</p></div>
+  </div>
+
+  <h2 class="st">Playlists and the deliverable</h2>
+  <p>Fullstory lets you collect sessions into a saved list. Use it as your delivery format, not as a scrapbook. A good playlist has: a title that states the finding, three to five sessions that each show the same failure, and a written note per session saying what to watch for and at what timestamp. Hand that to a product owner and the ticket writes itself.</p>
+  <p>For executives, do not hand over replays at all. Hand over a single clip or screenshot sequence embedded in the number. Senior stakeholders in gambling companies are extremely time-poor and will not open a link.</p>
+</section>
+
+<section class="view" id="v-segments" data-part="I &middot; The Product" data-nav="7. Search &amp; segments">
+  <span class="eyebrow">Part I &middot; Module 7</span>
+  <h1 class="vt">Segments &mdash; the object everything else is built from</h1>
+  <p class="lede">Funnels, dashboards, metrics, alerts and replay lists are all downstream of a segment. Learn to build them precisely and the rest of the product becomes easy. Build them sloppily and every number you produce afterwards is wrong in a way nobody will catch.</p>
+
+  <h2 class="st">Session scope versus user scope</h2>
+  <p>The distinction that trips up every new user. A <strong>session segment</strong> answers "which visits had this shape". A <strong>user segment</strong> answers "which people have ever done this". They give different numbers and they answer different questions.</p>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Question</th><th>Scope</th><th>Why</th></tr></thead>
+    <tbody>
+      <tr><td>Which deposit attempts failed on Apple Pay this week?</td><td>Session</td><td>You care about the visit, and one player may have several</td></tr>
+      <tr><td>Which players have never completed KYC?</td><td>User</td><td>A property of the person across all time</td></tr>
+      <tr><td>Which sessions contained a rage click on the betslip?</td><td>Session</td><td>Event within a visit</td></tr>
+      <tr><td>Which players deposited but never placed a bet?</td><td>User</td><td>Requires "did A ever" and "never did B" across sessions</td></tr>
+    </tbody>
+  </table></div>
+
+  <h2 class="st">The operators you will use constantly</h2>
+  <dl class="deflist">
+    <dt>did / did not</dt><dd>Presence or absence of an event. "Did not" is the powerful one &mdash; almost every valuable gambling segment is a negative: deposited but did not bet, registered but did not verify, viewed the bonus but did not claim.</dd>
+    <dt>sequence</dt><dd>Event A then event B, optionally within a time window. Essential for causality: saw error <em>then</em> contacted support. Without sequencing you cannot distinguish correlation from order.</dd>
+    <dt>count / frequency</dt><dd>Did the event at least N times. "Attempted deposit 3 or more times in a session" is one of the highest-value segments in the entire vertical.</dd>
+    <dt>property filters</dt><dd>Narrow by event or user properties. Combine sparingly &mdash; each additional filter shrinks the population and at some point you are describing eleven people.</dd>
+    <dt>time window</dt><dd>Both the analysis window and relative windows within a session. "Within 60 seconds of" is how you tie a technical failure to a behavioural consequence.</dd>
+  </dl>
+
+  <h2 class="st">Fifteen segments to build on day one of any gaming account</h2>
+  <p>Build these before your first workshop. They cost an hour and they make the client feel the tool is already theirs.</p>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Segment</th><th>Scope</th><th>Definition sketch</th><th>Why it earns its place</th></tr></thead>
+    <tbody>
+      <tr><td>Failed first deposit</td><td>User</td><td>Deposit Outcome = failed AND isFirstDeposit = true</td><td>The single most expensive failure in the funnel</td></tr>
+      <tr><td>Multiple deposit attempts</td><td>Session</td><td>Deposit Attempted count &ge; 3</td><td>Direct proxy for cashier friction</td></tr>
+      <tr><td>Registered, never verified</td><td>User</td><td>Registration Completed AND NOT KYC Outcome = passed</td><td>Locked revenue sitting in the account base</td></tr>
+      <tr><td>Deposited, never wagered</td><td>User</td><td>Deposit Outcome = success AND NOT (Bet Placed OR Spin Started)</td><td>Money in, no activity &mdash; usually a launch or navigation failure</td></tr>
+      <tr><td>Betslip abandoners</td><td>Session</td><td>Selection Added AND NOT Bet Placed</td><td>Sportsbook's equivalent of cart abandonment</td></tr>
+      <tr><td>Game launch failures</td><td>Session</td><td>Game Load Outcome = failed</td><td>Ties directly to provider SLAs</td></tr>
+      <tr><td>Rage on cashier</td><td>Session</td><td>Rage Click on page group = Cashier</td><td>Fastest route to a visible, fixable defect</td></tr>
+      <tr><td>Error then support</td><td>Session</td><td>JS Error THEN Support Contact Initiated within 5 min</td><td>Converts engineering defects into a cost-to-serve number</td></tr>
+      <tr><td>Withdrawal abandoners</td><td>Session</td><td>Withdrawal Started AND NOT Withdrawal Requested</td><td>Withdrawal friction is a top-three complaint driver</td></tr>
+      <tr><td>Bonus viewers who did not claim</td><td>Session</td><td>Bonus Viewed AND NOT Bonus Claimed</td><td>Directly tests promotional comprehension</td></tr>
+      <tr><td>New players, first 24h</td><td>User</td><td>registrationDate within 1 day</td><td>The window that decides lifetime value</td></tr>
+      <tr><td>VIP sessions</td><td>User</td><td>accountTier in (Gold, Platinum)</td><td>Small population, enormous revenue weight &mdash; always segment it out</td></tr>
+      <tr><td>Mobile web only</td><td>Session</td><td>deviceType = mobile AND NOT app</td><td>Usually the worst-performing and largest surface</td></tr>
+      <tr><td>Affiliate traffic</td><td>Session</td><td>affiliateId is set</td><td>Quality-of-traffic disputes are constant; be able to settle them</td></tr>
+      <tr><td>RG tool users</td><td>Session</td><td>RG Tool Interaction exists</td><td>Compliance evidence and a genuine UX opportunity</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="callout tip">
+    <div class="ci">Craft</div>
+    <div class="cc"><p>Name segments so a stranger can use them: <code>[Cashier] 3+ deposit attempts &mdash; session</code> beats <code>Stu test 4</code>. Prefix by area, suffix by scope. In an account with forty stakeholders the segment list becomes shared infrastructure, and a messy one destroys trust in the data faster than any bug.</p></div>
+  </div>
+
+  <h2 class="st">Segment comparison</h2>
+  <p>The most under-used feature in the product. Take two segments &mdash; converted versus not, VIP versus standard, app versus mobile web &mdash; and compare their behaviour to see which events and properties differ most. It surfaces hypotheses you would never have thought to test. Run it once a month on "deposited" versus "registered but never deposited" for any casino client and you will not run out of roadmap ideas.</p>
+</section>
+
+<section class="view" id="v-funnels" data-part="I &middot; The Product" data-nav="8. Funnels, journeys &amp; dashboards">
+  <span class="eyebrow">Part I &middot; Module 8</span>
+  <h1 class="vt">Quantifying it: funnels, journeys, metrics and dashboards</h1>
+  <p class="lede">This is where you move from "here is a video of a problem" to "here is the number, here is what it costs, here is what happens if we fix it". Everything in this module is what makes the tool survive a budget review.</p>
+
+  <h2 class="st">Funnels</h2>
+  <p>A funnel is an ordered sequence of steps, each defined as an event or page view, evaluated per user or per session over a window. Fullstory computes step-to-step conversion, drop-off, and time between steps, and &mdash; the important part &mdash; lets you jump straight into the replays of the people who dropped.</p>
+
+  <h3>The four funnels every gambling client needs</h3>
+  <div class="grid g2">
+    <div class="card"><h4>Acquisition to first deposit</h4><p>Landing &rarr; Registration Started &rarr; Registration Completed &rarr; KYC Passed &rarr; Cashier Opened &rarr; Deposit Attempted &rarr; Deposit Success. Seven steps, usually 2&ndash;6% end-to-end from landing. This funnel is the client's entire acquisition economics in one picture.</p></div>
+    <div class="card"><h4>Deposit (returning player)</h4><p>Cashier Opened &rarr; Method Selected &rarr; Deposit Attempted &rarr; Deposit Success. Short, high-volume, and the highest-leverage thing you will ever optimise for these clients. A point of deposit success rate is worth more than most redesigns.</p></div>
+    <div class="card"><h4>Game engagement (casino)</h4><p>Lobby Viewed &rarr; Game Tile Clicked &rarr; Game Launched &rarr; Game Load Success &rarr; First Spin. The drop between launch and load success is a technical KPI you can hand to the provider-management team with real leverage.</p></div>
+    <div class="card"><h4>Betslip (sportsbook)</h4><p>Event Viewed &rarr; Selection Added &rarr; Stake Entered &rarr; Bet Placed &rarr; Bet Accepted. The gap between Placed and Accepted is price-change rejection &mdash; a metric most sportsbooks under-measure and one that quietly destroys in-play conversion.</p></div>
+  </div>
+
+  <div class="callout warn">
+    <div class="ci">Rigour</div>
+    <div class="cc"><p>Always overlay a segment on a funnel before you present it. An aggregate deposit funnel across a multi-brand, multi-market operator is close to meaningless &mdash; the German funnel has a deposit limit step the UK one does not, and mobile web behaves nothing like the app. Segment by market, then device, then new versus returning. If the client only lets you show one cut, show new players on mobile web: it is usually the worst and the biggest.</p></div>
+  </div>
+
+  <h2 class="st">Journeys</h2>
+  <p>Where a funnel tests a hypothesis you already have, a journey (path analysis) shows you what actually happens &mdash; the most common forward paths from a starting point, or backward paths into an endpoint. Two uses that repay the effort:</p>
+  <ul>
+    <li><strong>Backwards from a bad outcome.</strong> Set the endpoint to Support Contact Initiated or Withdrawal Requested and look at what precedes it. You will find loops nobody knew existed.</li>
+    <li><strong>Forwards from the lobby.</strong> For casino clients, what does a new player actually do after landing in the lobby? Almost always a great deal of aimless scrolling before any game launch, which is a merchandising finding, not a UX one &mdash; and it is worth a lot of money.</li>
+  </ul>
+
+  <h2 class="st">Metrics, dashboards and alerts</h2>
+  <p>A metric is a saved, charted count or rate &mdash; typically "sessions matching segment X" or "conversion of funnel Y" over time. Dashboards assemble them. Alerts fire when a metric moves beyond a threshold or deviates from its expected pattern.</p>
+  <h3>Dashboard design that survives contact with an executive</h3>
+  <ol class="steps">
+    <li><b>One dashboard per audience, not per feature</b> An Exec dashboard, a Product dashboard, an Engineering dashboard, a Payments dashboard. The same metric can appear on several; nobody should have to scroll past someone else's numbers.</li>
+    <li><b>Rates above counts</b> Counts move with traffic and seasonality &mdash; and gambling traffic is violently seasonal around fixtures and jackpots. A rate is interpretable on a Monday morning; a count is not.</li>
+    <li><b>Always show the denominator</b> "Deposit success 91%" means nothing without "of 42,000 attempts". Gambling stakeholders are numerate and will lose confidence in any chart that hides its base.</li>
+    <li><b>Annotate releases</b> Get the client to mark deploys and campaign launches. Half of all dashboard questions are "what happened on the 14th" and the answer is almost always a release.</li>
+    <li><b>Cap it at eight tiles</b> Anything more and it is a report, not a dashboard, and will be ignored.</li>
+  </ol>
+
+  <h3>Alerts worth setting on a gambling account</h3>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Alert</th><th>Trigger</th><th>Goes to</th></tr></thead>
+    <tbody>
+      <tr><td>Deposit success rate drop</td><td>Falls more than 5 points below trailing 7-day average, any single payment method</td><td>Payments team, on-call</td></tr>
+      <tr><td>Game load failure spike</td><td>Failure rate by provider exceeds threshold for 15 minutes</td><td>Platform / provider manager</td></tr>
+      <tr><td>New JS error at volume</td><td>An error signature not seen before affects more than N sessions in an hour</td><td>Front-end engineering</td></tr>
+      <tr><td>Registration abandonment step shift</td><td>Any step's drop-off moves materially</td><td>Acquisition product owner</td></tr>
+      <tr><td>Rage click cluster on new release</td><td>Rage clicks on any element up sharply post-deploy</td><td>Release manager</td></tr>
+      <tr><td>Withdrawal flow errors</td><td>Any increase &mdash; withdrawal complaints escalate to the regulator faster than anything else</td><td>Operations and compliance</td></tr>
+    </tbody>
+  </table></div>
+  <p>Alert fatigue kills adoption. Start with three, tune the thresholds for a fortnight, then add. An alert that fires daily and is always ignored is worse than no alert, because it teaches the team that the tool cries wolf.</p>
+</section>
+
+<section class="view" id="v-frustration" data-part="I &middot; The Product" data-nav="9. Frustration &amp; quality signals">
+  <span class="eyebrow">Part I &middot; Module 9</span>
+  <h1 class="vt">The signals Fullstory derives for you</h1>
+  <p class="lede">These are computed automatically from autocaptured behaviour. They are the fastest route from "we have a tool" to "we found something" &mdash; and the most commonly misread numbers in the product.</p>
+
+  <h2 class="st">The signal set</h2>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Signal</th><th>What triggers it</th><th>Usually means</th><th>Gaming example</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Rage click</strong></td><td>Rapid repeated clicks in a small area</td><td>Something looks interactive and is not responding</td><td>Hammering "Deposit" while a PSP call hangs with no spinner</td></tr>
+      <tr><td><strong>Dead click</strong></td><td>A click producing no DOM change and no navigation</td><td>Something looks clickable and is not</td><td>Clicking a game tile's RTP badge, or a promotional banner that is only decorative</td></tr>
+      <tr><td><strong>Error click</strong></td><td>A click immediately followed by a JavaScript error</td><td>A real, reproducible defect</td><td>Add-to-betslip throwing on a suspended market</td></tr>
+      <tr><td><strong>Thrashed cursor</strong></td><td>Rapid erratic pointer movement</td><td>Confusion, searching, or waiting</td><td>Hunting for a game that lobby search will not surface</td></tr>
+      <tr><td><strong>Form abandonment</strong></td><td>Fields engaged, form never submitted</td><td>A specific field is the blocker</td><td>Address lookup failing during registration</td></tr>
+      <tr><td><strong>Slow page / long task</strong></td><td>Load or interaction beyond threshold</td><td>Performance cost with a conversion consequence</td><td>Lobby with 400 game tiles on a mid-range Android</td></tr>
+      <tr><td><strong>JS error</strong></td><td>Uncaught exception</td><td>Engineering backlog, ranked by player impact</td><td>Third-party odds widget failing on a locale</td></tr>
+    </tbody>
+  </table></div>
+
+  <h2 class="st">How to read them without embarrassing yourself</h2>
+  <div class="grid g2">
+    <div class="card"><h4>Rage clicks are not all rage</h4><p>Rapid clicking is also how people interact with steppers, quick-stake buttons, "+&pound;10" chips and spin buttons. A sportsbook's stake stepper will generate enormous rage-click volume that means nothing. <strong>Always exclude known repeat-click controls</strong> &mdash; Fullstory supports suppressing the signal on specific elements, and if you do not do this your top rage-click element will be the spin button and your first report will be laughed at.</p></div>
+    <div class="card"><h4>Dead clicks include the harmless</h4><p>Clicking on whitespace, on a heading, on an image &mdash; people click things. The signal matters when it clusters on an element that <em>looks</em> like a control. Filter to elements with button-like or link-like styling before you report anything.</p></div>
+    <div class="card"><h4>Error clicks are the gold</h4><p>Of all the signals, error clicks have the highest ratio of genuine, fixable, revenue-affecting defects. Start every new engagement here: sort error clicks by affected sessions, take the top five, quantify the downstream conversion loss for each, and hand engineering a ranked list. This is the exercise that most reliably produces a win inside two weeks.</p></div>
+    <div class="card"><h4>Frustration is a rate, not a count</h4><p>Report frustration as a percentage of sessions on that page, trended, segmented by device. Raw counts just tell you which page has the most traffic &mdash; which will be the lobby, every time, and tells you nothing.</p></div>
+  </div>
+
+  <h2 class="st">Turning a signal into money</h2>
+  <p>The method, which you should be able to run without notes:</p>
+  <ol class="steps">
+    <li><b>Isolate</b> Segment: sessions containing signal S on element E.</li>
+    <li><b>Size it</b> How many sessions and how many distinct players per month.</li>
+    <li><b>Find the counterfactual</b> Build the matched segment of sessions that reached the same step without the signal.</li>
+    <li><b>Measure the delta</b> Compare the downstream conversion rate &mdash; deposit success, bet placed, next-day return. The gap is your effect size. Be honest that it is correlational, and say so before someone else does.</li>
+    <li><b>Price it</b> Multiply the delta by affected players and by the client's own value figure &mdash; ARPU, average first deposit, or NGR per active. <strong>Always use the client's number, never your own.</strong> The moment you use their finance team's figure, the finding becomes their finding.</li>
+    <li><b>Bound it</b> Present a range, not a point. "Between &pound;180k and &pound;340k of annualised NGR, depending on whether the effect is causal" is credible. A single confident number invites an argument about the number instead of a decision about the fix.</li>
+  </ol>
+
+  <div class="callout tip">
+    <div class="ci">Positioning</div>
+    <div class="cc"><p>This calculation is the core of what LeanConvert sells. Fullstory is the instrument; the quantified, prioritised, defensible opportunity list is the product. Teach the client to run step 1 to 3 themselves &mdash; and keep steps 4 to 6 as the thing they keep paying you for.</p></div>
+  </div>
+</section>
+
+<section class="view" id="v-data-direct" data-part="I &middot; The Product" data-nav="10. APIs, export &amp; integrations">
+  <span class="eyebrow">Part I &middot; Module 10</span>
+  <h1 class="vt">Getting data out and joining it to money</h1>
+  <p class="lede">The in-product UI is where analysis happens. The export layer is where Fullstory stops being a UX tool and becomes part of the client's data estate &mdash; and it is the difference between a renewal conversation about seat count and one about strategic value.</p>
+
+  <h2 class="st">Anywhere: Warehouse &mdash; the warehouse sync</h2>
+  <p class="tagrow"><span class="tag b">naming</span> <span class="tag">This capability has been called Data Direct and Data Destinations. Current branding is <strong>Fullstory Anywhere: Warehouse</strong>. Expect all three names in client conversations and older decks.</span></p>
+  <p>It delivers Fullstory's captured event data into the client's own warehouse on a managed, roughly hourly sync. Supported warehouse destinations are <strong>Snowflake, Google BigQuery and Amazon Redshift</strong>; raw event data can also be dropped into cloud storage &mdash; <strong>Amazon S3, Google Cloud Storage or Azure Blob Storage</strong> &mdash; without you building an ETL pipeline. Two shapes are available: <strong>Ready to Analyze Views</strong>, which are pre-transformed and are what an analyst should start from, and <strong>Raw Data</strong>, for teams who want to model it themselves. Once it lands, the client's analysts can join it to everything they already have.</p>
+  <p>That join is the whole point. On its own Fullstory knows a player rage-clicked the cashier. The warehouse knows that player's lifetime deposits, their NGR, their bonus cost and whether they churned. Together:</p>
+<pre><code><span class="c">-- the query that justifies the contract</span>
+<span class="k">SELECT</span>
+  fs.error_signature,
+  <span class="k">COUNT</span>(<span class="k">DISTINCT</span> fs.uid)                    <span class="k">AS</span> players_affected,
+  <span class="k">AVG</span>(p.ngr_next_30d)                          <span class="k">AS</span> avg_ngr_affected,
+  <span class="k">AVG</span>(c.ngr_next_30d)                          <span class="k">AS</span> avg_ngr_control,
+  <span class="k">AVG</span>(c.ngr_next_30d) - <span class="k">AVG</span>(p.ngr_next_30d)   <span class="k">AS</span> ngr_gap_per_player
+<span class="k">FROM</span> fullstory_events fs
+<span class="k">JOIN</span> player_value p  <span class="k">ON</span> p.player_hash = fs.uid
+<span class="k">JOIN</span> matched_control c <span class="k">ON</span> c.cohort_key = p.cohort_key
+<span class="k">WHERE</span> fs.event_name = <span class="s">'Deposit Outcome'</span>
+  <span class="k">AND</span> fs.outcome     = <span class="s">'failed'</span>
+<span class="k">GROUP BY</span> <span class="num">1</span>
+<span class="k">ORDER BY</span> ngr_gap_per_player <span class="k">DESC</span>;</code></pre>
+  <p>You will not usually write this yourself &mdash; the client's BI team will. Your job is to make sure the uid is joinable, the event schema is stable, and the BI lead is in the room from week one. <strong>A Data Direct pipeline built without the BI lead's involvement is a pipeline nobody queries.</strong></p>
+
+  <h2 class="st">The server-side APIs</h2>
+  <dl class="deflist">
+    <dt>Users API</dt><dd>Read, update and <strong>delete</strong> users by uid. The delete endpoint is what backs the client's erasure runbook. Also useful for enriching user properties server-side with attributes the browser should never see.</dd>
+    <dt>Events API</dt><dd>Send events from your servers rather than the browser. Essential in gambling: deposit settlement, withdrawal approval, KYC outcome and bonus grants all happen server-side and often minutes later. Server events are also tamper-resistant, which matters if anything you measure touches a regulated process.</dd>
+    <dt>Sessions / Export API</dt><dd>Retrieve session metadata and replay links programmatically &mdash; how you attach a replay link to a support ticket automatically.</dd>
+    <dt>Segments API</dt><dd>Read segment membership programmatically, for feeding a CRM suppression list or triggering a workflow.</dd>
+  </dl>
+
+  <div class="callout tip">
+    <div class="ci">High value</div>
+    <div class="cc"><p>The browser cannot reliably know whether a deposit truly settled &mdash; it only knows what the page showed. For any gambling client, push the <strong>authoritative outcome</strong> from the server via the Events API and keep the browser event as the client-side view. When the two disagree, you have found something genuinely valuable: the player was told one thing and the system did another. That discrepancy is a complaint, a chargeback, or a regulatory issue waiting to happen, and no other tool in their stack will surface it.</p></div>
+  </div>
+
+  <h2 class="st">Integrations worth wiring</h2>
+  <div class="grid g2">
+    <div class="card"><h4>Support &mdash; Zendesk, Salesforce, Intercom</h4><p>Attach the session replay link to the ticket automatically via <code>FS('getSession')</code>. Agents stop asking "what browser are you on". Handle time drops measurably. This is the easiest adoption win in the entire product and it converts a whole department in a week.</p></div>
+    <div class="card"><h4>Engineering &mdash; Jira, Sentry, Slack</h4><p>Replay link on every bug ticket; Fullstory session attached to Sentry error. Removes the reproduction step that eats developer time and kills the "cannot reproduce" close reason.</p></div>
+    <div class="card"><h4>Experimentation &mdash; Optimizely, VWO, AB Tasty, Adobe Target</h4><p>Push the variant as a session property. You can then watch the losing variant's sessions and find out <em>why</em> it lost &mdash; which is the single most useful thing an optimisation analyst can do and the thing the test platform cannot tell you.</p></div>
+    <div class="card"><h4>Analytics &mdash; GA4, Amplitude, Adobe</h4><p>Two-way: send the Fullstory session URL into the analytics tool as a dimension, and send analytics identifiers into Fullstory. Lets a GA4 user jump from an anomalous segment straight to the replays.</p></div>
+    <div class="card"><h4>CRM &mdash; Optimove, Xtremepush, Braze, Fast Track</h4><p>Gambling-specific and underrated. Feed a Fullstory segment ("failed first deposit in last 24h") into the CRM as a trigger audience. The client's retention team suddenly has a behavioural trigger they could not build before.</p></div>
+    <div class="card"><h4>Voice of customer &mdash; Qualtrics, Medallia, Usabilla</h4><p>Join the survey response to the session. A low NPS score with a watchable session behind it is worth ten without.</p></div>
+  </div>
+
+  <h2 class="st">Fullstory AI</h2>
+  <p>Fullstory has shipped AI-assisted capabilities &mdash; natural-language search over sessions, automatic session summaries, and anomaly surfacing. Treat them as an accelerant for exploration and a good demo, not as the basis of a client-facing claim. Verify every AI-generated assertion against a segment before it leaves your laptop. The feature set here moves faster than any other part of the product, so check current capability before you promise it in a scope of work.</p>
+</section>
+
+<section class="view" id="v-admin" data-part="I &middot; The Product" data-nav="11. Administration &amp; scale">
+  <span class="eyebrow">Part I &middot; Module 11</span>
+  <h1 class="vt">Running the account: roles, quotas and multi-brand structure</h1>
+  <p class="lede">Gaming groups are rarely one brand in one market. Getting the account structure right at the start saves a painful migration later, and it is the part of onboarding that clients never think to ask about.</p>
+
+  <h2 class="st">Roles</h2>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Role</th><th>Can do</th><th>Give it to</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Admin</strong></td><td>Everything: billing, users, privacy rules, data capture settings, deletion</td><td>Two people at the client. Never more. One of them owns the privacy configuration.</td></tr>
+      <tr><td><strong>Architect</strong></td><td>Instrumentation, data capture rules, integrations; not billing</td><td>The technical owner and you</td></tr>
+      <tr><td><strong>Standard</strong></td><td>Search, replay, segments, funnels, dashboards</td><td>Analysts, product, UX, CRO</td></tr>
+      <tr><td><strong>Guest</strong> / <strong>Explorer</strong></td><td>Restricted access; on some plans these roles are excluded from certain products (Guides and Surveys, for example)</td><td>Executives, agencies, provider partners</td></tr>
+      <tr><td><strong>Umbrella Manager</strong></td><td>Everything an Admin has, plus cross-account capabilities across an Umbrella &mdash; including managing team members for each account beneath it</td><td>The group-level owner at a multi-brand operator</td></tr>
+    </tbody>
+  </table></div>
+  <p>Which roles exist depends on the client's plan, and the set changes over time &mdash; confirm against the client's actual account before you write a permissions matrix into a document. User management sits under Settings &rarr; Account Management &rarr; Users.</p>
+
+  <h2 class="st">Multi-brand and multi-market structure</h2>
+  <p>Four viable patterns, and the choice is consequential.</p>
+  <div class="grid g2">
+    <div class="card"><h4>One org, brand as a property <span class="tag p">usually right</span></h4><p>All brands in one workspace, distinguished by a <code>brand</code> user and session property. Cross-brand analysis is trivial, licences are pooled, segments are shared. Requires discipline: every segment must filter by brand or the numbers are nonsense.</p></div>
+    <div class="card"><h4>Umbrella over separate accounts <span class="tag b">multi-brand groups</span></h4><p>Fullstory supports an <strong>Umbrella</strong> structure: several distinct accounts governed together, with an Umbrella Manager able to administer users across all of them. This is the pattern purpose-built for a gambling group that needs per-brand separation without losing central administration. Ask about it by name &mdash; most clients do not know it exists.</p></div>
+    <div class="card"><h4>Separate orgs per brand</h4><p>Hard isolation with no shared administration. Necessary when brands are legally separate entities, when a regulator requires data segregation, or when one brand is a joint venture. Costs you cross-brand analysis entirely and multiplies admin work.</p></div>
+    <div class="card"><h4>Split by regulatory region</h4><p>One org per data-residency regime. Often forced by law rather than chosen. Plan for the reporting overhead &mdash; someone will have to combine numbers manually, and it should not be you every month.</p></div>
+  </div>
+
+  <h2 class="st">Session quotas and sampling</h2>
+  <p>Fullstory contracts are typically bounded by captured sessions. High-traffic gambling sites can burn a quota fast, especially around a major fixture or a jackpot. Three levers, in order of preference:</p>
+  <ol class="steps">
+    <li><b>Exclude worthless traffic first</b> Bots, uptime monitors, internal IP ranges, the affiliate-testing traffic that hits the homepage and leaves. This is free quota and usually recovers 5&ndash;15%.</li>
+    <li><b>Sample low-value surfaces</b> Capture 100% of cashier, registration and KYC; sample the marketing and content pages. Never sample the money flows &mdash; the whole point is that rare failures are the expensive ones, and sampling hides exactly those.</li>
+    <li><b>Sample by user, not by session</b> If you must sample broadly, sample consistently per user so that a given player's journey is either fully captured or not at all. Sampling per session gives you fragmentary journeys that are worse than no data because they look complete.</li>
+  </ol>
+
+  <div class="callout warn">
+    <div class="ci">Watch</div>
+    <div class="cc"><p>Set a quota-burn alert at 60% and 80% of the contracted period's allowance. Running out of sessions three weeks before renewal, during the Grand National, is a genuinely account-threatening event &mdash; and it will be attributed to you regardless of who configured it.</p></div>
+  </div>
+
+  <h2 class="st">SSO, provisioning and hygiene</h2>
+  <ul>
+    <li><strong>SAML SSO</strong> for anything beyond a handful of users; gambling operators have mature identity infrastructure and will expect it.</li>
+    <li><strong>SCIM provisioning</strong> where available so leavers lose access automatically. In an industry with high staff turnover this matters more than usual.</li>
+    <li><strong>Quarterly access review.</strong> Who can watch replays should be a short, current list. Volunteer this review; it builds enormous trust with a compliance function.</li>
+    <li><strong>A naming and ownership convention</strong> for segments, funnels and dashboards, with an owner recorded on each. Abandoned analytics objects are how an account quietly dies.</li>
+  </ul>
+</section>

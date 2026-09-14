@@ -1,0 +1,83 @@
+<section class="view" id="v-lab" data-part="VI &middot; Drills" data-nav="32. The hands-on lab">
+  <span class="eyebrow">Part VI &middot; Practice</span>
+  <h1 class="vt">Break something, then watch yourself break it</h1>
+  <p class="lede">You cannot teach a tool you have only been shown. This lab gives you a fake casino page with eight deliberate defects planted in it. Instrument it with your own Fullstory account, use it badly, then find every defect from the data alone. Two hours, and it will do more for you than another fifty KPIs.</p>
+
+  <h2 class="st">Setting up</h2>
+  <ol class="steps">
+    <li><b>Get an account</b> Fullstory offers a free tier. Sign up with a personal address, not a client one &mdash; you want somewhere you can break things without anybody watching.</li>
+    <li><b>Download the sandbox</b> Use the button below, or copy the code and save it as <code>lab.html</code>. It is a single self-contained file with no dependencies.</li>
+    <li><b>Paste your snippet</b> Open the file in any editor. Near the top there is a clearly marked block. Paste your capture snippet there and save.</li>
+    <li><b>Serve it, do not open it</b> A <code>file:///</code> page has no real origin and capture will behave oddly. Run a one-line local server in the folder and open <span class="mono">http://localhost:8080</span>:
+      <br><code>python -m http.server 8080</code></li>
+    <li><b>Use it badly on purpose</b> Work through the exercises below. Spend at least ten minutes actually clicking around before you open Fullstory &mdash; you need enough sessions for the signals to be interesting.</li>
+    <li><b>Wait a few minutes</b> Capture is not instant. Make coffee; this is also a useful thing to know before you demo live in front of a client.</li>
+  </ol>
+
+  <div class="toolbar">
+    <button class="btn" id="lab-download">Download lab.html</button>
+    <button class="btn ghost" id="lab-toggle">Show the source</button>
+    <span class="count">Single file &middot; no dependencies &middot; your snippet goes at the top</span>
+  </div>
+  <div id="lab-fallback" hidden></div>
+  <div id="lab-codewrap" hidden><pre><code id="lab-code"></code></pre></div>
+
+  <h2 class="st">The eight defects</h2>
+  <p>All eight are deliberately planted. Do not read the list before you hunt &mdash; try to find them from the data first, then check yourself here.</p>
+  <details><summary>Reveal the answers (hunt first)</summary><div class="dbody">
+    <ol>
+      <li><strong>A dead promotional banner.</strong> Styled exactly like a button, does nothing at all. Find it in dead clicks.</li>
+      <li><strong>A game tile that throws.</strong> One tile raises an uncaught exception on click. Find it in error clicks and read the stack in the console tab.</li>
+      <li><strong>A deposit button with no feedback.</strong> Takes four seconds with no spinner, so people hammer it. Find it in rage clicks, then confirm the wait in the network tab.</li>
+      <li><strong>A card field that is not excluded.</strong> Fully captured, in plain view in replay. This is the one that should genuinely alarm you.</li>
+      <li><strong>A validation rule revealed only on submit.</strong> Password rules are never shown until the form is rejected. Find it in form abandonment on step 2.</li>
+      <li><strong>A silent deposit failure.</strong> One in three attempts fails and shows a generic message with no next step. Find it in the deposit funnel and the decline reason property.</li>
+      <li><strong>A lobby search that returns nothing for a real game.</strong> A title that exists in the grid is missing from the search index. Find it in zero-result searches.</li>
+      <li><strong>An RG link buried in the footer.</strong> Four clicks deep from the cashier, where people actually are. Find it with journey analysis, then measure the click depth.</li>
+    </ol>
+  </div></details>
+
+  <h2 class="st">The exercises</h2>
+
+  <ol class="steps">
+    <li><b>Prove the capture model to yourself</b>
+      Launch the fake game. Watch the replay. The canvas is blank &mdash; exactly as it will be on every casino client you ever work on. Now open the element inspector mid-replay and read the selector of the tile you clicked. That contrast, felt once, is worth more than the paragraph explaining it.</li>
+
+    <li><b>Break privacy, then fix it</b>
+      Type a fake card number into the cashier. Watch the replay and see it captured in full. <strong>Sit with that for a second.</strong> Then add <code>class="fs-exclude"</code> to the card field container, reload, repeat, and confirm the striped rectangle. Finally, note what you lost: excluding the whole cashier block also loses the confirm click. Move the exclusion to the fields only and get both.</li>
+
+    <li><b>Name an element and watch search change</b>
+      Add <code>data-fs-element="Cashier / Deposit Confirm"</code> to the deposit button. Reload, click it, then search for it by that name rather than by its text. Then mask the surrounding block and try to find it by text &mdash; you cannot, because masked text is never collected. This is the exercise that makes element naming stop feeling optional.</li>
+
+    <li><b>Fire your first custom event</b>
+      Add a <code>trackEvent</code> call to the deposit button with a bucketed amount, a payment method and an attempt number. Search for it. Then deliberately send <code>depositAmount</code> as a raw number instead of a bucket, generate twenty deposits at different values, and look at what the property breakdown becomes. You will not need to be told about cardinality again.</li>
+
+    <li><b>Build a funnel and read a real drop</b>
+      Cashier Opened &rarr; Deposit Attempted &rarr; Deposit Outcome success. The sandbox fails one deposit in three. Confirm the funnel shows it, then click through to the failing sessions and watch what the player is told. Write the better error message.</li>
+
+    <li><b>Rank the frustration signals honestly</b>
+      Look at rage clicks. The stake stepper will be near the top and it means nothing. Suppress it, re-run, and see what surfaces underneath. This is the single most transferable habit in the whole platform.</li>
+
+    <li><b>Quantify one defect end to end</b>
+      Take the dead banner. Segment sessions that clicked it, build a matched segment that reached the same page and did not, compare how many went on to a successful deposit. Write the one-pager from the templates module using a made-up ARPU. The point is the shape of the argument, not the number.</li>
+
+    <li><b>Deliberately misidentify yourself</b>
+      Call <code>setIdentity</code> with one uid, then call it again with a different one in the same session, and see what happens. Identity cannot be reassigned once set &mdash; discovering that here, on a throwaway account, is considerably better than discovering it on a client's production traffic in week three.</li>
+
+    <li><b>Test the consent path</b>
+      Initialise with capture off, add a fake consent button that starts capture, and confirm nothing is recorded before it is pressed. Then call <code>shutdown</code> and confirm capture stops. Most clients never test the withdrawal path; you will have, and you will know how long it takes.</li>
+
+    <li><b>Watch yourself cold</b>
+      Come back the next day and watch your own sessions without remembering what you did. Try to reconstruct your intent purely from the replay. That gap &mdash; between what you meant and what the data shows &mdash; is exactly the gap your clients will be sitting in, and feeling it once makes you far more careful about the conclusions you draw from five sessions.</li>
+  </ol>
+
+  <div class="callout tip">
+    <div class="ci">After</div>
+    <div class="cc"><p>Keep the sandbox. When a client asks "what does a rage click actually look like", you have a live example you control, on a page with no confidential data, that you can screen-share in ten seconds. It is a far better demo than anything in a slide deck, and nobody has to approve it first.</p></div>
+  </div>
+
+  <div class="callout warn">
+    <div class="ci">Care</div>
+    <div class="cc"><p>Use invented data only. Never put a real card number, a real name or a real address into the sandbox, even on a free account you control &mdash; the whole point of exercise 2 is that it gets captured. Use obvious test values such as <span class="mono">4111 1111 1111 1111</span> and <span class="mono">Test Player</span>.</p></div>
+  </div>
+</section>

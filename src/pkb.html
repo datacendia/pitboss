@@ -1,0 +1,129 @@
+<section class="view" id="v-patterns" data-part="V &middot; KPIs" data-nav="25. How to build any KPI">
+  <span class="eyebrow">Part V &middot; Module 25</span>
+  <h1 class="vt">Nine patterns. Every KPI is one of them.</h1>
+  <p class="lede">There are only nine shapes of metric you will ever build in Fullstory. Learn the nine and the encyclopedia stops being a reference you look things up in and becomes a list you can construct from memory. Each KPI in the next module is tagged with its pattern.</p>
+
+  <div class="callout tip">
+    <div class="ci">The key</div>
+    <div class="cc"><p>Fullstory's metric builder does not divide one arbitrary segment by another. <strong>A two-step funnel is how you get a rate.</strong> Step 1 is your denominator, step 2 is your numerator, and the funnel's conversion figure is the KPI. Once that clicks, most of this module is mechanical.</p></div>
+  </div>
+
+  <h2 class="st">The nine patterns</h2>
+
+  <details open><summary><span class="tag a">funnel</span>&nbsp; Funnel conversion &mdash; an ordered rate</summary><div class="dbody">
+    <p><strong>Use when</strong> the KPI is "X of the people who did A went on to do B", and order matters.</p>
+    <ol>
+      <li>Decide the <strong>scope</strong>. Session scope for anything that happens in one visit (deposit, betslip). User scope for anything spanning visits (reg-to-FTD, retention, verified-to-deposit).</li>
+      <li>Add one funnel step per real stage. Resist compressing &mdash; a five-step registration needs five steps or you cannot see which one breaks.</li>
+      <li>Set the <strong>conversion window</strong> deliberately: same session, 24 hours, 7 days, 30 days. This choice changes the number more than anything else and is the first thing BI will challenge.</li>
+      <li>Save it as a metric and chart the step-to-step conversion over time.</li>
+      <li>Apply a segment overlay. An unsegmented funnel on a multi-brand operator is close to meaningless.</li>
+    </ol>
+    <p><strong>Reading it:</strong> the step with the biggest percentage drop is not always the biggest opportunity &mdash; multiply each drop by the volume reaching that step and rank by absolute players lost.</p>
+  </div></details>
+
+  <details><summary><span class="tag a">rate</span>&nbsp; Simple rate &mdash; share of a population</summary><div class="dbody">
+    <p><strong>Use when</strong> the KPI is "X% of sessions/users had this characteristic", with no ordering.</p>
+    <ol>
+      <li>Build the <strong>denominator segment</strong> first and write down exactly what it includes. Most wrong numbers are wrong denominators.</li>
+      <li>Build the <strong>numerator segment</strong> as the denominator plus the condition.</li>
+      <li>Express as a two-step funnel (denominator &rarr; numerator) to get the percentage natively, or chart both counts and divide on the card.</li>
+      <li>Chart daily for high-volume KPIs, weekly for anything user-scope.</li>
+    </ol>
+    <p><strong>Trap:</strong> a denominator of "all sessions" is almost always wrong. Saved-method adoption measured against all deposits includes first deposits where nothing could have been saved.</p>
+  </div></details>
+
+  <details><summary><span class="tag a">seg</span>&nbsp; Segment size &mdash; a population over time</summary><div class="dbody">
+    <p><strong>Use when</strong> the KPI is a count or a share of a fixed base: monthly actives, churned players, registered-but-never-verified.</p>
+    <ol>
+      <li>Build the segment, usually user scope, using <strong>did / did not / sequence / count</strong> conditions.</li>
+      <li>The <em>did not</em> operator is the workhorse here &mdash; nearly every valuable gambling segment is a negative.</li>
+      <li>Chart unique users, and separately as a share of the relevant base.</li>
+      <li>Save it: these segments double as CRM audiences and as replay entry points.</li>
+    </ol>
+    <p><strong>Craft:</strong> name it so a stranger can use it. <code>[Cashier] 3+ deposit attempts &mdash; session</code>, not <code>test 4</code>.</p>
+  </div></details>
+
+  <details><summary><span class="tag a">time</span>&nbsp; Duration &mdash; how long something took</summary><div class="dbody">
+    <p><strong>Use when</strong> the KPI is a time: time to deposit, time to verification, time in betslip.</p>
+    <ol>
+      <li>Capture the elapsed time <strong>as a numeric property on the completing event</strong> &mdash; <code>secondsElapsed</code>, <code>secondsToOutcome</code>. Do not try to derive it from event timestamps after the fact; timezone and batching noise will defeat you.</li>
+      <li>Metric &rarr; median of that property. Never the mean; a handful of abandoned tabs will destroy a mean.</li>
+      <li><strong>Always chart the 90th percentile alongside the median.</strong> The tail is the finding.</li>
+      <li>Filter to successful outcomes only where a failure would contaminate the duration.</li>
+    </ol>
+    <p><strong>Say this:</strong> "Your median is 110 seconds, which looks fine. Your P90 is nine minutes, which is a quarter of a million players a year having a bad time."</p>
+  </div></details>
+
+  <details><summary><span class="tag a">dist</span>&nbsp; Distribution &mdash; a breakdown by property</summary><div class="dbody">
+    <p><strong>Use when</strong> the KPI is a mix or a ranking: payment method mix, decline reasons, tile clicks by position.</p>
+    <ol>
+      <li>Metric &rarr; event count, with a <strong>breakdown by property</strong>.</li>
+      <li>For a mix that changes, chart as a stacked area over 90 days rather than today's pie.</li>
+      <li>For a ranking, sort descending and take the top eight &mdash; nobody acts on a list of forty.</li>
+      <li>Where position or exposure biases the ranking (lobby tiles, method ordering), <strong>normalise before ranking</strong> or you will simply re-measure the layout.</li>
+    </ol>
+    <p><strong>Trap:</strong> high-cardinality properties make this useless. Bucket numerics at instrumentation time; a breakdown by raw stake amount is a list of ten thousand rows.</p>
+  </div></details>
+
+  <details><summary><span class="tag a">signal</span>&nbsp; Derived signal &mdash; frustration and errors</summary><div class="dbody">
+    <p><strong>Use when</strong> the KPI comes from Fullstory's own derived signals: rage, dead and error clicks, JS errors, thrashed cursor.</p>
+    <ol>
+      <li><strong>Suppress the false positives first.</strong> Steppers, quick-stake chips and spin buttons generate legitimate repeat clicks. Do this before you report anything.</li>
+      <li>Session segment: signal present, optionally scoped to an element or page group.</li>
+      <li>Metric &rarr; share of sessions, not raw count. Counts just rank pages by traffic.</li>
+      <li>Group by signature or element and rank by <strong>distinct sessions affected</strong>.</li>
+      <li>Quantify: build a matched control that reached the same step without the signal and compare downstream conversion.</li>
+    </ol>
+    <p><strong>Always pair with a number.</strong> A signal without a value attached is the thing a sceptical Head of Digital will use to dismiss the whole tool.</p>
+  </div></details>
+
+  <details><summary><span class="tag a">perf</span>&nbsp; Performance and journey analysis</summary><div class="dbody">
+    <p><strong>Use when</strong> the KPI comes from autocaptured performance data or from path analysis: LCP, INP, CLS, scroll depth, navigation depth, contact drivers.</p>
+    <ol>
+      <li>Define <strong>page groups</strong> first. Per-URL performance on a gambling site with thousands of event pages is unreadable.</li>
+      <li>Report the 75th percentile for web vitals; the median flatters and the mean is meaningless.</li>
+      <li>Split by device class &mdash; mid-range Android is the real test, not the analyst's iPhone.</li>
+      <li>For journeys, run them <strong>backwards from a bad outcome</strong>. Forward paths from the homepage are interesting; backward paths from a support contact are actionable.</li>
+      <li>Convert into content terms before presenting: rows, screens, clicks &mdash; never bare percentages.</li>
+    </ol>
+  </div></details>
+
+  <details><summary><span class="tag b">wh</span>&nbsp; Warehouse-joined &mdash; behaviour meets money</summary><div class="dbody">
+    <p><strong>Use when</strong> the KPI needs revenue, wagering or settlement data Fullstory cannot see: NGR per active, hold %, LTV, wagering completion, spins per session.</p>
+    <ol>
+      <li>Confirm the hashed <code>uid</code> genuinely joins to the warehouse player key. Test it on one real record before promising anything.</li>
+      <li>Define the <strong>behavioural cohort</strong> in Fullstory &mdash; that is your half of the work.</li>
+      <li>Export via Data Direct.</li>
+      <li>Have the client's BI team return the financial figure per cohort. <strong>Their query, their name on it.</strong></li>
+      <li>Present the joined result together, with both teams credited.</li>
+    </ol>
+    <p><strong>Rule:</strong> never build the pipeline alone and hand it over. A warehouse join built by an agency is a join nobody queries after the engagement ends.</p>
+  </div></details>
+
+  <details><summary><span class="tag b">ext</span>&nbsp; External system &mdash; Fullstory supplies context, not the number</summary><div class="dbody">
+    <p><strong>Use when</strong> the metric lives in another tool entirely: CPA, chargebacks, crash-free rate, NPS, handle time, accessibility audits.</p>
+    <ol>
+      <li>Get the figure from its system of record, in writing, with the definition attached.</li>
+      <li>Use Fullstory for the <strong>explanation</strong>: the sessions behind the disputed deposits, the journeys behind the detractor scores, the seconds before the crash.</li>
+      <li>Where possible, pass the Fullstory session URL into the other tool so the join is automatic rather than manual.</li>
+      <li>Be explicit in every deliverable about which half came from where.</li>
+    </ol>
+    <p><strong>Credibility:</strong> overclaiming what Fullstory measures is the fastest way to lose a technical stakeholder. "That comes from your payments platform; what I can add is why it happened" is a stronger sentence than any number.</p>
+  </div></details>
+
+  <h2 class="st">Before you build anything</h2>
+  <ol class="steps">
+    <li><b>Write the definition down first</b> Scope, denominator, numerator, window, exclusions. One sentence. If you cannot write it, you cannot defend it when BI asks.</li>
+    <li><b>Check the instrumentation exists</b> Every recipe in the encyclopedia names its prerequisite. A KPI whose events are not yet firing is an instrumentation ticket, not a dashboard card.</li>
+    <li><b>Decide the four cuts</b> For a gambling client the default set is market, brand, device and new-versus-returning. Build the metric so those overlays are one click away.</li>
+    <li><b>Build the inverse segment too</b> For every conversion metric, save the failure population. That is where the replays are, and replays are where the finding is.</li>
+    <li><b>Name it for a stranger</b> Area, metric, scope. The segment and metric lists become shared infrastructure in an account with forty users.</li>
+    <li><b>Reconcile before you publish</b> Compare against the client's own number for the same window and explain the gap in writing. Do this once per metric, early, and you will never be ambushed in a meeting.</li>
+  </ol>
+
+  <div class="callout warn">
+    <div class="ci">Remember</div>
+    <div class="cc"><p>The exact menu paths, metric types and builder options move between Fullstory releases. The <em>patterns</em> above are stable because they follow from how the data model works. Check the current UI for the specific control before you write a step-by-step guide for a client.</p></div>
+  </div>
+</section>

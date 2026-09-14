@@ -1,0 +1,121 @@
+<!-- ============================ PART V ============================ -->
+<section class="view" id="v-kpis" data-part="V &middot; KPIs" data-nav="26. KPI encyclopedia" data-nonote="1">
+  <span class="eyebrow">Part V &middot; Reference</span>
+  <h1 class="vt">The KPI encyclopedia</h1>
+  <p class="lede">Every metric your clients measure, across twelve domains. Open any row for its build recipe: the pattern it follows, the instrumentation that must exist first, the numbered steps to construct it in Fullstory, the cuts to segment by, and the thing that goes wrong.</p>
+  <p>The nine build patterns are explained in the <a href="#v-patterns" data-goto="v-patterns">previous module</a>. Every KPI here is tagged with the one it uses &mdash; once you know the nine, you can build any of these without looking them up.</p>
+
+  <h2 class="st">How much to trust each range</h2>
+  <p>Every KPI carries a confidence tag next to its range. <strong>Read it before you say a number out loud in a meeting.</strong> Most of these ranges are estimates; the tag tells you which are not.</p>
+  <div class="grid g2">
+    <div class="card"><h4><span class="tag p">published</span> Citable</h4><p>A documented standard &mdash; a web performance threshold or a card-scheme rule. Safe to state, with the source named.</p></div>
+    <div class="card"><h4><span class="tag i">industry</span> Contextual</h4><p>Widely reported across the industry and consistent with published operator reporting. Offer it as context, never as a target.</p></div>
+    <div class="card"><h4><span class="tag b">requirement</span> Not a benchmark</h4><p>A regulatory or operational requirement. The number is what the rule demands; a shortfall is a defect, not a performance gap.</p></div>
+    <div class="card"><h4><span class="tag w">client only</span> Not comparable</h4><p>No honest external comparison exists. Use the client's own trailing baseline.</p></div>
+    <div class="card" style="grid-column:1/-1;border-color:color-mix(in srgb,var(--crit) 40%,transparent)"><h4><span class="tag c">estimate</span> Smell test only &mdash; the default</h4><p>My estimate from how these businesses typically behave. Use it to judge whether a client's figure is roughly normal or obviously broken. <strong>Never quote it to a client as a benchmark</strong>, and never put it in a deck as a target. Anything without another tag is one of these.</p></div>
+  </div>
+
+  <div class="toolbar">
+    <button class="chip on" data-kfilter="all">All</button>
+    <button class="chip" data-kfilter="Acquisition">Acquisition</button>
+    <button class="chip" data-kfilter="Registration &amp; KYC">Reg &amp; KYC</button>
+    <button class="chip" data-kfilter="Payments">Payments</button>
+    <button class="chip" data-kfilter="Casino">Casino</button>
+    <button class="chip" data-kfilter="Sportsbook">Sportsbook</button>
+    <button class="chip" data-kfilter="Poker &amp; Bingo">Poker &amp; Bingo</button>
+    <button class="chip" data-kfilter="Social Gaming">Social</button>
+    <button class="chip" data-kfilter="Retention &amp; Value">Retention</button>
+    <button class="chip" data-kfilter="Responsible Gambling">RG</button>
+    <button class="chip" data-kfilter="Technical">Technical</button>
+    <button class="chip" data-kfilter="Support">Support</button>
+    <button class="chip" data-kfilter="Experience">Experience</button>
+    <input type="text" id="k-search" placeholder="Search KPIs&hellip;">
+    <span class="count" id="k-count"></span>
+  </div>
+  <div id="k-list"></div>
+</section>
+
+<!-- ============================ PART VI ============================ -->
+<section class="view" id="v-drills" data-part="VI &middot; Drills" data-nav="27. Drill deck" data-nonote="1">
+  <span class="eyebrow">Part VI &middot; Practice</span>
+  <h1 class="vt">Drill deck</h1>
+  <p class="lede">Questions drawn from every part of this platform, in three formats: straight recall, <em>spot the flaw</em> in a real segment or instrumentation snippet, and <em>what do you ask next</em> when a client says something ambiguous. The explanation matters more than the score &mdash; it is the sentence you will reuse in front of a client.</p>
+
+  <div class="callout tip">
+    <div class="ci">How it picks</div>
+    <div class="cc"><p>Questions are not shuffled at random. Anything you have <strong>never seen</strong> is prioritised, anything you have <strong>got wrong</strong> is weighted to return, and anything you answered correctly is held back for a while before it comes round again. Work in short sessions over several weeks rather than one long sitting &mdash; the spacing is what makes it stick.</p></div>
+  </div>
+
+  <div class="toolbar">
+    <button class="chip on" type="button" data-qfilter="all">All topics</button>
+    <button class="chip" type="button" data-qfilter="product">Product</button>
+    <button class="chip" type="button" data-qfilter="build">Build &amp; KPIs</button>
+    <button class="chip" type="button" data-qfilter="domain">Domain</button>
+    <button class="chip" type="button" data-qfilter="onboarding">Onboarding</button>
+    <button class="chip" type="button" data-qfilter="compliance">Compliance</button>
+    <span class="count" id="q-count"></span>
+  </div>
+
+  <div class="quiz" id="quizbox"></div>
+
+  <div class="viewfoot">
+    <button class="btn" type="button" id="q-next">Next question</button>
+    <button class="btn ghost" type="button" id="q-reset">Reset all progress</button>
+    <span class="scoreline" id="q-score"></span>
+  </div>
+
+  <h2 class="st">Mastery by topic</h2>
+  <p>Accuracy on the left, coverage on the right. A topic you have barely seen is not a topic you are weak at &mdash; check the seen count before you draw a conclusion.</p>
+  <div class="mastery" id="q-mastery"></div>
+</section>
+
+<section class="view" id="v-coach" data-part="VI &middot; Drills" data-nav="28. Scenario coach" data-nonote="1">
+  <span class="eyebrow">Part VI &middot; Practice</span>
+  <h1 class="vt">Scenario coach</h1>
+  <p class="lede">Rehearse the conversation before you have it. Pick a scenario and a difficulty; the coach plays the client &mdash; including the sceptical Head of Digital who thinks session replay is a toy &mdash; and then marks your answer.</p>
+
+  <div class="coach" id="coachbox">
+    <div class="grid g2" style="margin:0 0 14px">
+      <div><label class="mono" style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);display:block;margin-bottom:5px" for="c-scenario">Scenario</label>
+        <select id="c-scenario">
+          <option value="dpo">DPO challenges you on privacy in the kick-off</option>
+          <option value="sceptic">Head of Digital: "this is just recordings, we have GA4"</option>
+          <option value="platform">Platform provider refuses to add the tag to the cashier</option>
+          <option value="cfo">CFO asks you to justify the licence cost</option>
+          <option value="compliance">Client asks for a segment of high-loss players to target</option>
+          <option value="badnews">You must explain why Fullstory numbers differ from BI's</option>
+          <option value="qbr">Quarterly business review with a brand-new sponsor</option>
+          <option value="freeform">Free-form &mdash; ask me anything about Fullstory or iGaming</option>
+        </select></div>
+      <div><label class="mono" style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);display:block;margin-bottom:5px" for="c-mode">Mode</label>
+        <select id="c-mode">
+          <option value="roleplay">Role-play &mdash; they push, I respond</option>
+          <option value="model">Show me a model answer</option>
+          <option value="grade">Grade the answer I write below</option>
+        </select></div>
+    </div>
+    <textarea id="c-input" placeholder="Your answer, or your question for free-form mode&hellip;" style="width:100%;min-height:90px;padding:11px 13px;border-radius:8px;border:1px solid var(--rule-2);background:var(--surface-2);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.55;resize:vertical"></textarea>
+    <div style="display:flex;gap:10px;margin-top:12px;flex-wrap:wrap">
+      <button class="btn" id="c-run">Run</button>
+      <button class="btn ghost" id="c-stop" disabled>Stop</button>
+    </div>
+    <div class="coachout" id="c-out" hidden></div>
+    <p class="savestate" id="c-note"></p>
+  </div>
+</section>
+
+<section class="view" id="v-glossary" data-part="VI &middot; Drills" data-nav="29. Glossary" data-nonote="1">
+  <span class="eyebrow">Part VI &middot; Reference</span>
+  <h1 class="vt">Glossary</h1>
+  <p class="lede">Every term from both worlds in one place. If you cannot define it without hesitating, you are not ready to use it in front of a client.</p>
+  <div class="toolbar">
+    <button class="chip on" data-gfilter="all">All</button>
+    <button class="chip" data-gfilter="fullstory">Fullstory</button>
+    <button class="chip" data-gfilter="gambling">Gambling</button>
+    <button class="chip" data-gfilter="data">Data &amp; privacy</button>
+    <input type="text" id="g-search" placeholder="Search terms&hellip;">
+    <span class="count" id="g-count"></span>
+  </div>
+  <div id="g-list"></div>
+</section>
+

@@ -1,0 +1,286 @@
+<!-- ============================ PART I ============================ -->
+<section class="view" id="v-arch" data-part="I &middot; The Product" data-nav="1. Capture architecture">
+  <span class="eyebrow">Part I &middot; Module 1</span>
+  <h1 class="vt">What Fullstory actually is</h1>
+  <p class="lede">Almost every misconception a client has about Fullstory comes from thinking it records video. It does not. Understanding the capture model is what lets you answer the three questions every client asks in the first hour: is it slow, is it safe, and why can I not see that thing.</p>
+
+  <h2 class="st">It is a DOM recorder, not a screen recorder</h2>
+  <p>When the capture script initialises, it takes a structural snapshot of the page &mdash; the DOM tree, the computed styles, and references to the stylesheets and assets needed to draw it. From that moment on, it watches for changes using a <code>MutationObserver</code> and streams only the <strong>deltas</strong>: this node was added, this attribute changed, this text was replaced. Alongside that it streams an input event track &mdash; pointer position, clicks, scroll offsets, key events, viewport resizes, focus changes.</p>
+  <p>Playback reconstructs the page in an isolated iframe by replaying those mutations against the original snapshot, and draws a synthetic cursor from the input track. Nothing is rasterised at capture time. That single fact drives almost everything else:</p>
+
+  <div class="grid g2">
+    <div class="card"><h4>Why the payload is small</h4><p>A text diff is bytes; a video frame is kilobytes. Capture typically adds a low-single-digit percentage to page weight and the script loads asynchronously, so it should not block rendering. When a client says "we cannot add another tag, the site is heavy" this is your answer &mdash; but get the number from their own RUM rather than quoting a brochure figure.</p></div>
+    <div class="card"><h4>Why you can inspect elements in replay</h4><p>Because the page is real DOM, not pixels, you can open the element inspector mid-replay, read CSS selectors, and click through to console and network panels. This is the single biggest advantage over video-based tools and the demo moment that wins rooms.</p></div>
+    <div class="card"><h4>Why some things do not replay</h4><p>Anything drawn outside the DOM is invisible to a DOM recorder. That means <strong>&lt;canvas&gt; and WebGL render as blank</strong>, cross-origin iframes you do not control are not captured, video elements show as a box, and Shadow DOM needs explicit support. For casino clients this is the headline caveat: <em>the slot game itself will not replay</em>. See the module on lobby and game instrumentation for how to work around it.</p></div>
+    <div class="card"><h4>Why replay can look "wrong"</h4><p>Playback fetches CSS and images from their live URLs at the time you watch. If a stylesheet has since been redeployed, or an asset sits behind auth or a short-lived CDN signature, the replay renders with the new styling or with gaps. Fullstory mitigates this by capturing stylesheet contents where it can, but on heavily personalised or aggressively cache-busted sites expect some drift, and expect a client to point at it.</p></div>
+  </div>
+
+  <h2 class="st">The unit hierarchy</h2>
+  <dl class="deflist">
+    <dt>Event</dt><dd>The atom. A click, a page navigation, a console error, a custom event you fired. Everything searchable is an event or a property on one.</dd>
+    <dt>Page view</dt><dd>A logical page within a session. On a single-page app this is not automatic &mdash; you must tell Fullstory when a virtual page change happens, or your whole sportsbook looks like one enormous page.</dd>
+    <dt>Session</dt><dd>A contiguous run of activity from one browser. It ends after <strong>30 minutes of inactivity, or 24 hours of active capture</strong>, whichever comes first. A player who deposits in the morning and bets in the evening is two sessions. Within a session, a stretch counts as inactive once four seconds have passed since the last user action &mdash; that four-second threshold is what the player's "skip inactivity" control collapses.</dd>
+    <dt>User</dt><dd>A stable identity across sessions and devices, keyed by the <code>uid</code> you supply. Without <code>setIdentity</code> you get a per-device cookie identity that cannot be joined to anything in the client's warehouse &mdash; which makes most gambling analysis impossible.</dd>
+    <dt>Segment</dt><dd>A saved, re-evaluating definition of a set of sessions or users. The workhorse object: funnels, dashboards, metrics and replay lists all hang off segments.</dd>
+  </dl>
+
+  <h2 class="st">Where the data goes</h2>
+  <p>Captured deltas are batched and posted to Fullstory's ingest endpoints, processed, indexed, and made available for search and replay within minutes &mdash; not instantly, which matters when a client is watching you demo a fix live. Retention is a contractual setting, commonly somewhere between one and thirteen months by plan; anything the client needs beyond retention must be exported to their warehouse before it ages out.</p>
+  <p>Data residency matters enormously for your clients. Operators licensed in the UK, Malta or Ontario will have a regulator-facing answer to "where is player data stored" and your Fullstory configuration has to be consistent with it. Establish the client's residency requirement in discovery, not in week six.</p>
+
+  <div class="callout tip">
+    <div class="ci">Say this</div>
+    <div class="cc"><p>"Fullstory does not record your screen. It records the structure of your page and the changes to it, then rebuilds the page on playback. That is why it is light, why we can inspect elements and read your console errors inside a replay, and why your game canvases will show as blank &mdash; which we will instrument around."</p></div>
+  </div>
+
+  <h2 class="st">The competitive frame</h2>
+  <p>You will be asked how it compares. Keep it factual and short.</p>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Tool</th><th>What it is strongest at</th><th>Where Fullstory differs</th></tr></thead>
+    <tbody>
+      <tr><td>Contentsquare / Quantum Metric</td><td>Zone-based merchandising analytics, impact quantification workflows built for retail</td><td>Fullstory is stronger on ad-hoc search and developer-grade debugging; weaker on out-of-the-box zoning UI</td></tr>
+      <tr><td>Hotjar / Microsoft Clarity</td><td>Cheap or free heatmaps and recordings for small sites</td><td>Fullstory indexes every interaction retroactively so you can ask new questions of old sessions; the cheap tools generally cannot</td></tr>
+      <tr><td>GA4 / Amplitude / Mixpanel</td><td>Aggregate event analytics, cohorting, attribution</td><td>Complementary, not competing. They tell the client <em>what</em> changed; Fullstory shows <em>why</em>. Always position it this way &mdash; never as a GA replacement</td></tr>
+      <tr><td>Glassbox</td><td>Deep enterprise session capture with strong financial-services compliance heritage</td><td>Genuinely close competitor in regulated verticals; differentiate on speed of search and analyst self-service</td></tr>
+    </tbody>
+  </table></div>
+  <p>The line that lands with a gambling operator: <strong>"Your BI team already knows your deposit conversion dropped four points. Nobody in the building can tell them why by Friday. That is the gap."</strong></p>
+</section>
+
+<section class="view" id="v-install" data-part="I &middot; The Product" data-nav="2. Installation &amp; instrumentation">
+  <span class="eyebrow">Part I &middot; Module 2</span>
+  <h1 class="vt">Getting it on the site &mdash; properly</h1>
+  <p class="lede">Deployment is where most gaming accounts quietly fail. Not because the snippet is hard, but because a typical operator has three brands, two front ends, a white-label platform they do not control, a native app team who were not in the meeting, and a consent management platform that blocks the tag by default.</p>
+
+  <h2 class="st">The four ways in</h2>
+  <div class="grid g2">
+    <div class="card"><h4>1. Direct snippet <span class="tag p">best</span></h4><p>Paste the capture snippet high in <code>&lt;head&gt;</code>, before other tags where possible. Earliest initialisation means you capture the pre-render state and the errors that happen during boot. Requires a release from the client's dev team.</p></div>
+    <div class="card"><h4>2. npm package</h4><p><code>@fullstory/browser</code> for SPAs. Gives typed helpers, a clean init call in your app bootstrap, and version control. Preferred by any operator with a modern React or Vue front end.</p></div>
+    <div class="card"><h4>3. Google Tag Manager <span class="tag w">compromise</span></h4><p>Fast to deploy and the usual answer when dev capacity is zero. Costs you: later initialisation (you miss early errors), dependence on GTM's own load, and a consent layer that frequently suppresses the tag. Acceptable for a proof of value, not for the long term.</p></div>
+    <div class="card"><h4>4. CDP / tag platform</h4><p>Segment, mParticle or Tealium can carry Fullstory as a destination. Attractive when the client already routes identity through a CDP, because identity and events arrive consistently. Watch for the CDP stripping or renaming properties in transit.</p></div>
+  </div>
+
+  <h3>The snippet, annotated</h3>
+<pre><code>&lt;script&gt;
+window['_fs_host'] = 'fullstory.com';
+window['_fs_script'] = 'edge.fullstory.com/s/fs.js';
+window['_fs_org'] = 'YOUR_ORG_ID';
+window['_fs_namespace'] = 'FS';   // rename only if 'FS' collides
+// ... loader body provided by Fullstory ...
+&lt;/script&gt;</code></pre>
+  <p>Two things to check every time. <strong>Namespace collisions:</strong> some gambling platforms already define a global <code>FS</code>; if so, set <code>_fs_namespace</code> to something unique like <code>FSB</code> and make sure every downstream call uses it. <strong>Content Security Policy:</strong> a regulated operator will have a strict CSP. You need <code>script-src</code> and <code>connect-src</code> entries for the Fullstory edge and ingest hosts, and you need them in every environment including the cashier iframe if it is same-origin. Get the CSP change into the same ticket as the snippet or you will lose a sprint.</p>
+
+  <h3>npm initialisation</h3>
+<pre><code>import * as FullStory from '@fullstory/browser';
+
+FullStory.init({
+  orgId: 'YOUR_ORG_ID',
+  devMode: process.env.NODE_ENV !== 'production',  // captures nothing, logs instead
+  recordCrossDomainIFrames: true,   // only for iframes you own
+  startCaptureManually: true        // for consent-gated markets
+});</code></pre>
+
+  <h2 class="st">Single-page apps: the page-view problem</h2>
+  <p>A sportsbook built as an SPA will, by default, look to Fullstory like a single page that lasts forty minutes. Funnels break, page-level metrics are meaningless, and heatmaps blend six screens together. You must signal virtual page changes on every route transition.</p>
+<pre><code>// Browser API v2 — call on every route change
+FS('setProperties', {
+  type: 'page',
+  properties: {
+    pageName: 'Casino Lobby',
+    lobbyCategory: 'Slots',
+    gameCount: 412
+  }
+});</code></pre>
+  <p>Attach the router hook, not a manual call per component &mdash; a manual call always drifts. In React Router, Vue Router or Next's router events, one central subscriber is the correct pattern.</p>
+
+  <div class="callout warn">
+    <div class="ci">Gaming</div>
+    <div class="cc"><p><strong>White-label platforms.</strong> A large share of mid-market casino brands run on someone else's platform &mdash; the operator owns marketing and the brand skin, the provider owns the cashier, the game launcher and often the registration flow. You will be told "we can add tags" and discover that means the marketing pages only. Establish in discovery <em>which pages the client can deploy code to</em> and get it in writing. Where the platform provider controls the cashier, your options are: (a) the provider adds the snippet under their own contract, (b) same-origin iframe capture if the cashier is served from the operator's domain, or (c) you instrument up to the cashier boundary and treat the drop as a black box you measure the edges of.</p></div>
+  </div>
+
+  <h2 class="st">First-party capture</h2>
+  <p>Ad blockers, browser tracking protection and some corporate networks block third-party analytics hosts. In gambling this bites harder than average &mdash; the audience skews toward privacy tooling, and blocked capture silently biases your entire dataset toward less technical users. Fullstory supports serving capture through a first-party subdomain (for example <code>fs.brand.com</code> via a CNAME or reverse proxy). It requires DNS and infrastructure work from the client, so raise it early, but on a gambling account it is usually worth the fight. Quantify it first: compare Fullstory session counts against the client's own server-side page-view counts and show them the gap.</p>
+
+  <h2 class="st">Native apps</h2>
+  <p>Fullstory has mobile SDKs for iOS, Android, React Native and Flutter. Three differences from web that you must communicate:</p>
+  <ul>
+    <li><strong>Privacy defaults invert.</strong> On web, inputs are private by default and you opt elements out. On mobile the SDK generally captures the view hierarchy and you must explicitly mask sensitive views. Assume nothing is masked until you have proved it in a replay.</li>
+    <li><strong>Release cadence gates you.</strong> Every instrumentation change ships with an app release and waits for store review and user adoption. Plan mobile event schemas properly the first time; you do not get to iterate weekly.</li>
+    <li><strong>Webviews.</strong> Most gambling apps are partially webviews &mdash; the cashier and the game launcher especially. You need the web capture script inside the webview <em>and</em> the native SDK, correctly linked, or the session fractures at the most important moment.</li>
+  </ul>
+
+  <h2 class="st">Deployment checklist</h2>
+  <ol class="steps">
+    <li><b>Environment inventory</b> List every domain, subdomain, brand skin, locale variant and app. Gambling groups routinely run <span class="mono">brand.com</span>, <span class="mono">brand.de</span>, <span class="mono">m.brand.com</span> and a separate poker client.</li>
+    <li><b>Deploy to staging first</b> Verify capture, then verify masking. Never let the first production session be the first time anyone looks.</li>
+    <li><b>CSP and consent</b> Confirm the tag fires post-consent in every consent state, and that it does <em>not</em> fire pre-consent in markets that require it.</li>
+    <li><b>Identity wiring</b> Confirm <code>setIdentity</code> fires on login and on session restore, with the hashed player ID that matches the warehouse key.</li>
+    <li><b>SPA page rules</b> Confirm each route produces a distinct, human-readable page name.</li>
+    <li><b>Privacy audit</b> Walk registration, KYC upload and the cashier in a real session, then watch the replay and confirm every sensitive field is masked. Screenshot it for the compliance file.</li>
+    <li><b>Volume sanity check</b> Compare session counts to the client's analytics for the same window. A gap over roughly 10&ndash;15% means blocking, consent suppression or a missing deployment surface.</li>
+  </ol>
+</section>
+
+<section class="view" id="v-identity" data-part="I &middot; The Product" data-nav="3. Identity &amp; the user model">
+  <span class="eyebrow">Part I &middot; Module 3</span>
+  <h1 class="vt">Identity &mdash; the join that makes everything else possible</h1>
+  <p class="lede">Anonymous session replay is a curiosity. Identified session replay joined to the client's revenue data is a business case. In gambling, the identity decision is also the one most likely to get you in front of a Data Protection Officer, so get it right and get it documented.</p>
+
+  <h2 class="st">The call</h2>
+<pre><code>FS('setIdentity', {
+  uid: 'a3f9c21e8b',                 // hashed/pseudonymous player ID
+  properties: {
+    displayName: 'Player a3f9c21e8b', // never the real name
+    // reserved: email — OMIT for gambling clients
+    accountTier: 'Gold',
+    registrationDate: '2024-11-02T00:00:00Z',
+    kycStatus: 'verified',
+    marketCode: 'UK',
+    brand: 'BrandA',
+    depositCountBucket: '6-20',
+    isVip: false,
+    selfExcluded: false
+  }
+});</code></pre>
+
+  <h3>Rules for the uid</h3>
+  <ul>
+    <li><strong>It must be stable.</strong> Same player, same uid, forever, across devices and brands where the client's account model allows it.</li>
+    <li><strong>It must be joinable.</strong> The uid has to be a key the client's warehouse already holds, or the whole point &mdash; joining behaviour to GGR &mdash; evaporates. Agree the key with the BI lead, not the front-end developer.</li>
+    <li><strong>It must be pseudonymous.</strong> Never the email, never the username, never the account number if that number appears on statements or is quoted to customer service. A salted hash of the internal player ID, computed server-side, with the salt held by the client. Under UK GDPR this keeps the data pseudonymous rather than directly identifying, which materially changes the client's risk assessment.</li>
+    <li><strong>It must be reversible by the client only.</strong> The client keeps the lookup table so they can honour a subject access or erasure request. You should not hold it.</li>
+  </ul>
+
+  <div class="callout crit">
+    <div class="ci">One shot</div>
+    <div class="cc"><p><strong>Identity is immutable.</strong> Once a session has been assigned a <code>uid</code> through <code>setIdentity</code>, Fullstory does not let you change that user's identity afterwards. There is no correcting a mistake later, and no re-keying a population once you discover the hash was built wrong. This is why the identity design is a Phase 2 decision signed off by the BI lead, not something a front-end developer picks in a ticket &mdash; get the key wrong and you are re-instrumenting from a clean start, having lost the history.</p></div>
+  </div>
+
+  <div class="callout crit">
+    <div class="ci">Do not</div>
+    <div class="cc"><p>Do not populate the reserved <code>email</code> property on a gambling account, and push back hard if asked. It is directly identifying, it lands in a third-party system, it creates a marketing-consent question nobody wants to answer, and the analytical value is zero &mdash; you can do everything you need with a hashed uid. The one legitimate exception is a client whose DPO has explicitly signed it off in writing for a support-lookup use case; even then, prefer a reference number.</p></div>
+  </div>
+
+  <h2 class="st">Anonymous-to-identified stitching</h2>
+  <p>A player lands from an affiliate link, browses the lobby, reads the promotions page, then logs in. The pre-login activity is anonymous; the post-login activity is identified. When <code>setIdentity</code> fires, Fullstory attaches the current session to that user. The sessions <em>before</em> that one, on the same device, generally remain anonymous &mdash; which is exactly the acquisition window your client cares most about.</p>
+  <p>Two mitigations worth knowing:</p>
+  <ul>
+    <li>Identify as early as legitimately possible. If a returning player's session is restored from a persistent cookie before they re-authenticate, call <code>setIdentity</code> at that point rather than waiting for an explicit login.</li>
+    <li>For acquisition analysis, accept anonymity and instead capture the campaign context as page/session properties &mdash; affiliate ID, campaign, landing variant &mdash; so you can analyse the anonymous funnel on its own terms and join at the aggregate level.</li>
+  </ul>
+
+  <h2 class="st">User properties versus event properties</h2>
+  <p>A recurring confusion worth pre-empting with clients.</p>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Type</th><th>Lifetime</th><th>Use for</th><th>Gaming example</th></tr></thead>
+    <tbody>
+      <tr><td><strong>User property</strong></td><td>Persists and is overwritten on each set; describes the person now</td><td>Slow-changing attributes you segment on</td><td><code>accountTier</code>, <code>kycStatus</code>, <code>marketCode</code>, <code>lifetimeDepositBucket</code></td></tr>
+      <tr><td><strong>Session property</strong></td><td>The session</td><td>Context for this visit</td><td><code>trafficSource</code>, <code>appVersion</code>, <code>abTestVariant</code></td></tr>
+      <tr><td><strong>Page property</strong></td><td>The page view</td><td>What screen this is and its state</td><td><code>pageName</code>, <code>gameProvider</code>, <code>lobbyCategory</code></td></tr>
+      <tr><td><strong>Event property</strong></td><td>The instant</td><td>Details of a specific action</td><td><code>stakeAmountBucket</code>, <code>paymentMethod</code>, <code>declineReason</code></td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="callout warn">
+    <div class="ci">Trap</div>
+    <div class="cc"><p><strong>Overwriting versus history.</strong> User properties are overwritten, not versioned. If you set <code>accountTier</code> to <code>Platinum</code> today, every historical session for that player now shows as Platinum, including the ones from when they were Bronze. Clients regularly draw wrong conclusions from this. When the historical value matters, also stamp it as an event or page property at the time it applied.</p></div>
+  </div>
+
+  <h2 class="st">Consent-aware identity</h2>
+  <p>In markets that require prior consent, the correct pattern is to start capture manually and identify only after consent is recorded.</p>
+<pre><code>// init with startCaptureManually: true, then on consent:
+if (consent.analytics === true) {
+  FS('start');
+  FS('setIdentity', { uid: hashedPlayerId, properties: { /* ... */ } });
+}
+
+// on consent withdrawal
+FS('shutdown');           // stops capture for this session
+// and trigger a deletion request server-side for that uid</code></pre>
+  <p>Withdrawal is not just switching capture off. The client has an obligation to delete already-captured data on request, which is done through the server-side API &mdash; covered in the Data Direct and API module. Make sure someone at the client owns that runbook; do not let it be you by default.</p>
+</section>
+
+<section class="view" id="v-events" data-part="I &middot; The Product" data-nav="4. The event data model">
+  <span class="eyebrow">Part I &middot; Module 4</span>
+  <h1 class="vt">Autocapture, custom events, and the schema you will live with</h1>
+  <p class="lede">Fullstory's strongest claim is retroactive analysis: because it indexes every interaction automatically, you can ask a question today about behaviour from last month that nobody thought to tag. That is true, and it is also where teams get lazy. Autocapture answers "what did they click"; only a designed schema answers "what did that cost us".</p>
+
+  <h2 class="st">What you get for free</h2>
+  <p>Out of the box, with no tagging, Fullstory indexes: every click and tap with the element's text, selector and position; every page navigation; scroll depth and reading behaviour; form field interactions (which field, focus order, time in field, abandonment &mdash; not the values, which are private by default); console messages and JavaScript errors with stack traces; network request timing and failures; page performance timings; and the derived frustration signals covered in their own module.</p>
+  <p>The practical consequence: you can run a genuinely useful first workshop on day one of capture, before a single line of custom instrumentation exists. Use it. Nothing builds client belief like finding a real problem in week one.</p>
+
+  <h2 class="st">Custom events &mdash; where the money is</h2>
+<pre><code>FS('trackEvent', {
+  name: 'Deposit Completed',
+  properties: {
+    depositAmountBucket: '50-99',   // bucket, never raw amount
+    currency: 'GBP',
+    paymentMethod: 'ApplePay',
+    paymentProvider: 'Trustly',
+    isFirstDeposit: true,
+    attemptNumber: 1,
+    secondsFromCashierOpen: 34,
+    bonusCodeApplied: 'WELCOME100',
+    depositId: 'dep_8812f'          // join key back to the warehouse
+  }
+});</code></pre>
+
+  <h3>Property typing</h3>
+  <p>Fullstory infers types in the modern API. Legacy instrumentation you will inherit uses explicit type suffixes, and you need to read them fluently:</p>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Suffix</th><th>Type</th><th>Example</th></tr></thead>
+    <tbody>
+      <tr><td class="mono">_str</td><td>String</td><td class="mono">paymentMethod_str: "ApplePay"</td></tr>
+      <tr><td class="mono">_int</td><td>Integer</td><td class="mono">attemptNumber_int: 2</td></tr>
+      <tr><td class="mono">_real</td><td>Floating point</td><td class="mono">oddsDecimal_real: 3.75</td></tr>
+      <tr><td class="mono">_bool</td><td>Boolean</td><td class="mono">isFirstDeposit_bool: true</td></tr>
+      <tr><td class="mono">_date</td><td>ISO-8601 date/time</td><td class="mono">registrationDate_date: "2024-11-02T00:00:00Z"</td></tr>
+      <tr><td class="mono">_obj</td><td>Nested object</td><td class="mono">betslip_obj: { legs_int: 3 }</td></tr>
+      <tr><td class="mono">_strs</td><td>Array (any type pluralised)</td><td class="mono">selectionIds_strs: ["a1","b2"]</td></tr>
+    </tbody>
+  </table></div>
+
+  <h2 class="st">The five rules of a schema that survives</h2>
+  <ol class="steps">
+    <li><b>Name events for what happened, not for where the code is</b> <code>Deposit Completed</code>, not <code>cashier_step3_success_v2</code>. Business users search this list. If they cannot read it, they will not use the tool, and your adoption metric dies.</li>
+    <li><b>Fix a naming convention on day one and write it down</b> Title Case for event names, camelCase for properties, is the convention this platform uses throughout. Any convention works; inconsistency does not. Put it in the instrumentation spec and make the client's tech lead sign it.</li>
+    <li><b>Bucket high-cardinality values</b> Raw stake amounts, raw deposit amounts and raw odds create unusable segment dropdowns and make aggregation meaningless. Send <code>stakeBucket: "10-24.99"</code> as the segmentable property, and keep the raw figure only if there is a genuine need &mdash; and never if it is not needed for the analysis.</li>
+    <li><b>Never send anything you would not want in a subject access response</b> Assume every property will one day be printed and handed to a player or a regulator. No names, no emails, no card fragments, no document numbers, no free-text the player typed.</li>
+    <li><b>Carry a join key</b> Every commercially significant event should carry an ID the warehouse also holds &mdash; <code>depositId</code>, <code>betId</code>, <code>sessionRef</code>. This is what turns "18% of players who saw the error churned" into "that error cost &pound;340k of NGR".</li>
+  </ol>
+
+  <h2 class="st">Element identification</h2>
+  <p>Autocapture identifies elements by selector and text, which is fragile on sites that ship CSS-in-JS hashed class names or that localise button copy. Give important elements a stable identifier:</p>
+<pre><code>&lt;button data-fs-element="Cashier / Deposit Confirm"&gt;
+  Deposit &pound;50
+&lt;/button&gt;</code></pre>
+  <p>Now the element is findable as "Cashier / Deposit Confirm" in every locale and after every rebuild. On a multi-language operator this is not a nicety; without it your German funnel and your English funnel are different funnels. Agree a naming scheme &mdash; <code>Area / Component / Action</code> reads well and sorts well.</p>
+
+  <div class="callout tip">
+    <div class="ci">Do this</div>
+    <div class="cc"><p>When you write an instrumentation spec, deliver it as a table the developer can implement from without asking you a single question: event name, trigger condition, exact property names, types, example values, allowed value list for enums, and which KPI it feeds. A spec that lists only event names will come back wrong, and the rework lands in your week.</p></div>
+  </div>
+
+  <h2 class="st">A minimum viable schema for a casino operator</h2>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Event</th><th>Fires when</th><th>Key properties</th></tr></thead>
+    <tbody>
+      <tr><td class="mono">Registration Started</td><td>First field focus on the sign-up form</td><td class="mono">entryPoint, affiliateId, campaignId, deviceType</td></tr>
+      <tr><td class="mono">Registration Step Completed</td><td>Each step of a multi-step sign-up</td><td class="mono">stepNumber, stepName, secondsOnStep</td></tr>
+      <tr><td class="mono">Registration Completed</td><td>Account created</td><td class="mono">totalSeconds, stepCount, marketingOptIn</td></tr>
+      <tr><td class="mono">KYC Submitted</td><td>Documents or data submitted for verification</td><td class="mono">verificationType, documentType, attemptNumber</td></tr>
+      <tr><td class="mono">KYC Outcome</td><td>Verification result returned</td><td class="mono">outcome, failureReason, secondsToOutcome, vendor</td></tr>
+      <tr><td class="mono">Cashier Opened</td><td>Deposit UI shown</td><td class="mono">entryPoint, balanceBucket, isFirstDeposit</td></tr>
+      <tr><td class="mono">Payment Method Selected</td><td>Method chosen</td><td class="mono">paymentMethod, isSavedMethod, position</td></tr>
+      <tr><td class="mono">Deposit Attempted</td><td>Submit pressed</td><td class="mono">depositAmountBucket, paymentMethod, attemptNumber</td></tr>
+      <tr><td class="mono">Deposit Outcome</td><td>Provider responds</td><td class="mono">outcome, declineReason, providerCode, secondsElapsed, threeDsUsed</td></tr>
+      <tr><td class="mono">Game Launched</td><td>Game iframe requested</td><td class="mono">gameId, gameName, provider, lobbyPosition, launchSource, isDemo</td></tr>
+      <tr><td class="mono">Game Load Outcome</td><td>Game reports ready or fails</td><td class="mono">outcome, secondsToLoad, errorCode, provider</td></tr>
+      <tr><td class="mono">Bonus Viewed / Claimed / Declined</td><td>Promotion interaction</td><td class="mono">bonusId, bonusType, wageringMultiple, placement</td></tr>
+      <tr><td class="mono">Withdrawal Requested</td><td>Withdrawal submitted</td><td class="mono">amountBucket, method, secondsInFlow, pendingBalanceBucket</td></tr>
+      <tr><td class="mono">RG Tool Interaction</td><td>Any responsible-gambling control used</td><td class="mono">toolType, action, entryPoint</td></tr>
+      <tr><td class="mono">Support Contact Initiated</td><td>Live chat or contact form opened</td><td class="mono">channel, pageContext, priorErrorSeen</td></tr>
+    </tbody>
+  </table></div>
+  <p>Sportsbook adds the betslip family; social gaming swaps deposits for in-app purchase. Both are laid out in Part II.</p>
+</section>

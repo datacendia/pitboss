@@ -1,0 +1,67 @@
+<section class="view" id="v-local" data-part="VI &middot; Close" data-nav="31. Run it on your own PC" data-nonote="1">
+  <span class="eyebrow">Practical</span>
+  <h1 class="vt">Running this on your own machine</h1>
+  <p class="lede">Yes. Clone the repository, double-click <code>standalone.html</code>, and it runs in any browser &mdash; no server, no install, no dependencies. It works on a client site with no internet too, apart from the web fonts.</p>
+
+  <h2 class="st">The files</h2>
+  <div class="tablewrap"><table>
+    <thead><tr><th>File</th><th>What it holds</th></tr></thead>
+    <tbody>
+      <tr><td class="mono">standalone.html</td><td><strong>Open this one.</strong> The whole platform, wrapped with a doctype and charset so it renders correctly from disk.</td></tr>
+      <tr><td class="mono">index.html</td><td>The same content without the wrapper &mdash; this is the file published as the hosted Artifact. Do not open it directly; it falls into quirks mode.</td></tr>
+      <tr><td class="mono">src/</td><td>The module sources. One file per group of sections; this is what you edit.</td></tr>
+      <tr><td class="mono">build.py</td><td>Rebuilds both HTML outputs from <code>src/</code>. Run it after any edit to a module.</td></tr>
+      <tr><td class="mono">styles.css</td><td>All styling, including both themes.</td></tr>
+      <tr><td class="mono">data-req.js</td><td>The 35 requirements and the onboarding plan generator logic.</td></tr>
+      <tr><td class="mono">data-kpi.js</td><td>The KPI encyclopedia, glossary and drill questions.</td></tr>
+      <tr><td class="mono">data-kpi-build.js</td><td>The build recipe for every KPI.</td></tr>
+      <tr><td class="mono">app.js</td><td>Navigation, search, filtering, progress, quiz, generator, coach.</td></tr>
+    </tbody>
+  </table></div>
+  <p>Everything must stay in the <strong>same folder</strong>. Move it, rename it, put it on a USB stick or in OneDrive &mdash; it keeps working as long as the files stay together.</p>
+
+  <h2 class="st">How to open it</h2>
+  <ol class="steps">
+    <li><b>Double-click <span class="mono">standalone.html</span></b> It opens in your default browser and works immediately. Nothing is installed and nothing runs in the background.</li>
+    <li><b>Or drag the file into a browser window</b> Same result. Chrome, Edge and Firefox all handle it.</li>
+    <li><b>Bookmark it</b> The address will start with <span class="mono">file:///</span>. That is normal for a local page.</li>
+    <li><b>Editing?</b> Change a file in <span class="mono">src/</span>, run <span class="mono">python build.py</span>, then refresh. The navigation, numbering, search index and progress counter all rebuild themselves from the sections.</li>
+    <li><b>Optional: pin it to your taskbar</b> Right-click <span class="mono">standalone.html</span>, send to desktop as a shortcut, then pin the shortcut.</li>
+  </ol>
+
+  <h2 class="st">What changes when you run it locally</h2>
+  <div class="grid g2">
+    <div class="card"><h4><span class="tag p">Works</span> Everything structural</h4><ul>
+      <li>Every module and every word of content</li>
+      <li>Global search across lessons, KPIs, requirements and glossary</li>
+      <li>All filters, the drill deck and scoring</li>
+      <li>The onboarding plan generator, including copy-to-clipboard</li>
+      <li>Light and dark themes, and the keyboard shortcuts</li>
+      <li>Your progress, notes and quiz score &mdash; saved in that browser</li>
+    </ul></div>
+    <div class="card"><h4><span class="tag w">Differs</span> Three things</h4><ul>
+      <li><strong>The scenario coach is hidden.</strong> It needs the hosted runtime to reach Claude, so the local copy disables it rather than showing a broken button.</li>
+      <li><strong>Progress is per-browser, not per-person.</strong> The hosted version syncs your notes and ticks across devices; the local copy stores them in that one browser's storage. Use Chrome on the laptop and Edge on the desktop and you will have two separate sets of notes.</li>
+      <li><strong>Fonts need the internet on first load.</strong> Offline, the page falls back to system fonts. It reads perfectly well, it just looks plainer.</li>
+    </ul></div>
+  </div>
+
+  <div class="callout tip">
+    <div class="ci">Suggestion</div>
+    <div class="cc"><p>Use the <strong>hosted version for your notes</strong>, because they follow you between machines and survive a laptop rebuild. Keep the <strong>local copy for client sites</strong> &mdash; guest wifi in gambling offices is frequently locked down, and having the KPI encyclopedia and the requirements library available offline in a meeting is worth the duplication.</p></div>
+  </div>
+
+  <h2 class="st">Editing it</h2>
+  <p>It is plain HTML, CSS and JavaScript with no build step, so you can change it in Notepad, VS Code or anything else. The three places worth knowing:</p>
+  <dl class="deflist">
+    <dt>Add a KPI</dt><dd>Add an entry to the array in <code>data-kpi.js</code> (name, category, formula, range, capture note), then add a matching entry keyed by the same name in <code>data-kpi-build.js</code>. The category chips and counts update themselves.</dd>
+    <dt>Add or reword a requirement</dt><dd>Add an object to the array in <code>data-req.js</code>. Keep the <code>theme</code> value to one of the existing filter names or add a new chip in <code>index.html</code>.</dd>
+    <dt>Change the plan generator's judgement</dt><dd><code>BUILDER.run()</code> at the bottom of <code>data-req.js</code>. The risk list is a series of plain <code>if</code> statements &mdash; one per client attribute. Rewrite them as your own experience accumulates; the weightings in there are a starting position, not a finding.</dd>
+    <dt>Add a module</dt><dd>Create a file in <code>src/</code> containing a <code>&lt;section class=&quot;view&quot; id=&quot;v-yourid&quot; data-part=&quot;…&quot; data-nav=&quot;…&quot;&gt;</code>, add its filename to <code>ORDER</code> in <code>build.py</code>, and rebuild. Numbering, navigation, search and the progress counter all follow automatically &mdash; do not put a number in <code>data-nav</code>.</dd>
+  </dl>
+
+  <div class="callout warn">
+    <div class="ci">Note</div>
+    <div class="cc"><p>Edit the local copy and the hosted version does not change, and vice versa &mdash; they are separate. Commit your changes, and <code>index.html</code> can be republished to the same hosted link whenever you want the two back in step.</p></div>
+  </div>
+</section>

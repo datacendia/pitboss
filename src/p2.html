@@ -1,0 +1,307 @@
+<!-- ============================ PART II ============================ -->
+<section class="view" id="v-verticals" data-part="II &middot; The Client's Data" data-nav="12. The verticals &amp; how they differ">
+  <span class="eyebrow">Part II &middot; Module 12</span>
+  <h1 class="vt">Five businesses that all call themselves "gaming"</h1>
+  <p class="lede">The word covers wildly different economics. Using the wrong vocabulary in the first meeting marks you as an outsider faster than anything else, and the optimisation levers genuinely differ. Learn which business you are in before you open the tool.</p>
+
+  <div class="tablewrap"><table>
+    <thead><tr><th>Vertical</th><th>How it makes money</th><th>Dominant metric</th><th>Where the UX pain is</th><th>Regulatory weight</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Online casino</strong><br><span class="tag b">slots, tables, live dealer</span></td><td>House edge over a huge number of small, fast bets. Revenue is grindingly statistical and very predictable at volume.</td><td>NGR per active; spins per session</td><td>Game discovery, game load time, cashier, bonus comprehension</td><td class="num">Very high</td></tr>
+      <tr><td><strong>Sportsbook</strong><br><span class="tag b">pre-match &amp; in-play</span></td><td>Overround built into prices, less what the book actually pays out. Far more volatile &mdash; a single result can swing a month.</td><td>Hold %; turnover</td><td>Betslip, price changes, in-play latency, cash-out, navigation depth</td><td class="num">Very high</td></tr>
+      <tr><td><strong>Poker / bingo</strong><br><span class="tag b">peer-to-peer</span></td><td>Rake or ticket margin. The operator is a venue, not a counterparty, so liquidity is everything.</td><td>Rake per active; seat-fill / room liquidity</td><td>Finding a game with players in it; client download; tournament registration</td><td class="num">High</td></tr>
+      <tr><td><strong>Lottery / instant win</strong></td><td>Fixed margin per ticket; sometimes a good-cause levy on top.</td><td>Tickets per player; subscription rate</td><td>Number selection UX, subscription set-up, draw reminders</td><td class="num">High</td></tr>
+      <tr><td><strong>Social / F2P gaming</strong><br><span class="tag b">no cash prizes</span></td><td>In-app purchase of virtual currency, plus advertising. Roughly 1&ndash;3% of players pay for everything.</td><td>ARPDAU; payer conversion</td><td>First-session onboarding, difficulty spikes, the IAP store, ad placement</td><td class="num">Low&ndash;moderate</td></tr>
+    </tbody>
+  </table></div>
+
+  <h2 class="st">The structural difference that matters most</h2>
+  <p>In real-money gambling, <strong>the product is not what you optimise</strong>. Slot mathematics is fixed by the game supplier and certified by a test house; sportsbook prices are set by a trading team. You cannot touch either. What you can touch is everything around it: finding the product, funding the account, understanding the promotion, getting money out again, and not being frustrated into leaving.</p>
+  <p>This is unusually good news for an optimisation analyst. It means the entire conversion surface &mdash; registration, KYC, cashier, lobby, betslip, withdrawal &mdash; is fair game, and it is almost always under-optimised because the commercial teams have historically focused on bonusing rather than on funnel mechanics.</p>
+
+  <div class="callout tip">
+    <div class="ci">Say this</div>
+    <div class="cc"><p>"You cannot change the maths of the game, and you would not want to. But you can change how many people get to it with money in their account, and how many of them come back. That is where I work."</p></div>
+  </div>
+
+  <h2 class="st">Where sportsbook and casino players differ behaviourally</h2>
+  <div class="grid g2">
+    <div class="card"><h4>Sportsbook</h4><ul>
+      <li>Demand is event-driven and spiky &mdash; the Grand National, a derby, a title fight. Traffic can go up tenfold in an hour.</li>
+      <li>Extreme time pressure in-play. A two-second delay is a lost bet, not a mild annoyance.</li>
+      <li>Deep navigation: sport &rarr; competition &rarr; event &rarr; market &rarr; selection. Lots of places to lose people.</li>
+      <li>Multiples and accumulators are hugely profitable and disproportionately mobile.</li>
+      <li>Price changes between selection and placement cause rejections that players experience as the site "cheating" them.</li>
+    </ul></div>
+    <div class="card"><h4>Casino</h4><ul>
+      <li>Demand is steadier, with evening and late-night peaks and a strong weekend pattern.</li>
+      <li>Discovery is the core problem: hundreds or thousands of games, most of which are never launched.</li>
+      <li>Sessions are long, repetitive and often multi-tab.</li>
+      <li>Bonus mechanics (wagering requirements, game weighting, max bet rules) are the biggest source of confusion and complaint.</li>
+      <li>Game load performance is a direct revenue lever and is usually owned by a third party.</li>
+    </ul></div>
+  </div>
+
+  <h2 class="st">Cross-sell: the thing every group wants and few do well</h2>
+  <p>Almost every large operator runs sportsbook and casino under one wallet and wants sportsbook customers to play casino, because casino NGR per active is typically much higher and far less volatile. The usual implementation is a banner, it usually fails, and it is a reliable early win for you: instrument the cross-sell surfaces, measure click-through <em>and</em> the resulting first casino session, and you will almost always find the banner is being ignored while an in-betslip or post-settlement placement performs several times better.</p>
+</section>
+
+<section class="view" id="v-money" data-part="II &middot; The Client's Data" data-nav="13. Money mechanics &amp; vocabulary">
+  <span class="eyebrow">Part II &middot; Module 13</span>
+  <h1 class="vt">The vocabulary of the room</h1>
+  <p class="lede">Learn these cold. Not because you will calculate them &mdash; the finance team does that &mdash; but because using them correctly, unprompted, in the first meeting is what moves you from "agency person" to "someone who understands our business".</p>
+
+  <h2 class="st">Revenue and margin</h2>
+  <dl class="deflist">
+    <dt>Handle / Turnover / Staked</dt><dd>The total amount wagered. Not revenue. A casino can take &pound;100m of handle and keep &pound;3m. Clients quote handle when they want a big number; be alert to it.</dd>
+    <dt>GGR<br>Gross Gaming Revenue</dt><dd>Stakes minus player winnings. The operator's gross take before any costs. <span class="mono">GGR = Handle &minus; Payouts</span></dd>
+    <dt>NGR<br>Net Gaming Revenue</dt><dd>GGR minus bonus cost, gaming duty, payment processing fees and often affiliate commission. <strong>This is the number that matters.</strong> When you price an opportunity, price it in NGR or you will be corrected in the meeting.</dd>
+    <dt>Hold % / Win %</dt><dd>Sportsbook. <span class="mono">GGR &divide; Handle</span>. Typically around 5&ndash;10% depending on mix; higher on multiples, lower on single-outcome markets and in-play.</dd>
+    <dt>Margin / Overround / Vig</dt><dd>The theoretical edge built into the prices on a market. A book priced to 105% has a 5% overround. Theoretical; hold is what actually happened.</dd>
+    <dt>RTP<br>Return to Player</dt><dd>Casino. The long-run percentage a game returns &mdash; typically 92&ndash;97%. House edge is <span class="mono">100% &minus; RTP</span>. Often displayed in-game for compliance reasons, which makes it something you can check is actually visible.</dd>
+    <dt>Bonus cost ratio</dt><dd>Bonus cost as a share of GGR. Operators watch this obsessively; it is frequently 20&ndash;40% and a constant tension between acquisition and finance.</dd>
+    <dt>Wagering requirement</dt><dd>How many times a bonus must be staked before it can be withdrawn &mdash; "30x". The single biggest source of player complaints and misunderstanding in the whole industry, and therefore a rich seam for UX work.</dd>
+    <dt>Game weighting</dt><dd>Which games count how much toward wagering. Slots often 100%, table games 10% or 0%. Almost never communicated clearly. Instrument whether players see it.</dd>
+  </dl>
+
+  <h2 class="st">Players and value</h2>
+  <dl class="deflist">
+    <dt>FTD<br>First Time Depositor</dt><dd>A registered player who has made their first deposit. The central acquisition currency &mdash; affiliates are usually paid on it. "Reg-to-FTD" is the conversion rate everyone quotes.</dd>
+    <dt>Active / Actives</dt><dd>A player who wagered in the period. Usually "monthly actives" or "daily actives". Registration without activity is worthless.</dd>
+    <dt>ARPU / ARPPU</dt><dd>Average revenue per user; per <em>paying</em> user. In gambling, per active. In social gaming, ARPDAU &mdash; average revenue per daily active user &mdash; is the standard.</dd>
+    <dt>CPA / CAC</dt><dd>Cost per acquisition, usually per FTD. In competitive regulated markets this runs to the high hundreds of pounds, which is why a point of deposit conversion is worth so much.</dd>
+    <dt>LTV</dt><dd>Lifetime value, usually modelled on 6&ndash;12 month NGR. The LTV:CAC ratio is the business.</dd>
+    <dt>Churn / Dormancy</dt><dd>Churn is a defined period without activity &mdash; often 30, 60 or 90 days. Dormancy has regulatory meaning too: dormant accounts have handling rules.</dd>
+    <dt>VIP / High roller</dt><dd>A tiny population producing a very large share of revenue. Frequently 1% of players generating 40%+ of NGR. Any analysis that does not segment VIPs separately is misleading, and any VIP-affecting bug is an emergency.</dd>
+    <dt>Reactivation</dt><dd>Bringing a lapsed player back. Cheaper than acquisition and a standard CRM motion &mdash; and a good place to prove Fullstory's value, because reactivation landing experiences are usually terrible.</dd>
+  </dl>
+
+  <h2 class="st">Operations</h2>
+  <dl class="deflist">
+    <dt>KYC</dt><dd>Know Your Customer. Identity, age and address verification. In Great Britain this must happen before a player can deposit or gamble, which puts it directly inside your conversion funnel &mdash; unlike most markets where it can be deferred.</dd>
+    <dt>AML / SoF / SoW</dt><dd>Anti-money-laundering; source of funds; source of wealth. Triggered at thresholds or by behaviour. Creates hard stops mid-journey that look like conversion failures in your funnel but are legally required. Always ask before you "fix" a drop-off.</dd>
+    <dt>PAM</dt><dd>Player Account Management platform &mdash; the system of record for accounts, wallet, bonuses and compliance. Everything else plugs into it.</dd>
+    <dt>PSP</dt><dd>Payment service provider. Operators run several and route between them; routing logic materially affects the deposit success rate you measure.</dd>
+    <dt>Chargeback</dt><dd>A disputed card payment. Costly and, at volume, threatens the operator's merchant relationships.</dd>
+    <dt>RG</dt><dd>Responsible gambling. Deposit limits, loss limits, time-outs, reality checks, self-exclusion. Both a licence condition and, increasingly, a product surface with real UX questions.</dd>
+    <dt>Self-exclusion / GAMSTOP</dt><dd>A player blocks themselves, at operator level or via the national scheme. Absolute and non-negotiable.</dd>
+    <dt>Affordability check</dt><dd>Assessing whether a player can sustain their losses. A major friction point in the GB market, often triggered mid-journey with significant conversion impact &mdash; and a place where better UX is genuinely in the player's interest.</dd>
+  </dl>
+
+  <div class="callout warn">
+    <div class="ci">Judgement</div>
+    <div class="cc"><p>Some drop-offs must not be optimised away. A KYC hard stop, an affordability interruption, a self-exclusion check and a deposit limit prompt are all <em>designed</em> friction that the operator is legally required to impose. Your job on those journeys is to make them <strong>clearer, faster and less confusing &mdash; not to increase completion</strong>. Say this out loud, early and unprompted. It establishes that you understand the client's licence risk, and it is the fastest way to earn a compliance officer's trust.</p></div>
+  </div>
+</section>
+
+<section class="view" id="v-lifecycle" data-part="II &middot; The Client's Data" data-nav="14. The player lifecycle">
+  <span class="eyebrow">Part II &middot; Module 14</span>
+  <h1 class="vt">The lifecycle, stage by stage</h1>
+  <p class="lede">Every conversation with a gambling client maps to a stage of this journey. Knowing the typical failure mode and the typical benchmark at each stage lets you diagnose an account before you have opened their Fullstory.</p>
+
+  <ol class="steps">
+    <li><b>Acquisition</b>
+      Affiliate link, paid search, TV-driven brand search, or app store. Heavily affiliate-dependent in most markets. <span class="tag b">Instrument</span> landing variant, affiliate ID, campaign, device, offer shown.
+      <br><em>Failure mode:</em> the offer on the affiliate page does not match the offer on the landing page. Extremely common, entirely invisible without session data, and directly measurable.</li>
+
+    <li><b>Registration</b>
+      Typically 3&ndash;5 steps: credentials, personal details, address, marketing preferences. <span class="tag b">Benchmark</span> 40&ndash;65% completion once started; mobile web materially worse than app.
+      <br><em>Failure mode:</em> address lookup failing, password rules revealed only on submit, date-of-birth pickers that are hostile on mobile, and mandatory marketing choices presented as blockers.</li>
+
+    <li><b>Verification (KYC)</b>
+      Automated check against credit-reference and identity databases; manual document upload on failure. <span class="tag b">Benchmark</span> 70&ndash;90% pass automatically; the manual fallback converts far worse.
+      <br><em>Failure mode:</em> the player is dropped into a document upload with no explanation of why, no indication of how long it takes, and a camera flow that fails on older Android devices. This is routinely the biggest single loss in the whole funnel and it is rarely anybody's job.</li>
+
+    <li><b>First deposit</b>
+      The moment the acquisition spend either pays back or does not. <span class="tag b">Benchmark</span> 50&ndash;75% of verified players deposit; card approval rates in gambling are structurally lower than in retail because issuers decline gambling MCC transactions.
+      <br><em>Failure mode:</em> a decline with no useful message. The player assumes the site is broken or that they have been refused, and leaves. A decline reason mapped to a helpful next step is one of the highest-return fixes available.</li>
+
+    <li><b>First play</b>
+      Game launch or first bet. <span class="tag b">Benchmark</span> should be well above 90% of depositors; anything lower is a technical fault, not a preference.
+      <br><em>Failure mode:</em> game fails to load, bonus terms confuse the player into hesitating, or the player cannot find the game the promotion advertised.</li>
+
+    <li><b>Early retention (days 1&ndash;30)</b>
+      The window that sets lifetime value. <span class="tag b">Benchmark</span> D1 return 25&ndash;40%, D7 15&ndash;25%, D30 10&ndash;18% for real-money brands.
+      <br><em>Failure mode:</em> no reason to return, bonus expiry not communicated, push notifications never opted into, and a second-session experience that treats a returning player like a stranger.</li>
+
+    <li><b>Established play</b>
+      Habitual sessions. Value now depends on frequency and session quality. <em>Failure mode:</em> accumulated small frictions &mdash; slow lobby, failing search, repetitive re-authentication &mdash; that individually look trivial and collectively cause drift.</li>
+
+    <li><b>Withdrawal</b>
+      The most emotionally charged journey on the site and the biggest driver of complaints and negative reviews. <em>Failure mode:</em> unexplained pending states, surprise verification requirements at the moment of withdrawal, and reverse-withdrawal patterns that players experience as manipulative. Treat withdrawal UX as a retention investment, because that is exactly what it is.</li>
+
+    <li><b>VIP</b>
+      Manual account management, personal hosts, bespoke offers. <em>Failure mode:</em> the digital experience is unchanged while the service promise is premium. A VIP hitting a generic error is a phone call to the CEO.</li>
+
+    <li><b>Responsible gambling intervention</b>
+      Limits, reality checks, time-outs, or a conversation. <em>Failure mode:</em> tools are buried, the language is punitive, and setting a limit feels like an accusation. Genuinely better design here helps players and reduces the operator's regulatory exposure at the same time &mdash; it is the rare case where the ethical and commercial arguments align completely.</li>
+
+    <li><b>Lapse and reactivation</b>
+      Dormancy, then a campaign. <em>Failure mode:</em> the reactivation link deep-links to a page requiring re-verification, or to an offer the player is not eligible for. Measure the landing experience, not just the email open rate.</li>
+
+    <li><b>Closure or self-exclusion</b>
+      Must be easy, fast and irreversible where required. <em>Failure mode:</em> a closure flow with more steps than registration. Regulators look at this specifically, and so should you &mdash; it is a five-minute audit that makes you look extremely serious.</li>
+  </ol>
+
+  <div class="callout tip">
+    <div class="ci">Use it</div>
+    <div class="cc"><p>Walk this lifecycle in the first discovery workshop and ask, at each stage, "what is your number, and who owns it?" You will discover two things in under an hour: which stages nobody measures, and which stages have no owner. Those two lists <em>are</em> your engagement plan, and you will have built it in front of the client rather than presenting it to them.</p></div>
+  </div>
+</section>
+
+<section class="view" id="v-systems" data-part="II &middot; The Client's Data" data-nav="15. The systems landscape">
+  <span class="eyebrow">Part II &middot; Module 15</span>
+  <h1 class="vt">What is actually behind the website</h1>
+  <p class="lede">You will be asked to instrument journeys that cross five vendors' systems. Knowing the shape of a typical stack tells you where you can put code, where you cannot, and who you need in the room.</p>
+
+  <div class="tablewrap"><table>
+    <thead><tr><th>Layer</th><th>Typical vendors</th><th>What it owns</th><th>Instrumentation reality</th></tr></thead>
+    <tbody>
+      <tr><td><strong>PAM / platform</strong></td><td>Playtech, SBTech, Everymatrix, Softswiss, GAN, Kambi (sportsbook), in-house</td><td>Accounts, wallet, bonuses, compliance, often the cashier and registration</td><td>Frequently <strong>not</strong> the operator's code. Tagging needs the provider's cooperation &mdash; establish this in week one.</td></tr>
+      <tr><td><strong>Game aggregation</strong></td><td>Evolution, Pragmatic Play, NetEnt, Play'n GO, Relax, Hacksaw</td><td>The games themselves, served in iframes from provider domains</td><td>Opaque to replay. You instrument launch, load outcome and exit only.</td></tr>
+      <tr><td><strong>Front end</strong></td><td>In-house React / Vue / Next, or the platform's templated skin</td><td>Lobby, navigation, promotions, content</td><td>Usually where you <em>can</em> deploy. This is your working surface.</td></tr>
+      <tr><td><strong>Payments</strong></td><td>Trustly, Skrill, Neteller, Paysafe, Worldpay, Checkout.com, Apple&nbsp;Pay, PayPal, open banking</td><td>Deposit and withdrawal processing, 3DS, routing</td><td>Hosted fields or redirects. Capture the edges and the returned outcome codes; never the card data.</td></tr>
+      <tr><td><strong>KYC / AML</strong></td><td>Jumio, Onfido, GBG, Experian, Veriff, ComplyAdvantage</td><td>Identity, age, address, sanctions and PEP screening</td><td>Often an embedded SDK or redirect. Capture entry, outcome, reason code and duration &mdash; never documents.</td></tr>
+      <tr><td><strong>CRM / engagement</strong></td><td>Optimove, Xtremepush, Fast Track, Braze, Symplify</td><td>Campaigns, triggers, bonuses, push and email</td><td>A prime integration target: Fullstory segments become CRM audiences.</td></tr>
+      <tr><td><strong>Affiliates</strong></td><td>Income Access, MyAffiliates, Cellxpert, in-house</td><td>Tracking links, attribution, commission</td><td>Capture the affiliate and campaign IDs as session properties or you cannot analyse traffic quality.</td></tr>
+      <tr><td><strong>BI / warehouse</strong></td><td>Snowflake, BigQuery, Redshift, Looker, Tableau, Power BI</td><td>The single source of financial truth</td><td>Your Data Direct destination. The BI lead is the most important ally you will make on the account.</td></tr>
+      <tr><td><strong>Experimentation</strong></td><td>Optimizely, VWO, AB Tasty, Kameleoon, Adobe Target, in-house flags</td><td>Tests and feature flags</td><td>Push variant into Fullstory as a session property. Non-negotiable for a CRO engagement.</td></tr>
+      <tr><td><strong>Support</strong></td><td>Zendesk, Salesforce Service Cloud, Intercom, Livechat</td><td>Tickets and live chat</td><td>Attach replay links to tickets. Fastest cross-department adoption win available.</td></tr>
+    </tbody>
+  </table></div>
+
+  <h2 class="st">The three questions that unblock everything</h2>
+  <ol class="steps">
+    <li><b>"Which pages can you deploy JavaScript to today, without a third party's permission?"</b> The honest answer defines your scope. Ask it in the kick-off, in front of the platform owner, and write the answer down.</li>
+    <li><b>"What is the identifier that links a website session to a player record in your warehouse?"</b> If nobody can answer immediately, that is your first workstream and everything else waits.</li>
+    <li><b>"Who signs off a change to the cashier?"</b> The cashier is where the money is and it is almost always the most politically contested surface on the site. Find the owner before you have findings, not after.</li>
+  </ol>
+</section>
+
+<section class="view" id="v-taxonomy" data-part="II &middot; The Client's Data" data-nav="16. Event taxonomy by vertical">
+  <span class="eyebrow">Part II &middot; Module 16</span>
+  <h1 class="vt">The taxonomy you will implement</h1>
+  <p class="lede">A ready-to-adapt schema. Hand the relevant table to a client's developer as the basis of the instrumentation spec, adding trigger conditions and example values per event. Naming convention throughout: Title Case events, camelCase properties, bucketed numerics.</p>
+
+  <h2 class="st">Universal &mdash; every gambling client</h2>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Event</th><th>Properties</th><th>Feeds</th></tr></thead>
+    <tbody>
+      <tr><td class="mono">Registration Started</td><td class="mono">entryPoint, affiliateId, campaignId, offerShown, deviceType</td><td>Reg funnel, traffic quality</td></tr>
+      <tr><td class="mono">Registration Step Completed</td><td class="mono">stepNumber, stepName, secondsOnStep, validationErrors</td><td>Step-level drop-off</td></tr>
+      <tr><td class="mono">Registration Failed</td><td class="mono">stepName, failureReason, fieldName</td><td>Field friction</td></tr>
+      <tr><td class="mono">Registration Completed</td><td class="mono">totalSeconds, stepCount, marketingOptIn, offerClaimed</td><td>Reg conversion</td></tr>
+      <tr><td class="mono">KYC Started</td><td class="mono">trigger, verificationType, isBlocking</td><td>KYC funnel</td></tr>
+      <tr><td class="mono">KYC Document Uploaded</td><td class="mono">documentType, uploadMethod, attemptNumber, fileRejected</td><td>Upload friction</td></tr>
+      <tr><td class="mono">KYC Outcome</td><td class="mono">outcome, failureReason, vendor, secondsToOutcome, attemptNumber</td><td>Pass rate, time to verify</td></tr>
+      <tr><td class="mono">Cashier Opened</td><td class="mono">entryPoint, isFirstDeposit, balanceBucket, promptedBy</td><td>Deposit funnel</td></tr>
+      <tr><td class="mono">Payment Method Selected</td><td class="mono">paymentMethod, isSavedMethod, position, methodCount</td><td>Method mix</td></tr>
+      <tr><td class="mono">Deposit Attempted</td><td class="mono">depositAmountBucket, currency, paymentMethod, attemptNumber, bonusCodeApplied</td><td>Attempt volume</td></tr>
+      <tr><td class="mono">Deposit Outcome</td><td class="mono">outcome, declineReason, providerCode, provider, secondsElapsed, threeDsUsed, threeDsOutcome</td><td>Success rate, decline analysis</td></tr>
+      <tr><td class="mono">Withdrawal Started</td><td class="mono">entryPoint, availableBalanceBucket, hasPendingWagering</td><td>Withdrawal funnel</td></tr>
+      <tr><td class="mono">Withdrawal Requested</td><td class="mono">amountBucket, method, secondsInFlow, verificationRequired</td><td>Completion rate</td></tr>
+      <tr><td class="mono">Withdrawal Blocked</td><td class="mono">blockReason, resolutionShown</td><td>Complaint prediction</td></tr>
+      <tr><td class="mono">Bonus Viewed</td><td class="mono">bonusId, bonusType, placement, wageringMultiple, termsExpanded</td><td>Promo comprehension</td></tr>
+      <tr><td class="mono">Bonus Claimed / Declined</td><td class="mono">bonusId, bonusType, secondsToDecision</td><td>Promo conversion</td></tr>
+      <tr><td class="mono">RG Tool Interaction</td><td class="mono">toolType, action, entryPoint, limitChangeDirection</td><td>RG engagement, compliance evidence</td></tr>
+      <tr><td class="mono">Support Contact Initiated</td><td class="mono">channel, pageContext, priorErrorSeen, secondsSinceError</td><td>Cost to serve</td></tr>
+      <tr><td class="mono">Account Closure Started</td><td class="mono">entryPoint, reasonSelected</td><td>Churn diagnosis</td></tr>
+    </tbody>
+  </table></div>
+
+  <h2 class="st">Casino additions</h2>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Event</th><th>Properties</th><th>Feeds</th></tr></thead>
+    <tbody>
+      <tr><td class="mono">Lobby Viewed</td><td class="mono">lobbyCategory, gameCount, sortOrder, isPersonalised</td><td>Discovery analysis</td></tr>
+      <tr><td class="mono">Lobby Search</td><td class="mono">queryLength, resultCount, hadZeroResults, refinementNumber</td><td>Search quality</td></tr>
+      <tr><td class="mono">Game Tile Clicked</td><td class="mono">gameId, gameName, provider, lobbyPosition, rowName, isRecommended</td><td>Merchandising</td></tr>
+      <tr><td class="mono">Game Launched</td><td class="mono">gameId, provider, launchSource, isDemo, deviceType</td><td>Launch funnel</td></tr>
+      <tr><td class="mono">Game Load Outcome</td><td class="mono">outcome, secondsToLoad, errorCode, provider</td><td>Provider SLA</td></tr>
+      <tr><td class="mono">Game Exited</td><td class="mono">secondsInGame, exitMethod, spinCountBucket</td><td>Engagement quality</td></tr>
+      <tr><td class="mono">Jackpot Banner Interaction</td><td class="mono">jackpotId, action, valueBucket</td><td>Promo effectiveness</td></tr>
+      <tr><td class="mono">Live Dealer Table Joined</td><td class="mono">tableId, gameType, seatsAvailable, secondsWaiting</td><td>Live capacity UX</td></tr>
+    </tbody>
+  </table></div>
+
+  <h2 class="st">Sportsbook additions</h2>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Event</th><th>Properties</th><th>Feeds</th></tr></thead>
+    <tbody>
+      <tr><td class="mono">Event Viewed</td><td class="mono">sportId, competitionId, eventId, isInPlay, marketCount</td><td>Navigation depth</td></tr>
+      <tr><td class="mono">Selection Added</td><td class="mono">marketType, oddsBucket, isInPlay, betslipLegCount, addMethod</td><td>Betslip funnel</td></tr>
+      <tr><td class="mono">Selection Removed</td><td class="mono">reason, betslipLegCount</td><td>Betslip friction</td></tr>
+      <tr><td class="mono">Stake Entered</td><td class="mono">stakeBucket, entryMethod, usedQuickStake, betType</td><td>Stake UX</td></tr>
+      <tr><td class="mono">Odds Changed In Betslip</td><td class="mono">direction, magnitudeBucket, playerAccepted</td><td>Rejection analysis</td></tr>
+      <tr><td class="mono">Bet Placed</td><td class="mono">betType, legCount, stakeBucket, isInPlay, secondsInBetslip</td><td>Conversion</td></tr>
+      <tr><td class="mono">Bet Outcome</td><td class="mono">outcome, rejectionReason, secondsToResponse</td><td>Acceptance rate</td></tr>
+      <tr><td class="mono">Cash Out Viewed / Taken</td><td class="mono">offerValueBucket, action, secondsToDecision, valueChanged</td><td>Cash-out UX</td></tr>
+      <tr><td class="mono">Bet Builder Interaction</td><td class="mono">action, legCount, isValidCombination</td><td>Feature adoption</td></tr>
+      <tr><td class="mono">In-Play Stream Started</td><td class="mono">eventId, secondsToStart, quality, failed</td><td>Streaming quality</td></tr>
+    </tbody>
+  </table></div>
+
+  <h2 class="st">Social / free-to-play gaming additions</h2>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Event</th><th>Properties</th><th>Feeds</th></tr></thead>
+    <tbody>
+      <tr><td class="mono">Tutorial Step Completed</td><td class="mono">stepNumber, stepName, secondsOnStep, skipped</td><td>Onboarding funnel</td></tr>
+      <tr><td class="mono">Level Started / Completed / Failed</td><td class="mono">levelNumber, attemptNumber, secondsPlayed, boostersUsed</td><td>Difficulty tuning</td></tr>
+      <tr><td class="mono">Currency Balance Low</td><td class="mono">currencyType, contextScreen</td><td>Monetisation trigger</td></tr>
+      <tr><td class="mono">Store Opened</td><td class="mono">entryPoint, trigger, offerCount</td><td>IAP funnel</td></tr>
+      <tr><td class="mono">IAP Initiated / Completed / Failed</td><td class="mono">productId, priceTier, currency, failureReason, isFirstPurchase</td><td>Payer conversion</td></tr>
+      <tr><td class="mono">Rewarded Ad Offered / Watched</td><td class="mono">placement, adNetwork, completed, rewardType</td><td>Ad monetisation</td></tr>
+      <tr><td class="mono">Daily Reward Claimed</td><td class="mono">streakDay, rewardType</td><td>Retention loop</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="callout warn">
+    <div class="ci">Remember</div>
+    <div class="cc"><p>Every numeric that could identify or embarrass is bucketed: <code>depositAmountBucket</code> not <code>depositAmount</code>, <code>stakeBucket</code> not <code>stake</code>, <code>balanceBucket</code> not <code>balance</code>. If the client's analysts need exact figures, they already have them in the warehouse &mdash; joined by the same <code>depositId</code> or <code>betId</code> you are sending. There is no analytical reason to put the raw number in a third-party tool, and several regulatory reasons not to.</p></div>
+  </div>
+</section>
+
+<section class="view" id="v-regulation" data-part="II &middot; The Client's Data" data-nav="17. Regulation &amp; data ethics">
+  <span class="eyebrow">Part II &middot; Module 17</span>
+  <h1 class="vt">The rules your client lives under</h1>
+  <p class="lede">You do not need to be a compliance expert. You need to know enough to avoid recommending something illegal, to recognise when a drop-off is a legal requirement rather than a defect, and to speak credibly when the compliance officer joins the call &mdash; which they will.</p>
+
+  <h2 class="st">The regimes you will meet</h2>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Jurisdiction</th><th>Regulator</th><th>Features that hit your work</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Great Britain</strong></td><td>Gambling Commission (UKGC)</td><td>Age and identity verification <em>before</em> deposit or play; GAMSTOP integration; affordability and financial-vulnerability checks; game-design rules for slots (no autoplay, minimum spin duration, no losses-disguised-as-wins, no simultaneous play); strict rules on bonus terms and on marketing to self-excluded or vulnerable players</td></tr>
+      <tr><td><strong>Malta</strong></td><td>MGA</td><td>A common licensing base for EU-facing operations; player-protection and reporting requirements; often paired with local market licences</td></tr>
+      <tr><td><strong>Ontario</strong></td><td>AGCO / iGaming Ontario</td><td>Notably strict advertising and inducement rules &mdash; bonus offers cannot generally be advertised publicly, which changes the entire promotional surface of the site</td></tr>
+      <tr><td><strong>United States</strong></td><td>State by state (NJ DGE, PA, MI, and others)</td><td>Geolocation enforcement on every session, state-specific rules, mandatory RG messaging, and a geolocation check that is itself a significant UX friction point worth instrumenting</td></tr>
+      <tr><td><strong>Germany</strong></td><td>GGL</td><td>Deposit limits across operators, restricted product set, mandated play breaks &mdash; a deposit funnel with steps that exist nowhere else</td></tr>
+      <tr><td><strong>Sweden</strong></td><td>Spelinspektionen</td><td>Spelpaus national self-exclusion; bonus restrictions</td></tr>
+      <tr><td><strong>Data protection</strong></td><td>UK GDPR / EU GDPR, PECR</td><td>Lawful basis, consent for non-essential cookies, DSARs, erasure, processor agreements, international transfer mechanisms</td></tr>
+      <tr><td><strong>Payments</strong></td><td>PCI-DSS, PSD2 / SCA</td><td>Card data must never touch your capture; strong customer authentication adds a step and a failure mode to every card deposit in Europe</td></tr>
+    </tbody>
+  </table></div>
+
+  <h2 class="st">Things you must never recommend</h2>
+  <ul>
+    <li><strong>Reducing friction in age or identity verification</strong> in a way that could let an unverified player gamble. Clarity yes; removal never.</li>
+    <li><strong>Making responsible-gambling tools harder to find or use.</strong> Not even a small nudge. Not even "we moved it to a submenu for visual balance".</li>
+    <li><strong>Targeting players by inferred vulnerability</strong> for any commercial purpose. If a client asks for a "high-loss-velocity" segment to send an offer to, decline and explain why.</li>
+    <li><strong>Personalising promotions to self-excluded or time-out players.</strong> Ensure any segment you build feeds a suppression list, never an inclusion list, where RG status is involved.</li>
+    <li><strong>Optimising the account-closure or self-exclusion flow for retention.</strong> Optimise it for <em>speed</em>. A regulator reading your deck should find nothing to object to.</li>
+    <li><strong>Capturing anything from the KYC document journey</strong> beyond entry, outcome, reason code and duration.</li>
+  </ul>
+
+  <div class="callout crit">
+    <div class="ci">Your line</div>
+    <div class="cc"><p>"I optimise for comprehension and speed, not for completion, on any journey with a regulatory purpose. If a player is meant to stop and think, my job is to make sure they understand what they are being asked &mdash; not to get more of them through it." Learn it, mean it, and use it the first time it is relevant. It will define how the account treats you for the rest of the engagement.</p></div>
+  </div>
+
+  <h2 class="st">Where regulation creates genuine opportunity</h2>
+  <p>The constraint is also the opening. Compliance-mandated journeys are almost universally badly designed, because they were built to satisfy a legal requirement at minimum cost and nobody has revisited them since.</p>
+  <div class="grid g2">
+    <div class="card"><h4>Make required friction legible</h4><p>Players abandon KYC because nobody told them why it is happening or how long it takes. A single explanatory sentence and a progress indicator can lift completion substantially <em>without</em> weakening the check &mdash; the player is still verified, they just understand what is happening. This is the cleanest kind of win available on a gambling account.</p></div>
+    <div class="card"><h4>Make RG tools genuinely usable</h4><p>Deposit limits are typically buried in account settings behind punitive language. Presenting them neutrally and accessibly increases adoption, which reduces harm, reduces regulatory risk, and correlates with longer, healthier player lifetimes. You can argue this commercially and ethically at the same time, which is rare.</p></div>
+    <div class="card"><h4>Prove compliance with evidence</h4><p>Operators must show that required messaging was displayed. Fullstory can evidence that an RG message rendered, was in the viewport, and was interacted with &mdash; genuine, dated, session-level proof. Offer this to the compliance team early; it is a use case they did not know existed and it wins you an internal champion in an unexpected department.</p></div>
+    <div class="card"><h4>Instrument the geolocation check</h4><p>In US states, the geolocation check fails routinely &mdash; VPNs, poor GPS, desktop browsers, corporate networks. Each failure is a lost session and a support contact. Nobody measures it. Instrument attempt, outcome, reason and retry, and you will have found a meaningful loss inside a week.</p></div>
+  </div>
+</section>

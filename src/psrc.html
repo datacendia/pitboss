@@ -1,0 +1,60 @@
+<section class="view" id="v-sources" data-part="VI &middot; Close" data-nav="34. Sources &amp; confidence" data-nonote="1">
+  <span class="eyebrow">Reference</span>
+  <h1 class="vt">What is verified, and what is judgement</h1>
+  <p class="lede">A reference you cannot audit is a reference you should not quote. This page states plainly which claims in this platform were checked against Fullstory's own documentation, which are reasoned from how the product works, and which are estimates you must not present as fact.</p>
+
+  <div class="callout warn">
+    <div class="ci">Date</div>
+    <div class="cc"><p>Product facts below were checked against Fullstory's live help centre and developer documentation on <strong>13 September 2026</strong>. Fullstory ships continuously. Before anything goes in front of a client, re-check the specific claim &mdash; and treat any statement here that is more than a quarter old as needing a look.</p></div>
+  </div>
+
+  <h2 class="st">Three tiers of claim</h2>
+  <div class="grid g3">
+    <div class="card" style="border-top:3px solid var(--pos)"><h4><span class="tag p">Verified</span></h4><p>Checked against Fullstory's own documentation on the date above. Safe to state to a client. Listed below with the source.</p></div>
+    <div class="card" style="border-top:3px solid var(--info)"><h4><span class="tag i">Reasoned</span></h4><p>Follows from how the product demonstrably works &mdash; the nine build patterns, the capture model's consequences, the analytical method. Stable, because it does not depend on a menu label. Say it with confidence; expect to explain your reasoning.</p></div>
+    <div class="card" style="border-top:3px solid var(--warn)"><h4><span class="tag w">Judgement</span></h4><p>Consulting experience encoded as advice: onboarding sequencing, archetype risks, benchmark ranges, what to say in a room. Useful, arguable, and <strong>not</strong> to be presented as fact. Attribute it to yourself, not to a source.</p></div>
+  </div>
+
+  <h2 class="st">Verified product facts and where they came from</h2>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Claim</th><th>Module</th><th>Source</th></tr></thead>
+    <tbody>
+      <tr><td>Session ends after 30 minutes of inactivity or 24 hours of active capture; a four-second gap counts as inactive within a session</td><td>1</td><td><a href="https://help.fullstory.com/hc/en-us/articles/360020624614-What-defines-a-session-in-Fullstory" target="_blank" rel="noopener">What defines a session in Fullstory?</a></td></tr>
+      <tr><td>Data model: events, pages, sessions, users</td><td>1, 4</td><td><a href="https://developer.fullstory.com/overview/data-model/" target="_blank" rel="noopener">Data Model &mdash; Developer Guide</a></td></tr>
+      <tr><td>Browser API v2 shape: <code>FS('setIdentity', {uid, properties})</code>, <code>FS('trackEvent', {name, properties})</code>, <code>FS('setProperties', …)</code></td><td>2, 3, 4</td><td><a href="https://developer.fullstory.com/browser/identification/identify-users/" target="_blank" rel="noopener">Identify Users &mdash; Browser V2</a></td></tr>
+      <tr><td>A user's identity cannot be changed once assigned via <code>setIdentity</code></td><td>3</td><td><a href="https://developer.fullstory.com/browser/identification/identify-users/" target="_blank" rel="noopener">Identify Users &mdash; Browser V2</a></td></tr>
+      <tr><td>Renaming the <code>FS</code> namespace when it collides with an existing global</td><td>2</td><td><a href="https://help.fullstory.com/hc/en-us/articles/360020624694-What-if-the-identifier-FS-is-used-by-another-script-on-my-site" target="_blank" rel="noopener">What if the identifier 'FS' is used by another script?</a></td></tr>
+      <tr><td>Privacy classes <code>fs-exclude</code>, <code>fs-mask</code>, <code>fs-unmask</code> and their consent variants</td><td>5</td><td><a href="https://help.fullstory.com/hc/en-us/articles/360020623574-How-do-I-protect-my-users-privacy-in-Fullstory" target="_blank" rel="noopener">How do I protect my users' privacy?</a></td></tr>
+      <tr><td>Excluded elements replay as diagonal grey-and-white striped rectangles; events targeting them are ignored entirely; their children cannot be masked or unmasked back in</td><td>5</td><td><a href="https://help.fullstory.com/hc/en-us/articles/360020623574-How-do-I-protect-my-users-privacy-in-Fullstory" target="_blank" rel="noopener">How do I protect my users' privacy?</a></td></tr>
+      <tr><td>Masked elements keep interaction events but lose text, so search must use CSS selectors</td><td>5, 4</td><td><a href="https://help.fullstory.com/hc/en-us/articles/360020623574-How-do-I-protect-my-users-privacy-in-Fullstory" target="_blank" rel="noopener">How do I protect my users' privacy?</a></td></tr>
+      <tr><td>The stricter rule wins where mask and unmask both match; exceptions are required</td><td>5</td><td><a href="https://help.fullstory.com/hc/en-us/articles/1500002888501-How-do-I-create-exceptions-to-element-data-capture-rules" target="_blank" rel="noopener">Exceptions to element data capture rules</a></td></tr>
+      <tr><td>Code-first privacy rules are Fullstory's own recommended approach over UI selectors</td><td>5</td><td><a href="https://help.fullstory.com/hc/en-us/articles/360020623574-How-do-I-protect-my-users-privacy-in-Fullstory" target="_blank" rel="noopener">How do I protect my users' privacy?</a></td></tr>
+      <tr><td>Private by Default behaviour; the Privacy Setup Checklist</td><td>5</td><td><a href="https://help.fullstory.com/hc/en-us/articles/360044349073-Fullstory-Private-by-Default" target="_blank" rel="noopener">Private by Default</a> &middot; <a href="https://help.fullstory.com/hc/en-us/articles/4408819704215-Privacy-Setup-Checklist" target="_blank" rel="noopener">Privacy Setup Checklist</a></td></tr>
+      <tr><td>Mobile privacy settings differ from web and are configured separately</td><td>2, 5</td><td><a href="https://help.fullstory.com/hc/en-us/articles/360044363513-How-to-Update-Mobile-Privacy-Settings-in-Fullstory" target="_blank" rel="noopener">Mobile Privacy Settings</a> &middot; <a href="https://help.fullstory.com/hc/en-us/articles/6938564321303-Disabling-Unmask-at-Root-for-Mobile-Apps" target="_blank" rel="noopener">Disabling Unmask at Root</a></td></tr>
+      <tr><td>Frustration signals are Rage Clicks, Dead Clicks, Error Clicks and Thrashed Cursor</td><td>9</td><td><a href="https://help.fullstory.com/hc/en-us/articles/360020624154-Rage-Clicks-Error-Clicks-Dead-Clicks-and-Thrashed-Cursor-Frustration-Signals" target="_blank" rel="noopener">Frustration Signals</a></td></tr>
+      <tr><td>Elements can be prevented from being classified as Rage or Dead Clicks, via settings or code</td><td>9</td><td><a href="https://help.fullstory.com/hc/en-us/articles/360020622734-Prevent-elements-from-being-classified-as-Rage-or-Dead-Clicks-via-Fullstory-Settings-or-via-code" target="_blank" rel="noopener">Prevent Rage / Dead Click classification</a></td></tr>
+      <tr><td>Warehouse sync is <strong>Anywhere: Warehouse</strong> (previously Data Direct / Data Destinations); destinations are Snowflake, BigQuery and Redshift, plus raw data to S3, GCS or Azure Blob; managed hourly sync; Ready to Analyze Views and Raw Data are the two shapes</td><td>10</td><td><a href="https://help.fullstory.com/hc/en-us/articles/6295300682903-Integrating-with-your-Data-Warehouse-or-Data-Lake" target="_blank" rel="noopener">Warehouse &mdash; Getting Started</a> &middot; <a href="https://developer.fullstory.com/anywhere/warehouse/ready-to-analyze-views/" target="_blank" rel="noopener">Ready to Analyze Views</a></td></tr>
+      <tr><td>Roles include Admin, Architect, Standard, Guest and Explorer; availability depends on plan; Umbrella Manager exists for multi-account groups</td><td>11</td><td><a href="https://help.fullstory.com/hc/en-us/articles/360020624774-What-user-roles-are-available-for-Fullstory-teammates" target="_blank" rel="noopener">User roles</a> &middot; <a href="https://help.fullstory.com/hc/en-us/articles/360020623834-Introduction-to-Umbrella-Management" target="_blank" rel="noopener">Umbrella Management</a></td></tr>
+      <tr><td>SSO and SCIM provisioning are supported</td><td>11</td><td><a href="https://help.fullstory.com/hc/en-us/articles/360020623014-How-do-I-configure-SSO" target="_blank" rel="noopener">Configure SSO</a> &middot; <a href="https://help.fullstory.com/hc/en-us/articles/30544962047383-Configuring-SCIM-for-Automated-User-Provisioning-in-Fullstory" target="_blank" rel="noopener">SCIM provisioning</a></td></tr>
+      <tr><td>Numbers legitimately differ between Fullstory and third-party analytics &mdash; Fullstory documents why</td><td>8, 22, Req 21</td><td><a href="https://help.fullstory.com/hc/en-us/articles/1500006760941-Why-do-I-see-different-numbers-in-Fullstory-and-a-third-party-tool" target="_blank" rel="noopener">Why do I see different numbers?</a></td></tr>
+      <tr><td>Replay depends on assets and styles still being reachable, so old sessions can drift after a site change</td><td>1, 6</td><td><a href="https://help.fullstory.com/hc/en-us/articles/360020625034-Will-old-sessions-still-work-after-I-change-my-website" target="_blank" rel="noopener">Will old sessions still work?</a></td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="callout tip">
+    <div class="ci">Use it</div>
+    <div class="cc"><p>Send a client the Fullstory link, not your slide, whenever the question is "is that actually true". Citing the vendor's own documentation ends a debate that citing yourself only prolongs &mdash; and the "Why do I see different numbers" article in particular will save you an afternoon with a sceptical BI team.</p></div>
+  </div>
+
+  <h2 class="st">What is explicitly not verified</h2>
+  <ul>
+    <li><strong>The specific UI steps inside the 153 build recipes.</strong> The <em>patterns</em> are reasoned from the data model and are stable. Any step naming a particular control, chart type or menu option was written from knowledge of the product, not from a screen. Check the current interface before you turn a recipe into a client-facing how-to guide.</li>
+    <li><strong>Plan-dependent limits.</strong> Retention periods, session quotas, which roles exist, and which products are included all vary by contract. Read the client's own account, never this platform.</li>
+    <li><strong>Every benchmark range.</strong> See the confidence tag on each KPI, and the explanation in the encyclopedia's header.</li>
+    <li><strong>Regulatory detail.</strong> The regulatory module is oriented correctly and is not legal advice. Licence conditions change; the client's compliance team is the authority, and saying so out loud costs you nothing and buys you a great deal.</li>
+    <li><strong>Vendor lists.</strong> The platform, PSP, KYC and CRM names in the systems module are representative of the market, not a verified current list of any client's stack.</li>
+  </ul>
+
+  <h2 class="st">Keeping it honest</h2>
+  <p>When you find something in here that is wrong &mdash; and you will, because you will be using the product daily and this was written without it in front of me &mdash; fix it in the file rather than working around it. The two places that matter are <code>data-kpi-build.js</code> for recipes and the relevant module section in <code>index.html</code>. Then update the date at the top of this page so the next person knows how fresh it is.</p>
+</section>

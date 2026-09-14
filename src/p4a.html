@@ -1,0 +1,103 @@
+<!-- ============================ BUILDER ============================ -->
+<section class="view" id="v-builder" data-part="III &middot; Onboarding" data-nav="23. Onboarding plan generator" data-nonote="1">
+  <span class="eyebrow">Part III &middot; Tool</span>
+  <h1 class="vt">Onboarding plan generator</h1>
+  <p class="lede">Describe the client; get a sequenced plan, a scoped instrumentation list, the KPI set, the requirements most likely to come up, and the risks to raise in the kick-off. Adjust it, do not obey it &mdash; it encodes judgement, not law.</p>
+
+  <div class="builder">
+    <div class="bform">
+      <div class="bfield"><label for="b-vertical">Primary vertical</label>
+        <select id="b-vertical">
+          <option value="casino">Online casino</option>
+          <option value="sportsbook">Sportsbook</option>
+          <option value="both">Sportsbook + casino</option>
+          <option value="poker">Poker / bingo</option>
+          <option value="lottery">Lottery / instant win</option>
+          <option value="social">Social / F2P gaming</option>
+        </select></div>
+
+      <div class="bfield"><label for="b-scale">Scale</label>
+        <select id="b-scale">
+          <option value="tier1">Tier 1 &mdash; multi-brand group</option>
+          <option value="mid" selected>Mid-market &mdash; 1&ndash;2 brands</option>
+          <option value="challenger">Challenger / startup</option>
+          <option value="b2b">B2B platform / aggregator</option>
+        </select></div>
+
+      <div class="bfield"><label for="b-platform">Platform ownership</label>
+        <select id="b-platform">
+          <option value="inhouse">In-house &mdash; we control everything</option>
+          <option value="hybrid" selected>Hybrid &mdash; own front end, provider cashier</option>
+          <option value="whitelabel">White label &mdash; provider owns most of it</option>
+        </select></div>
+
+      <div class="bfield"><label for="b-dev">Developer capacity</label>
+        <select id="b-dev">
+          <option value="high">High &mdash; a dedicated squad</option>
+          <option value="medium" selected>Medium &mdash; tickets into a shared backlog</option>
+          <option value="none">None &mdash; tag manager only</option>
+        </select></div>
+
+      <div class="bfield"><label for="b-surface">Dominant surface</label>
+        <select id="b-surface">
+          <option value="mweb" selected>Mobile web</option>
+          <option value="app">Native app</option>
+          <option value="desktop">Desktop web</option>
+        </select></div>
+
+      <div class="bfield"><label for="b-market">Regulatory market</label>
+        <select id="b-market">
+          <option value="gb" selected>Great Britain (UKGC)</option>
+          <option value="eu">EU / Malta</option>
+          <option value="us">United States (state level)</option>
+          <option value="ca">Ontario</option>
+          <option value="multi">Multi-market</option>
+          <option value="none">Unregulated / social</option>
+        </select></div>
+
+      <div class="bfield"><label for="b-goal">Primary goal</label>
+        <select id="b-goal">
+          <option value="acq" selected>Acquisition &mdash; more first deposits</option>
+          <option value="dep">Payments &mdash; deposit success rate</option>
+          <option value="ret">Retention &mdash; keep players longer</option>
+          <option value="tech">Technical quality &mdash; errors and speed</option>
+          <option value="support">Cost to serve &mdash; fewer contacts</option>
+          <option value="compliance">Compliance assurance &amp; RG</option>
+        </select></div>
+
+      <div class="bfield"><label for="b-bi">BI / warehouse maturity</label>
+        <select id="b-bi">
+          <option value="mature">Mature &mdash; warehouse and a data team</option>
+          <option value="some" selected>Some &mdash; reporting exists, thin resource</option>
+          <option value="none">None &mdash; spreadsheets and the platform's reports</option>
+        </select></div>
+
+      <button class="btn" id="b-run" style="width:100%;margin-top:6px">Generate plan</button>
+      <button class="btn ghost" id="b-copy" style="width:100%;margin-top:8px">Copy plan as text</button>
+    </div>
+
+    <div class="bout" id="b-out"></div>
+  </div>
+</section>
+
+<!-- ============================ PART IV ============================ -->
+<section class="view" id="v-requirements" data-part="IV &middot; Requirements" data-nav="24. The requirements library" data-nonote="1">
+  <span class="eyebrow">Part IV &middot; Library</span>
+  <h1 class="vt">Thirty-five things clients ask for</h1>
+  <p class="lede">Phrased the way they actually say it, decoded into what it means, and answered with the exact Fullstory configuration, the KPI it moves, and the deliverable you hand back. Filter by theme or search.</p>
+
+  <div class="toolbar">
+    <button class="chip on" data-rfilter="all">All</button>
+    <button class="chip" data-rfilter="acquisition">Acquisition</button>
+    <button class="chip" data-rfilter="payments">Payments</button>
+    <button class="chip" data-rfilter="engagement">Engagement</button>
+    <button class="chip" data-rfilter="technical">Technical</button>
+    <button class="chip" data-rfilter="retention">Retention</button>
+    <button class="chip" data-rfilter="compliance">Compliance</button>
+    <button class="chip" data-rfilter="org">Org &amp; adoption</button>
+    <input type="text" id="r-search" placeholder="Filter requirements&hellip;">
+    <span class="count" id="r-count"></span>
+  </div>
+  <div id="r-list"></div>
+</section>
+

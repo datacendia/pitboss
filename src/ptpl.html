@@ -1,0 +1,375 @@
+<section class="view" id="v-templates" data-part="III &middot; Onboarding" data-nav="24. Deliverable templates" data-nonote="1">
+  <span class="eyebrow">Part III &middot; Toolkit</span>
+  <h1 class="vt">The nine artefacts you will actually hand over</h1>
+  <p class="lede">Every one of these is referenced somewhere else in this platform as "the deliverable". Here they are. Hover any block and press Copy, or take the whole pack as a Markdown file. Replace everything in square brackets; delete any row that does not apply rather than leaving it blank.</p>
+
+  <div class="toolbar">
+    <button class="btn" id="tpl-download">Download all nine as Markdown</button>
+    <span class="count" id="tpl-note">Each block copies individually too</span>
+  </div>
+  <div id="tpl-fallback" hidden></div>
+
+  <h2 class="st">1. Kick-off agenda</h2>
+  <p>Ninety minutes, the whole room, before any access is granted. The purpose is not to present &mdash; it is to surface the constraints that will otherwise ambush you in week six.</p>
+<pre><code>FULLSTORY ONBOARDING — KICK-OFF
+[Client] · [Date] · 90 minutes
+
+ATTENDEES REQUIRED
+  Exec sponsor · Product owner (cashier) · Front-end lead
+  BI / data lead · DPO or compliance · Marketing/acquisition
+  Platform provider account manager (if white label)
+
+1. Outcomes (10 min)
+   What must be true in 90 days for this to be a success?
+   Whose KPI moves? Who signs off a fix once we find one?
+
+2. Commercial picture (15 min)
+   Verticals, markets, brands, revenue mix
+   The two or three numbers the board watches weekly
+   Current reg-to-FTD and deposit success rate
+   Cost per FTD
+
+3. Technical reality (25 min)
+   Which pages can you deploy JavaScript to WITHOUT a third party?
+   SPA or server-rendered? Router? Tag manager? Who approves publishes?
+   CSP change process · Consent platform and category
+   Native apps: platforms, release cadence, webview surfaces
+   Who owns the cashier, registration and game launcher?
+
+4. Data (15 min)
+   Warehouse and owner
+   The identifier that links a web session to a player record
+   Existing tracking plan · Existing analytics and who trusts it
+
+5. Privacy and compliance (15 min)
+   DPO sign-off route and timeline
+   Data residency constraints from any licence held
+   Retention period the client would defend to a regulator
+   JOURNEYS WITH MANDATED FRICTION THAT MUST NOT BE
+   OPTIMISED FOR COMPLETION — list them explicitly
+
+6. Next steps (10 min)
+   Named owner per workstream · Date for instrumentation spec
+   Date for privacy sign-off · Date of first finding
+
+CLOSING STATEMENT (say this out loud)
+  "On any journey with a regulatory purpose I optimise for
+   comprehension and speed, not completion. If a player is meant
+   to stop and think, my job is to make sure they understand what
+   they are being asked — not to get more of them through it."</code></pre>
+
+  <h2 class="st">2. Instrumentation specification</h2>
+  <p>The single most important document you will write. A developer must be able to implement from it without asking you one question. One row per event; do not ship a spec that lists only event names.</p>
+<pre><code>INSTRUMENTATION SPECIFICATION — [Client] — v[n] — [Date]
+
+CONVENTIONS
+  Event names   Title Case, describing what happened
+  Properties    camelCase
+  Numerics      Bucketed. Never send raw amounts, stakes or balances.
+  Join keys     Every commercially significant event carries an ID
+                the warehouse also holds (depositId, betId).
+  Never send    Names, emails, card data, document numbers, DOB,
+                addresses, free text typed by the player, RG risk
+                scores or vulnerability classifications.
+
+IDENTITY
+  Call          FS('setIdentity', { uid, properties })
+  uid           Salted server-side hash of the internal player ID
+  Salt held by  [Client], never by [Agency]
+  Fires on      Login AND persistent-session restore
+  WARNING       Identity cannot be changed once assigned. Sign off
+                the key with the BI lead before a line is written.
+
+EVENT: [Deposit Outcome]
+  Trigger       [Fires when the PSP response is received and the
+                 result is rendered to the player]
+  Page/surface  [Cashier — all entry points]
+  Server-side?  [Yes — authoritative outcome also sent via Events API]
+  Property           Type     Allowed values / example      Feeds KPI
+  outcome            string   success | failed | pending    Deposit success rate
+  declineReason      string   [mapped list — attach]        Decline league table
+  providerCode       string   raw PSP code                  Issuer analysis
+  provider           string   [Trustly|Worldpay|…]          Provider comparison
+  paymentMethod      string   [card|applepay|paypal|…]      Method mix
+  depositAmountBucket string  0-9 | 10-24 | 25-49 | …       Value distribution
+  attemptNumber      integer  1,2,3…                        Friction proxy
+  secondsElapsed     integer  seconds since Cashier Opened  Time to deposit
+  threeDsUsed        boolean  true|false                    3DS challenge rate
+  threeDsOutcome     string   completed|abandoned|failed    3DS completion
+  isFirstDeposit     boolean  true|false                    FTD analysis
+  depositId          string   join key to warehouse         NGR attribution
+
+[repeat per event — see the taxonomy module for the full list]
+
+ELEMENT NAMING
+  Pattern       data-fs-element="Area / Component / Action"
+  Required on   Cashier confirm, method tiles, registration step CTAs,
+                betslip place-bet, game tiles, RG tool entry points
+  Why           Locale-independent, survives CSS-in-JS rebuilds, and
+                masked regions can only be searched by selector.
+
+ACCEPTANCE CRITERIA
+  [ ] Every event fires once and only once per real occurrence
+  [ ] Property types match this spec exactly
+  [ ] No raw monetary values anywhere in the payload
+  [ ] Verified in staging with a replay walkthrough
+  [ ] Volume reconciled against [client analytics] within 15%</code></pre>
+
+  <h2 class="st">3. Data Capture Statement</h2>
+  <p>One page. Closes the DPO conversation permanently and is the most reused artefact you will build. Re-issue it after every significant redesign.</p>
+<pre><code>DATA CAPTURE STATEMENT — [Client] — [Date] — v[n]
+
+PURPOSE
+  Behavioural analytics and session replay to diagnose and improve
+  the customer experience. Lawful basis: [legitimate interests /
+  consent] as assessed by [Client] in [DPIA reference].
+
+ROLES
+  Controller [Client] · Processor Fullstory · DPA [reference/date]
+  Data residency [region] · Retention [n] months
+
+WHAT IS CAPTURED
+  Page structure and its changes; clicks, taps, scrolls, navigation;
+  form interaction (which field, how long, whether completed);
+  console and JavaScript errors; network request timing;
+  custom events listed in the instrumentation specification.
+
+WHAT IS NOT CAPTURED
+  Values typed into inputs (private by default and not overridden).
+  Excluded entirely (fs-exclude):
+    card number, expiry, CVV, cardholder name; bank details;
+    national insurance / tax IDs; passport and licence numbers and
+    images; source-of-funds documents; full DOB; full address;
+    passwords, security answers, one-time codes;
+    free text typed by the player into support chat.
+  Masked (fs-mask — structure kept, content obfuscated):
+    player name and username; account, bonus and withdrawable
+    balances; transaction and bet history amounts; email address
+    where rendered; partial card display; player-set limit values.
+  NEVER SENT AS PROPERTIES
+    Markers-of-harm scores, risk bands, vulnerability
+    classifications or intervention history.
+
+RESPONSIBLE GAMBLING DATA
+  Interaction with RG tools is captured (that a tool was opened,
+  what action was taken). Inferred risk or harm is not captured and
+  no segment is built to target players by inferred vulnerability.
+
+ACCESS
+  Replay access restricted to [named group, n people].
+  Reviewed quarterly. Last review [date].
+
+DELETION
+  Player erasure executed via the Fullstory server-side Users API.
+  Owner [name, role]. SLA [n] days from DSAR receipt.
+  Runbook [link]. Last tested [date].
+
+ASSURANCE
+  Masking verified in production on [date] by [name].
+  Evidence pack [link]. Next audit due [date].
+
+Signed  [Client DPO] ............  [Agency lead] ............</code></pre>
+
+  <h2 class="st">4. Metric definitions &amp; reconciliation note</h2>
+  <p>Produce this in week five, before anyone makes a decision on the data. It is the document that stops the "your number is wrong" conversation from ever happening.</p>
+<pre><code>METRIC DEFINITIONS & RECONCILIATION — [Client] — [Date]
+
+METRIC  [Deposit success rate]
+  Fullstory definition
+    Scope        Session
+    Numerator    Deposit Outcome where outcome = success
+    Denominator  Deposit Attempted
+    Window       Same session
+    Exclusions   Internal IP ranges, known bots, [staging traffic]
+  [Client BI] definition
+    Numerator    [settled deposits in ledger]
+    Denominator  [transactions submitted to PSP]
+    Window       [calendar day]
+    Exclusions   [reversals, test accounts]
+  Observed on [date], same 24h window
+    Fullstory [68.2%]   BI [61.4%]   Gap [6.8pp]
+  Gap explained by
+    1. [BI counts PSP-submitted only; Fullstory counts player
+       attempts including those failing before submission — 4.1pp]
+    2. [Consent-suppressed sessions absent from Fullstory — 1.9pp]
+    3. [Residual, unexplained — 0.8pp, accepted]
+  AGREED
+    For [UX diagnosis] use the Fullstory definition.
+    For [financial reporting] use the BI definition.
+    Neither is wrong. They answer different questions.
+
+  Fullstory publishes guidance on why these differ:
+  help.fullstory.com — "Why do I see different numbers in
+  Fullstory and a third-party tool?"
+
+Signed  [BI lead] ............  [Agency lead] ............</code></pre>
+
+  <h2 class="st">5. Quantified opportunity one-pager</h2>
+  <p>The unit of value you sell. One page per finding. Never present a replay without one of these attached.</p>
+<pre><code>OPPORTUNITY — [Apple Pay deposits fail silently on iOS 17]
+[Client] · [Date] · Owner [name] · Ref [OPP-024]
+
+WHAT HAPPENS
+  [One sentence a non-technical executive can repeat.]
+
+EVIDENCE
+  Replays   [3 links, with timestamps and what to watch for]
+  Segment   [exact definition]
+  Scale     [4,100 sessions/month · 2,900 distinct players]
+
+IMPACT
+  Affected players convert at  [31%]
+  Matched control converts at  [58%]
+  Gap                          [27pp]
+  Value per player             [£{client ARPU figure}] — source:
+                               [Client finance, {date}]
+  Estimated annualised         [£180k – £340k NGR]
+  CAUSALITY  Correlational. The control is matched on [device,
+  tenure, market] but not randomised. Range reflects that.
+
+FIX
+  Proposed   [what to change]
+  Effort     [T-shirt size, per client's engineering]
+  Risk       [what could go wrong]
+  Regulatory [none / touches a mandated journey — see note]
+
+MEASUREMENT
+  Primary    [deposit success rate, Apple Pay, iOS]
+  Baseline   [31%, 30-day trailing to {date}]
+  Read at    [14 days post-release]
+  Dashboard  [link]</code></pre>
+
+  <h2 class="st">6. Provider SLA report (casino)</h2>
+  <p>Commercial leverage disguised as a technical report. Operators pay revenue share to game providers with almost no objective quality data; you are supplying it.</p>
+<pre><code>GAME PROVIDER QUALITY REPORT — [Client] — [Month]
+
+METHOD
+  Client-side measurement of game launch outcomes captured in
+  Fullstory. Launch = Game Launched event. Success = Game Load
+  Outcome with outcome=success. Time to playable measured to the
+  provider's ready callback where available, otherwise to iframe
+  load (noted per provider).
+
+  Provider    Launches  Success  P50 load  P90 load  <60s exit
+  [Provider A]  412,880   99.1%     2.4s      5.1s      18%
+  [Provider B]  318,440   96.3%     4.9s     14.2s      34%
+  [Provider C]  ...
+
+BY DEVICE — [Provider B]
+  iOS            98.1%   ·  Android (flagship)  97.4%
+  Android (mid)  91.2%   ·  Desktop             99.0%
+
+TOP FAILING TITLES — [Provider B]
+  [Game]  [failure rate]  [top error code]  [sessions affected]
+
+COMMERCIAL CONTEXT
+  [Provider B] carries [x%] of launches and [y%] of revenue at a
+  failure rate [z] times the portfolio average. Estimated lost
+  sessions [n]/month; estimated NGR impact [range], using
+  [Client]'s NGR-per-active figure of [£].
+
+ASKS OF THE PROVIDER
+  1. [Ready callback exposed so time-to-playable is measurable]
+  2. [Mid-range Android performance plan with dates]
+  3. [Error code documentation]
+
+NOTE  Measured from the player's browser, so it includes network
+and device conditions the provider does not control. It is
+therefore a measure of PLAYER EXPERIENCE, not of provider uptime.
+Both matter; be explicit about which this is.</code></pre>
+
+  <h2 class="st">7. Privacy audit evidence log</h2>
+  <p>Ten minutes per audit, and it is what you produce when someone asks "how do you know nothing sensitive was captured". Do it within 24 hours of go-live, then after every significant release.</p>
+<pre><code>PRIVACY AUDIT — [Client] — [Date] — Auditor [name]
+Trigger  [Go-live / release {ref} / quarterly]
+
+METHOD  A real session walked on [environment], then replayed and
+inspected. Screenshots attached per row.
+
+  Surface                        Expected        Observed   Evidence
+  Registration — all fields      Values private  [PASS]     [img]
+  Registration — DOB             Excluded        [PASS]     [img]
+  KYC — document upload          Excluded        [PASS]     [img]
+  KYC — outcome message          Captured        [PASS]     [img]
+  Cashier — card fields          Excluded        [PASS]     [img]
+  Cashier — confirm button       CLICK CAPTURED  [PASS]     [img]
+  Account — player name          Masked          [PASS]     [img]
+  Account — balance              Masked          [PASS]     [img]
+  Bet/transaction history        Masked          [PASS]     [img]
+  Support chat — typed message   Excluded        [PASS]     [img]
+  RG — limit values              Masked          [PASS]     [img]
+  RG — tool interaction          Captured        [PASS]     [img]
+
+FAILURES FOUND  [none / detail + ticket ref + remediation date]
+
+NOTE  Masking is applied at capture time and is NOT retrospective.
+Any failure above requires deletion of affected data as well as a
+code fix. Deletion ticket [ref].
+
+Next audit due  [date]</code></pre>
+
+  <h2 class="st">8. Enablement plan</h2>
+  <p>Adoption is the renewal. Hand this to the sponsor in week four so the diary invitations go out before anyone is busy.</p>
+<pre><code>ENABLEMENT PLAN — [Client] — [Dates]
+
+  Audience          Length  Date   Champion      Leave-behind
+  Analysts / CRO    3h      [ ]    [name]        Workbook, 5 solved questions
+  Product managers  90m     [ ]    [name]        Their own area dashboard
+  UX / design       90m     [ ]    [name]        Playlist template
+  Front-end eng     60m     [ ]    [name]        Their top-10 defect list
+  Support / ops     45m     [ ]    [name]        Desk lookup card
+  Payments          60m     [ ]    [name]        Payments dashboard + alert
+  CRM / retention   60m     [ ]    [name]        2 working trigger segments
+  Compliance        45m     [ ]    [name]        Data Capture Statement
+  Executives        20m     [ ]    [name]        Bookmarked exec dashboard
+
+PRE-BUILT BEFORE ANY SESSION
+  [ ] 15 day-one segments, named [Area] Description — scope
+  [ ] 4 core funnels  [ ] Audience dashboards  [ ] 3 alerts
+
+OFFICE HOURS  [4 consecutive weeks, 30 min, drop-in, no agenda]
+
+ADOPTION TRACKING (report monthly)
+  Weekly active users by team
+  Objects created BY THE CLIENT  ← the metric that matters
+  % support tickets carrying a replay link
+  Findings presented internally by client staff, not by us</code></pre>
+
+  <h2 class="st">9. Quarterly business review</h2>
+  <p>Assume a new sponsor every second QBR &mdash; digital leadership in gambling turns over fast. Write it so someone who has never met you can follow it.</p>
+<pre><code>QUARTERLY BUSINESS REVIEW — [Client] — [Quarter]
+
+1. THE NUMBER
+   [One sentence: cumulative quantified value delivered, using the
+   client's own value figures, with the range and the caveat.]
+
+2. WHAT MOVED
+   KPI                Baseline  Now    Change  What we changed
+   [Deposit success]  [ ]       [ ]    [ ]     [OPP-024 shipped {date}]
+   [Reg completion]   [ ]       [ ]    [ ]     [ ]
+
+3. WHAT WE FOUND AND YOU SHIPPED
+   [3 findings, one line each, with the ticket reference.]
+
+4. WHAT WE FOUND AND YOU HAVE NOT SHIPPED
+   [Be direct. Ranked by value. This is the slide that creates
+   urgency, and leaving it out makes the next quarter harder.]
+
+5. ADOPTION
+   Weekly actives by team · Client-created objects · Replay links
+   on tickets · Teams that have gone quiet and what we will do
+
+6. HEALTH
+   Quota burn vs contract period · Seat utilisation
+   Last masking audit · Last access review · Retention setting
+
+7. NEXT QUARTER
+   Three priorities, each with an owner on the client side.
+
+APPENDIX  Metric definitions · Data Capture Statement · Evidence</code></pre>
+
+  <div class="callout tip">
+    <div class="ci">Habit</div>
+    <div class="cc"><p>Fill these in <em>during</em> the engagement, not at the end of it. The kick-off agenda, instrumentation spec and Data Capture Statement are week-one-and-two documents; the reconciliation note is week five; the opportunity one-pager is every fortnight. A QBR assembled from documents that already exist takes an hour. One assembled from memory takes two days and is worse.</p></div>
+  </div>
+</section>

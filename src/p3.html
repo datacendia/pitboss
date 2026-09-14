@@ -1,0 +1,323 @@
+<!-- ============================ PART III ============================ -->
+<section class="view" id="v-framework" data-part="III &middot; Onboarding" data-nav="18. The onboarding framework">
+  <span class="eyebrow">Part III &middot; Module 18</span>
+  <h1 class="vt">Six phases, ninety days</h1>
+  <p class="lede">One framework, adapted per client. The sequence matters more than the timings: skipping discovery to get the tag live faster is the most common and most expensive mistake in this work, because every wrong decision made in week one is still being paid for in month six.</p>
+
+  <div class="bout">
+    <div class="phase"><h4><span class="wk">Week 0&ndash;1</span> Phase 1 &mdash; Discover</h4><div class="pb">
+      <p><strong>Goal:</strong> know the business, the stack, the politics and the constraints before touching anything.</p>
+      <ul>
+        <li>Commercial discovery: verticals, markets, brands, revenue mix, the two or three numbers the board watches</li>
+        <li>Technical discovery: deployment surfaces, tag manager, CSP, CMP, SPA or server-rendered, app estate, platform provider boundaries</li>
+        <li>Data discovery: warehouse, the player identifier, who owns BI, what already exists in GA4 or Amplitude</li>
+        <li>Stakeholder map: who decides, who blocks, who will champion, who was not told this was happening</li>
+        <li>Compliance discovery: DPO, data residency, retention appetite, sign-off route</li>
+        <li>Current-state pain: the top three things that frustrate the team today, in their words</li>
+      </ul>
+      <p><strong>Output:</strong> Discovery summary, stakeholder map, constraints register, draft success criteria.</p>
+    </div></div>
+
+    <div class="phase"><h4><span class="wk">Week 1&ndash;2</span> Phase 2 &mdash; Design</h4><div class="pb">
+      <p><strong>Goal:</strong> decide everything before a developer writes a line, so the build is a single pass.</p>
+      <ul>
+        <li>Account structure: one org or several, brand and market property model, environment separation</li>
+        <li>Instrumentation spec: full event and property table with triggers, types and example values</li>
+        <li>Privacy design: the exclusion and masking list, walked page by page, signed by the DPO</li>
+        <li>Identity design: the hashed uid, where it is computed, how it joins to the warehouse</li>
+        <li>Measurement plan: which KPIs, which funnels, which dashboards, for which audience</li>
+        <li>Rollout plan: environments, phases, go-live criteria</li>
+      </ul>
+      <p><strong>Output:</strong> Instrumentation spec, Data Capture Statement, measurement plan, signed privacy design.</p>
+    </div></div>
+
+    <div class="phase"><h4><span class="wk">Week 2&ndash;4</span> Phase 3 &mdash; Deploy</h4><div class="pb">
+      <p><strong>Goal:</strong> capture running correctly and provably safely.</p>
+      <ul>
+        <li>Snippet or SDK to staging; CSP and CMP configured</li>
+        <li>Identity wiring and verification against the warehouse key</li>
+        <li>SPA page rules; element naming on key controls</li>
+        <li>Custom events implemented, in priority order: money flows first, engagement second, content last</li>
+        <li>Privacy audit in staging, then production within 24 hours of go-live &mdash; screenshotted for the file</li>
+        <li>Volume reconciliation against the client's own analytics</li>
+      </ul>
+      <p><strong>Output:</strong> Capture live, QA report, privacy audit evidence pack.</p>
+    </div></div>
+
+    <div class="phase"><h4><span class="wk">Week 4&ndash;6</span> Phase 4 &mdash; Validate</h4><div class="pb">
+      <p><strong>Goal:</strong> prove the data is trustworthy before anyone makes a decision on it.</p>
+      <ul>
+        <li>Build the day-one segment library and the four core funnels</li>
+        <li>Reconcile: Fullstory deposit success versus the payments team's own figure. Explain every gap or you will be ambushed later</li>
+        <li>Build the audience dashboards; agree definitions in writing</li>
+        <li>Configure the first three alerts and tune thresholds</li>
+        <li><strong>Deliver the first finding.</strong> Non-negotiable. Error clicks are the reliable source</li>
+      </ul>
+      <p><strong>Output:</strong> Reconciliation note, segment and funnel library, dashboards, first quantified finding.</p>
+    </div></div>
+
+    <div class="phase"><h4><span class="wk">Week 5&ndash;9</span> Phase 5 &mdash; Enable</h4><div class="pb">
+      <p><strong>Goal:</strong> make it theirs. This is the phase that determines renewal.</p>
+      <ul>
+        <li>Role-based training: separate sessions for analysts, product, engineering, support, executives</li>
+        <li>A one-page quick-reference per role, in their language, not Fullstory's</li>
+        <li>Integrations that create habit: support ticket replay links, Jira, experimentation variants</li>
+        <li>Office hours weekly for four weeks &mdash; drop-in, no agenda. Catches every silent misunderstanding</li>
+        <li>Name and equip an internal champion per team</li>
+      </ul>
+      <p><strong>Output:</strong> Trained teams, quick-reference cards, live integrations, named champions.</p>
+    </div></div>
+
+    <div class="phase"><h4><span class="wk">Week 8&ndash;12+</span> Phase 6 &mdash; Embed</h4><div class="pb">
+      <p><strong>Goal:</strong> turn a tool into a working rhythm.</p>
+      <ul>
+        <li>A recurring insight cadence &mdash; fortnightly findings, monthly review, quarterly business review</li>
+        <li>Fullstory evidence made mandatory in the client's own bug and discovery templates</li>
+        <li>Data Direct to the warehouse and the first NGR-joined analysis</li>
+        <li>Governance: naming conventions, an owner per dashboard, a quarterly access and masking review</li>
+        <li>An opportunity backlog, quantified and prioritised, that the client's roadmap actually draws from</li>
+      </ul>
+      <p><strong>Output:</strong> Operating rhythm, warehouse join, governance model, quantified backlog.</p>
+    </div></div>
+  </div>
+
+  <div class="callout tip">
+    <div class="ci">Rule</div>
+    <div class="cc"><p><strong>A finding in week four or the account never recovers.</strong> Clients judge the tool by whether it told them something they did not know, quickly. Hold a known easy win in reserve from the first day of capture &mdash; an error click cluster, a dead-click promotion, a mobile rage-click hotspot &mdash; and deliver it the moment the data is credible enough to defend.</p></div>
+  </div>
+</section>
+
+<section class="view" id="v-archetypes" data-part="III &middot; Onboarding" data-nav="19. Six client archetypes">
+  <span class="eyebrow">Part III &middot; Module 19</span>
+  <h1 class="vt">Six archetypes and how each one actually goes</h1>
+  <p class="lede">The framework is constant; the emphasis, the risks and the politics are not. Find your client here before you write the plan.</p>
+
+  <details class="req" open><summary><span class="rnum">A</span><span class="rq">Tier-1 multi-brand group<em>Several brands, several markets, in-house engineering, a mature BI function, and a compliance team with veto power.</em></span></summary>
+    <div class="dbody">
+      <div class="reqgrid">
+        <div><h5>Shape</h5><p>Sportsbook plus casino, 3&ndash;8 brands, in-house React front end, own platform or deep platform partnership, Snowflake, a real data team. Hundreds of people could use the tool.</p></div>
+        <div><h5>What is hard</h5><p>Politics, not technology. Every brand has its own product owner and its own view. Compliance sign-off is a real gate with a real queue. Nothing ships without going through change management.</p></div>
+        <div><h5>Emphasis</h5><p>Spend double the normal time in Discover and Design. Get the account structure and the brand property model right &mdash; migrating later is brutal. Win the BI lead early; they decide whether this becomes strategic or stays a UX toy.</p></div>
+        <div><h5>Timeline</h5><p>12&ndash;16 weeks to Embed. Do not promise faster; you will miss it and spend the rest of the engagement apologising.</p></div>
+        <div><h5>First win</h5><p>A cross-brand comparison nobody has ever been able to run &mdash; the same funnel, five brands, side by side. It is politically explosive and commercially irresistible.</p></div>
+        <div><h5>Risk</h5><p>Becoming the tool of one department. Insist on a cross-functional steering group from week one, or you will be renewed by one budget holder and cancelled by their successor.</p></div>
+      </div>
+    </div>
+  </details>
+
+  <details class="req"><summary><span class="rnum">B</span><span class="rq">Mid-market casino on a white-label platform<em>One or two brands, marketing-led, minimal in-house dev, and a platform provider who owns the cashier.</em></span></summary>
+    <div class="dbody">
+      <div class="reqgrid">
+        <div><h5>Shape</h5><p>Casino only, one or two markets, small team, everything outsourced. The client owns the CMS pages and the brand skin; the provider owns registration, cashier and the game launcher.</p></div>
+        <div><h5>What is hard</h5><p>You cannot deploy where the money is. The provider has no contractual incentive to help and will quote for the work.</p></div>
+        <div><h5>Emphasis</h5><p>Establish the deployment boundary in the first call. Then maximise what GTM can reach, and instrument the <em>edges</em> of the black box: every entry into the cashier and every return from it, with the outcome the page displays. Build the business case for provider cooperation with the data you can get.</p></div>
+        <div><h5>Timeline</h5><p>4&ndash;6 weeks to Validate, then a long tail waiting on the provider.</p></div>
+        <div><h5>First win</h5><p>Lobby and game discovery &mdash; entirely within the client's control, immediately actionable, and usually badly broken. Zero-result searches and dead promotional tiles are reliable finds.</p></div>
+        <div><h5>Risk</h5><p>Scope frustration. Be explicit and repeated about what is out of reach, in writing, or you will be blamed for the provider's boundary.</p></div>
+      </div>
+    </div>
+  </details>
+
+  <details class="req"><summary><span class="rnum">C</span><span class="rq">App-first sportsbook<em>Native iOS and Android carry most of the revenue; in-play is the product; release cycles are slow.</em></span></summary>
+    <div class="dbody">
+      <div class="reqgrid">
+        <div><h5>Shape</h5><p>70&ndash;85% of turnover through the apps. A hybrid build with native shell and webviews for cashier and account. Traffic spikes violently around fixtures.</p></div>
+        <div><h5>What is hard</h5><p>Mobile instrumentation ships with app releases, so you get one shot per cycle. Webview and native session linkage is fiddly. Privacy defaults on mobile are the opposite of web and must be audited carefully.</p></div>
+        <div><h5>Emphasis</h5><p>Front-load the mobile event schema and get it fully reviewed &mdash; you cannot iterate weekly. Instrument betslip and in-play latency above everything else. Plan capture volume around the fixture calendar.</p></div>
+        <div><h5>Timeline</h5><p>Web in 4 weeks; app instrumentation paced to their release train, realistically 8&ndash;14 weeks.</p></div>
+        <div><h5>First win</h5><p>Betslip abandonment on mobile web, delivered while the app work is in the release queue. Also: price-change rejection rate, which almost no sportsbook measures from the player's side.</p></div>
+        <div><h5>Risk</h5><p>Quota burn on a big fixture weekend. Configure sampling and alerts before the first major event, not after.</p></div>
+      </div>
+    </div>
+  </details>
+
+  <details class="req"><summary><span class="rnum">D</span><span class="rq">Social / free-to-play game studio<em>No real-money gambling, so lighter regulation &mdash; and completely different economics.</em></span></summary>
+    <div class="dbody">
+      <div class="reqgrid">
+        <div><h5>Shape</h5><p>Mobile-first, sometimes web canvas. Revenue from IAP and rewarded advertising. 1&ndash;3% of players pay. Product managers are already fluent in analytics.</p></div>
+        <div><h5>What is hard</h5><p>The game itself is canvas or engine-rendered, so replay shows almost nothing of gameplay. The team has a sophisticated event pipeline already and will ask what Fullstory adds.</p></div>
+        <div><h5>Emphasis</h5><p>Position Fullstory around the <em>non-game</em> surfaces &mdash; onboarding, the store, offers, settings, support &mdash; which is where monetisation and churn actually break and where their existing telemetry is thinnest. Focus on first-session experience and the IAP funnel.</p></div>
+        <div><h5>Timeline</h5><p>3&ndash;5 weeks; these teams move fast and have their own instrumentation habits.</p></div>
+        <div><h5>First win</h5><p>First-session drop-off at a specific tutorial step, with replays showing exactly what confused people. Their aggregate funnel already shows the drop; nobody has been able to see the cause.</p></div>
+        <div><h5>Risk</h5><p>Being treated as a duplicate of their existing analytics. Draw the line hard: aggregate tools tell them where, this tells them why.</p></div>
+      </div>
+    </div>
+  </details>
+
+  <details class="req"><summary><span class="rnum">E</span><span class="rq">Challenger brand, single market<em>Small, fast, ambitious, under-resourced, and desperate for growth.</em></span></summary>
+    <div class="dbody">
+      <div class="reqgrid">
+        <div><h5>Shape</h5><p>One brand, one market, 20&ndash;80 people. Probably a platform partner. The CEO is in the kick-off call and will stay in every call.</p></div>
+        <div><h5>What is hard</h5><p>No dedicated analyst, no BI team, no spare dev capacity. Enthusiasm is high and follow-through is thin.</p></div>
+        <div><h5>Emphasis</h5><p>Ruthless minimum viable instrumentation &mdash; registration, KYC, deposit, game launch, and nothing else until those are working. Pre-build everything: segments, funnels, dashboards. Assume they will not build their own.</p></div>
+        <div><h5>Timeline</h5><p>3&ndash;4 weeks to first value. Speed is the whole proposition here.</p></div>
+        <div><h5>First win</h5><p>Registration and KYC funnel drop-off with named causes. For a challenger, every lost registration is money they cannot spare and the CEO will act on it that week.</p></div>
+        <div><h5>Risk</h5><p>Usage collapses the moment you stop pushing. Build a lightweight recurring rhythm &mdash; one 30-minute fortnightly session &mdash; and defend it.</p></div>
+      </div>
+    </div>
+  </details>
+
+  <details class="req"><summary><span class="rnum">F</span><span class="rq">B2B platform or aggregator<em>Your client's customers are operators. Their UX is a product feature they sell.</em></span></summary>
+    <div class="dbody">
+      <div class="reqgrid">
+        <div><h5>Shape</h5><p>Supplies the platform, cashier, or game aggregation to many operator brands. Their "users" are both operator staff (back office) and end players (white-labelled front end).</p></div>
+        <div><h5>What is hard</h5><p>Multi-tenancy. One codebase, many skins, many operators, and data-segregation obligations between them. An operator must never see another operator's sessions.</p></div>
+        <div><h5>Emphasis</h5><p>Tenant identification as a first-class session property from day one, and an access model that enforces separation. Two distinct measurement programmes: back-office efficiency for operator staff, and conversion for end players.</p></div>
+        <div><h5>Timeline</h5><p>8&ndash;12 weeks; the access and segregation design is the long pole.</p></div>
+        <div><h5>First win</h5><p>Back-office usability. Operator staff use these tools all day, they are usually dreadful, and improvements are immediately felt by the client's own paying customers &mdash; which is a commercial story, not just a UX one.</p></div>
+        <div><h5>Risk</h5><p>A data-segregation mistake is an existential incident for them. Design the access model before capture goes live, and have it reviewed.</p></div>
+      </div>
+    </div>
+  </details>
+</section>
+
+<section class="view" id="v-discovery" data-part="III &middot; Onboarding" data-nav="20. Discovery questionnaire">
+  <span class="eyebrow">Part III &middot; Module 20</span>
+  <h1 class="vt">The discovery questionnaire</h1>
+  <p class="lede">Send it ahead, then work through it live &mdash; the answers matter less than watching who hesitates, who disagrees with a colleague, and which question makes the room go quiet. That is your real stakeholder map.</p>
+
+  <h2 class="st">Commercial</h2>
+  <ol>
+    <li>Which verticals and which markets, and what is the revenue split between them?</li>
+    <li>What are the two or three numbers your board looks at every week?</li>
+    <li>What is your current reg-to-FTD conversion, and do you consider it good?</li>
+    <li>What does a first-time depositor cost you to acquire?</li>
+    <li>What share of NGR comes from your top 1% of players?</li>
+    <li>What is the biggest commercial problem you would like solved in the next six months?</li>
+    <li>What has been tried already, and why did it not work?</li>
+  </ol>
+
+  <h2 class="st">Technical</h2>
+  <ol>
+    <li>Which domains, subdomains, brand skins and apps are in scope?</li>
+    <li>Which of those pages can you deploy JavaScript to without a third party's permission?</li>
+    <li>Is the front end single-page, server-rendered, or a mix? Which framework and router?</li>
+    <li>Do you use a tag manager, and who approves publishes?</li>
+    <li>What is your CSP, and what is the process to change it?</li>
+    <li>Which consent management platform, and which category would analytics capture fall into?</li>
+    <li>Native apps: which platforms, what is the release cadence, and how much is webview?</li>
+    <li>Who owns the cashier, the registration flow and the game launcher &mdash; you or a provider?</li>
+    <li>What is your release process and cadence for front-end changes?</li>
+  </ol>
+
+  <h2 class="st">Data</h2>
+  <ol>
+    <li>What analytics do you run today, and who actually uses it?</li>
+    <li>Where is your warehouse, and who owns it?</li>
+    <li>What identifier links a website session to a player record? Is it available client-side?</li>
+    <li>Is there an existing event taxonomy or tracking plan? May I see it?</li>
+    <li>Do you have a CDP, and does it already carry identity?</li>
+    <li>Who would build a warehouse join if we needed one, and what is their queue like?</li>
+    <li>What reporting exists today that people trust? What exists that they do not trust?</li>
+  </ol>
+
+  <h2 class="st">Compliance and privacy</h2>
+  <ol>
+    <li>Who is the DPO and what does their sign-off process involve?</li>
+    <li>Are there data-residency requirements from any licence you hold?</li>
+    <li>What retention period would you be comfortable defending to a regulator?</li>
+    <li>Is there an existing DPIA covering behavioural analytics?</li>
+    <li>What is the process today for a subject access or erasure request?</li>
+    <li>Which journeys contain regulatory friction that must not be optimised away?</li>
+  </ol>
+
+  <h2 class="st">People</h2>
+  <ol>
+    <li>Who will use this weekly? Name them and their roles.</li>
+    <li>Who owns conversion rate as a KPI? Who owns deposit success? Who owns game load time?</li>
+    <li>Which team is most sceptical about this, and why?</li>
+    <li>Who has the authority to prioritise a fix once we find one?</li>
+    <li>How do findings normally travel from insight to roadmap here?</li>
+    <li>What would have to be true in ninety days for you to consider this a success?</li>
+  </ol>
+
+  <div class="callout tip">
+    <div class="ci">The one</div>
+    <div class="cc"><p>Question 34 &mdash; "who has the authority to prioritise a fix" &mdash; is the one that decides whether your engagement produces change or a library of interesting observations. If the honest answer is "nobody", fix that before you fix anything on the website.</p></div>
+  </div>
+</section>
+
+<section class="view" id="v-training" data-part="III &middot; Onboarding" data-nav="21. Training curriculum by role">
+  <span class="eyebrow">Part III &middot; Module 21</span>
+  <h1 class="vt">Training that actually sticks</h1>
+  <p class="lede">One generic ninety-minute session for forty people is how adoption dies. Train by role, in the language of the role, against a job that person already has.</p>
+
+  <div class="tablewrap"><table>
+    <thead><tr><th>Audience</th><th>Length</th><th>The job it serves</th><th>What you teach</th><th>Leave them with</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Analysts &amp; CRO</strong></td><td>3h, hands-on</td><td>Diagnose why a metric moved</td><td>Segment logic and scope, funnels with overlays, journeys, segment comparison, the replay discipline, quantifying an opportunity</td><td>A workbook of five real questions from their own backlog, solved live</td></tr>
+      <tr><td><strong>Product managers</strong></td><td>90 min</td><td>Write better tickets and validate releases</td><td>Finding evidence for a hypothesis, pre/post release comparison, frustration signals on their own features</td><td>A saved dashboard for their product area, built with them in the session</td></tr>
+      <tr><td><strong>UX &amp; design</strong></td><td>90 min</td><td>Evidence design decisions</td><td>Heatmaps and scroll behaviour, form field analysis, watching for hesitation, building a research clip reel</td><td>A playlist template for design reviews</td></tr>
+      <tr><td><strong>Front-end engineers</strong></td><td>60 min</td><td>Stop guessing at bug reports</td><td>Console and network tabs, error clicks, error signature ranking by player impact, Jira and Sentry links</td><td>A ranked list of their own top ten defects by sessions affected</td></tr>
+      <tr><td><strong>Support &amp; ops</strong></td><td>45 min</td><td>Resolve a ticket without interrogating the player</td><td>Finding a session by uid, reading the timeline, attaching evidence to a ticket</td><td>A one-page lookup card at their desk</td></tr>
+      <tr><td><strong>Payments team</strong></td><td>60 min</td><td>Defend and improve deposit success</td><td>Decline reason analysis, 3DS step-up behaviour, method and provider comparison, retry patterns</td><td>The payments dashboard and the deposit alert</td></tr>
+      <tr><td><strong>CRM &amp; retention</strong></td><td>60 min</td><td>Trigger on behaviour, not just on transactions</td><td>Behavioural segments, feeding segments to the CRM, measuring the landing experience of campaigns</td><td>Two working trigger segments</td></tr>
+      <tr><td><strong>Compliance</strong></td><td>45 min</td><td>Evidence and assurance</td><td>What is captured and what is not, masking evidence, proving RG messaging was displayed, the deletion runbook</td><td>The Data Capture Statement and the audit process</td></tr>
+      <tr><td><strong>Executives</strong></td><td>20 min</td><td>Know what they are paying for</td><td>Three dashboard tiles and one story: a problem found, quantified, fixed, and the number that moved</td><td>A bookmarked exec dashboard and nothing else</td></tr>
+    </tbody>
+  </table></div>
+
+  <h2 class="st">Principles</h2>
+  <ol class="steps">
+    <li><b>Never demo on sample data</b> Use their site, their players, their last release. The first time they see their own broken thing, the room changes.</li>
+    <li><b>Give each person a real question</b> Collect questions in advance and answer them live in the session. People remember what they watched get solved, not what they were shown.</li>
+    <li><b>Teach search before replay</b> If you teach replay first you create tourists. Teach the question-first discipline from minute one.</li>
+    <li><b>Pre-build their objects</b> Nobody builds their first segment unprompted. Ship them a complete, well-named library and teach them to modify rather than create.</li>
+    <li><b>Office hours beat documentation</b> Four weekly drop-ins after training will do more than any handbook. They also tell you exactly where your instrumentation is confusing.</li>
+    <li><b>Find the champion in the room</b> There is always one person leaning forward. Invest disproportionately in them; they will train the next twenty people without you.</li>
+  </ol>
+</section>
+
+<section class="view" id="v-health" data-part="III &middot; Onboarding" data-nav="22. Account health check">
+  <span class="eyebrow">Part III &middot; Module 22</span>
+  <h1 class="vt">The health check</h1>
+  <p class="lede">Run this at day 30, day 90, then quarterly. It is also exactly what you run when you inherit an account that someone else set up and nobody will admit is broken.</p>
+
+  <h2 class="st">Capture integrity</h2>
+  <ul>
+    <li>Session volume within 10&ndash;15% of the client's own analytics for the same window? If not, find the blocking, consent or coverage gap.</li>
+    <li>Every in-scope domain, subdomain and brand actually producing sessions?</li>
+    <li>SPA page names distinct, human-readable and stable across releases?</li>
+    <li>Identity attached to the expected share of sessions? Compare against their logged-in rate.</li>
+    <li>Any sudden drop in a custom event? Almost always a release that removed or renamed a trigger.</li>
+  </ul>
+
+  <h2 class="st">Privacy</h2>
+  <ul>
+    <li>Masking audit repeated since the last significant release? Redesigns silently break selector-based rules.</li>
+    <li>Registration, KYC, cashier and account pages walked and replayed in the last quarter?</li>
+    <li>Replay access list current? Leavers removed?</li>
+    <li>Deletion runbook tested at least once, with an owner who is still employed?</li>
+    <li>Data Capture Statement updated to reflect current reality?</li>
+  </ul>
+
+  <h2 class="st">Adoption</h2>
+  <ul>
+    <li>Weekly active users of the tool, by team. Which teams have gone to zero?</li>
+    <li>Are segments and dashboards being created by the client, or only by you? Client-created objects are the truest adoption signal there is.</li>
+    <li>Are support tickets carrying replay links? What proportion?</li>
+    <li>Is Fullstory evidence appearing in their bug tickets and discovery documents without you prompting?</li>
+    <li>Has anyone other than you presented a Fullstory finding internally?</li>
+  </ul>
+
+  <h2 class="st">Value</h2>
+  <ul>
+    <li>How many findings were delivered, and how many were shipped as changes?</li>
+    <li>What is the cumulative quantified value, using the client's own value figures?</li>
+    <li>Which KPI baselines have actually moved since capture began?</li>
+    <li>Is there a live, prioritised opportunity backlog the roadmap draws from?</li>
+    <li>Can the client's own champion articulate the value without you in the room? Ask them to try.</li>
+  </ul>
+
+  <h2 class="st">Commercial hygiene</h2>
+  <ul>
+    <li>Session quota burn rate against the contract period &mdash; on track, or heading for an incident?</li>
+    <li>Seat utilisation. Unused seats are a renewal argument against you; find them homes or surrender them before the client notices.</li>
+    <li>Is the executive sponsor still in post? In gambling, digital leadership turns over fast &mdash; a new sponsor needs a fresh value story within their first month.</li>
+  </ul>
+
+  <div class="callout warn">
+    <div class="ci">Signal</div>
+    <div class="cc"><p>The earliest reliable warning of an account in trouble is <strong>the client stops creating their own segments</strong>. It happens months before usage figures fall and long before anyone mentions the renewal. Check it every single month.</p></div>
+  </div>
+</section>
