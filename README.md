@@ -10,14 +10,16 @@ Built for an optimisation analyst working with real-money iGaming operators — 
 
 ## Running it
 
-Clone and open `standalone.html`. That is the whole installation process.
+Live at **https://fullstorypitboss.netlify.app**
+
+Or clone and open `index.html`. That is the whole installation process.
 
 ```bash
 git clone https://github.com/datacendia/pitboss.git
 cd pitboss
 ```
 
-Then double-click `standalone.html`, or serve the folder if you prefer a real origin:
+Then double-click `index.html`, or serve the folder if you prefer a real origin:
 
 ```bash
 python -m http.server 8080
@@ -62,11 +64,12 @@ Nothing here is legal advice. The regulatory module is oriented correctly and is
 
 ## Editing it
 
-`index.html` and `standalone.html` are **generated**. Do not edit them directly.
+`index.html` and `artifact.html` are **generated**. Do not edit them directly.
 
 ```
 src/          module sources — one file per group of sections. Edit these.
 build.py      regenerates both HTML outputs from src/
+netlify.toml  headers and the artifact.html redirect for the deployed site
 app.js        navigation, search, progress, filters, quiz, generator, coach
 styles.css    all styling, including both light and dark themes
 data-req.js       35 client requirements + the onboarding plan generator
@@ -92,15 +95,25 @@ Common edits:
 
 ### Why there are two HTML outputs
 
-`index.html` carries no doctype, `<html>`, `<head>` or `<body>`, because it is published as a hosted Artifact and the publishing wrapper supplies those. Opened directly from disk it falls into quirks mode and the browser decodes the data files as windows-1252, which mangles every dash, arrow and `£`. `standalone.html` is the same content with a real doctype and charset. Both reference the same sibling CSS, JS and data files, so there is exactly one copy of each.
+`index.html` is a complete HTML document and is the one that gets **served** — by Netlify, by a local server, or by double-clicking it.
+
+`artifact.html` is the same content with no doctype, `<html>`, `<head>` or `<body>`, because it is published as a hosted Artifact and the publishing wrapper supplies those. **Never serve it.** Without a doctype the browser drops into quirks mode, and without a `<meta charset>` it decodes the data files as windows-1252, mangling every dash, arrow and `£`. `netlify.toml` redirects it to the root so it cannot be reached by accident.
+
+Both reference the same sibling CSS, JS and data files, so there is exactly one copy of each.
 
 ---
 
-## Hosted version
+## Where it runs
 
-The same content is published as a private Artifact, which adds three things the local copy cannot do: progress and notes that sync across devices, a scenario coach that role-plays a client, and file downloads for the templates and the lab sandbox. The local copy falls back to browser storage, hides the coach, and offers the same content as copyable blocks.
+| | Progress sync | Scenario coach | File downloads |
+| --- | --- | --- | --- |
+| **Netlify** — https://fullstorypitboss.netlify.app | browser storage | hidden | copy blocks |
+| **Local clone** — `index.html` | browser storage | hidden | copy blocks |
+| **Hosted Artifact** | across devices | yes | yes |
 
-Use the hosted version for notes; keep the clone for client sites, where guest wifi is frequently locked down and having the KPI encyclopedia available offline in a meeting is worth the duplication.
+The Artifact build adds three things a static host cannot do: progress and notes that sync across devices, a scenario coach that role-plays a client, and file downloads for the templates and the lab sandbox. Everywhere else falls back to per-browser storage, hides the coach rather than showing a dead button, and offers the same content as copyable blocks. All 35 modules and every word of content are identical in all three.
+
+Use the hosted Artifact for notes, the Netlify link for sharing and for reading on a phone, and the clone for client sites where guest wifi is locked down and having the KPI encyclopedia offline in a meeting is worth the duplication.
 
 ---
 

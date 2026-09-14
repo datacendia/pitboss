@@ -1,3 +1,11 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
 <title>Fullstory Pit Boss</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -2280,14 +2288,14 @@ APPENDIX  Metric definitions · Data Capture Statement · Evidence</code></pre>
 <section class="view" id="v-local" data-part="VI &middot; Close" data-nav="Run it on your own PC" data-nonote="1">
   <span class="eyebrow">Practical</span>
   <h1 class="vt">Running this on your own machine</h1>
-  <p class="lede">Yes. Clone the repository, double-click <code>standalone.html</code>, and it runs in any browser &mdash; no server, no install, no dependencies. It works on a client site with no internet too, apart from the web fonts.</p>
+  <p class="lede">Three ways: the hosted Artifact, the public web build at <a href="https://fullstorypitboss.netlify.app" target="_blank" rel="noopener">fullstorypitboss.netlify.app</a>, or a clone you double-click. No server, no install, no dependencies &mdash; and the clone works with no internet at all, apart from the web fonts.</p>
 
   <h2 class="st">The files</h2>
   <div class="tablewrap"><table>
     <thead><tr><th>File</th><th>What it holds</th></tr></thead>
     <tbody>
-      <tr><td class="mono">standalone.html</td><td><strong>Open this one.</strong> The whole platform, wrapped with a doctype and charset so it renders correctly from disk.</td></tr>
-      <tr><td class="mono">index.html</td><td>The same content without the wrapper &mdash; this is the file published as the hosted Artifact. Do not open it directly; it falls into quirks mode.</td></tr>
+      <tr><td class="mono">index.html</td><td><strong>Open this one.</strong> A complete document with the doctype and charset that keep the browser in standards mode.</td></tr>
+      <tr><td class="mono">artifact.html</td><td>The same content without the wrapper &mdash; the file published as the hosted Artifact. Never serve it: no doctype means quirks mode, no charset means mangled dashes.</td></tr>
       <tr><td class="mono">src/</td><td>The module sources. One file per group of sections; this is what you edit.</td></tr>
       <tr><td class="mono">build.py</td><td>Rebuilds both HTML outputs from <code>src/</code>. Run it after any edit to a module.</td></tr>
       <tr><td class="mono">styles.css</td><td>All styling, including both themes.</td></tr>
@@ -2301,11 +2309,11 @@ APPENDIX  Metric definitions · Data Capture Statement · Evidence</code></pre>
 
   <h2 class="st">How to open it</h2>
   <ol class="steps">
-    <li><b>Double-click <span class="mono">standalone.html</span></b> It opens in your default browser and works immediately. Nothing is installed and nothing runs in the background.</li>
+    <li><b>Double-click <span class="mono">index.html</span></b> It opens in your default browser and works immediately. Nothing is installed and nothing runs in the background.</li>
     <li><b>Or drag the file into a browser window</b> Same result. Chrome, Edge and Firefox all handle it.</li>
     <li><b>Bookmark it</b> The address will start with <span class="mono">file:///</span>. That is normal for a local page.</li>
     <li><b>Editing?</b> Change a file in <span class="mono">src/</span>, run <span class="mono">python build.py</span>, then refresh. The navigation, numbering, search index and progress counter all rebuild themselves from the sections.</li>
-    <li><b>Optional: pin it to your taskbar</b> Right-click <span class="mono">standalone.html</span>, send to desktop as a shortcut, then pin the shortcut.</li>
+    <li><b>Optional: pin it to your taskbar</b> Right-click <span class="mono">index.html</span>, send to desktop as a shortcut, then pin the shortcut.</li>
   </ol>
 
   <h2 class="st">What changes when you run it locally</h2>
@@ -2353,3 +2361,6 @@ APPENDIX  Metric definitions · Data Capture Statement · Evidence</code></pre>
 <script src="data-quiz.js"></script>
 <script src="data-lab.js"></script>
 <script src="app.js"></script>
+
+</body>
+</html>

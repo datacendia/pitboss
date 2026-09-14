@@ -4,15 +4,18 @@
 Two outputs from one set of sources, side by side in the repo root so both
 share the same CSS, JS and data files:
 
-  index.html       Artifact source. No doctype, <html>, <head> or <body> —
-                   the publishing wrapper supplies those. This is the file
-                   passed to the Artifact tool.
+  index.html       A complete HTML document. This is what gets served —
+                   by Netlify, by a local web server, or by double-clicking
+                   it. It carries the doctype and <meta charset> that keep
+                   the browser in standards mode and decode the data files
+                   as UTF-8.
 
-  standalone.html  The same content wrapped with a real doctype and charset
-                   so it renders correctly when opened straight from disk.
-                   Open this one locally. Without the wrapper a browser
-                   falls into quirks mode and decodes the data files as
-                   windows-1252, which mangles every dash, arrow and £.
+  artifact.html    The same content with NO doctype, <html>, <head> or
+                   <body>, because the Artifact publisher supplies those.
+                   This is the file passed to the Artifact tool. Never
+                   serve it: with no doctype a browser falls into quirks
+                   mode, and with no charset it decodes the data files as
+                   windows-1252, mangling every dash, arrow and £.
 
 Module numbers in the navigation are generated at runtime from document
 order, so `data-nav` in the sources carries only the name. Reordering the
@@ -46,7 +49,7 @@ ORDER = [
     'p9.html',      # closing tags + script includes
 ]
 
-STANDALONE_HEAD = """<!doctype html>
+DOCUMENT_HEAD = """<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -72,12 +75,12 @@ def main():
 
     body = strip_nav_numbers('\n'.join(parts))
 
-    io.open(os.path.join(ROOT, 'index.html'), 'w', encoding='utf-8').write(body)
-    io.open(os.path.join(ROOT, 'standalone.html'), 'w', encoding='utf-8').write(
-        STANDALONE_HEAD + body + '\n</body>\n</html>\n')
+    io.open(os.path.join(ROOT, 'artifact.html'), 'w', encoding='utf-8').write(body)
+    io.open(os.path.join(ROOT, 'index.html'), 'w', encoding='utf-8').write(
+        DOCUMENT_HEAD + body + '\n</body>\n</html>\n')
 
     views = len(re.findall(r'<section class="view"', body))
-    print('built %d modules, %d KB -> index.html + standalone.html'
+    print('built %d modules, %d KB -> index.html (served) + artifact.html (published)'
           % (views, len(body) // 1024))
 
 

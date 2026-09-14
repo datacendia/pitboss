@@ -1,0 +1,39 @@
+# Static site — no build step. build.py is run locally and both HTML
+# outputs are committed, so Netlify only has to serve files.
+[build]
+  publish = "."
+  command = ""
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    X-Frame-Options = "SAMEORIGIN"
+
+# Charset is explicit in the document too, but being served correctly
+# matters more: without it the data files decode as windows-1252 and
+# every dash, arrow and pound sign is mangled.
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Content-Type = "text/html; charset=utf-8"
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/*.js"
+  [headers.values]
+    Content-Type = "application/javascript; charset=utf-8"
+
+[[headers]]
+  for = "/*.css"
+  [headers.values]
+    Content-Type = "text/css; charset=utf-8"
+
+# artifact.html is the wrapper-less source for the hosted Artifact.
+# It must never be served: no doctype means quirks mode.
+[[redirects]]
+  from = "/artifact.html"
+  to = "/"
+  status = 301
+  force = true
