@@ -77,6 +77,10 @@
     <div class="cc"><p>Fullstory ships changes constantly. Product facts here were checked against Fullstory's live documentation on <strong>13 September 2026</strong>, and the <a href="#v-sources" data-goto="v-sources">Sources &amp; confidence</a> page lists exactly which claims were verified, which are reasoned, and which are judgement you must not present as fact. Benchmark ranges carry their own confidence tag. <strong>Before anything goes in front of a client, check the specific limit, path or parameter against the current documentation.</strong></p></div>
   </div>
 
+  <h2 class="st">This is not the official training</h2>
+  <p>Fullstory publishes its own: the <a href="https://help.fullstory.com/hc/en-us" target="_blank" rel="noopener">Help Centre</a>, the <a href="https://developer.fullstory.com/" target="_blank" rel="noopener">Developer Guide</a>, and <a href="https://learn.fullstory.com/app" target="_blank" rel="noopener">Fullstory Learn</a> with on-demand courses and certification exams. <strong>Do that too</strong> &mdash; it is canonical, and where it disagrees with anything here, it is right.</p>
+  <p>What it does not cover is the half of the job that is specific to your clients: GGR and wagering requirements, UKGC verification sequencing, what a white-label deployment boundary does to your scope, and how to turn a rage-click cluster into a number a CFO will act on. That is what this is for. The <a href="#v-sources" data-goto="v-sources">Sources &amp; confidence</a> page lists all four official resources and is honest about which claims here are verified and which are judgement.</p>
+
   <h2 class="st">A note on how to use it</h2>
   <p>Do not read it front to back in one sitting. Work Part I module by module and mark each one done &mdash; your progress and your notes are saved. Then read Part II in one pass, because the vocabulary is the thing that separates an analyst who gets invited back from one who gets a written brief. Parts III to V are reference: search them in the moment.</p>
   <p>Every module has a notes box at the bottom. Use it for the client-specific things you learn &mdash; which PSP a brand uses, who owns the tag manager, which stakeholder is hostile. That is the knowledge nobody can hand you.</p>
@@ -2309,7 +2313,7 @@ FS(<span class="s">'trackEvent'</span>, {
 
   <h2 class="st">Setting up</h2>
   <ol class="steps">
-    <li><b>Get an account</b> Fullstory offers a free tier. Sign up with a personal address, not a client one &mdash; you want somewhere you can break things without anybody watching.</li>
+    <li><b>Get an account</b> Fullstory offers a free tier. Sign up with a personal address, not a client one &mdash; you want somewhere you can break things without anybody watching. If you have not already, run <a href="https://learn.fullstory.com/app" target="_blank" rel="noopener">Fullstory Learn</a>'s hands-on modules first: they teach the interface canonically, and this lab then teaches you to distrust it.</li>
     <li><b>Download the sandbox</b> Use the button below, or copy the code and save it as <code>lab.html</code>. It is a single self-contained file with no dependencies.</li>
     <li><b>Paste your snippet</b> Open the file in any editor. Near the top there is a clearly marked block. Paste your capture snippet there and save.</li>
     <li><b>Serve it, do not open it</b> A <code>file:///</code> page has no real origin and capture will behave oddly. Run a one-line local server in the folder and open <span class="mono">http://localhost:8080</span>:
@@ -2392,6 +2396,8 @@ FS(<span class="s">'trackEvent'</span>, {
   <p class="lede">If you learn nothing else here, learn this sequence. It is what separates an analyst who is trusted in month two from one who is still being checked in month six.</p>
 
   <ol class="steps">
+    <li><b>Sit the Fundamentals certification first</b> Before any of the below, work through <a href="https://learn.fullstory.com/app" target="_blank" rel="noopener">Fullstory Learn</a> and pass the Fundamental Product Certification. Unlimited attempts, 80% to pass, a few hours. It is canonical where this platform is merely careful, and it hands you a credential to put in front of anyone who asks what qualifies you.</li>
+
     <li><b>Get your own Fullstory account and break it</b> Instrument a throwaway page. Fire events with wrong types. Mask something and watch the replay. Call <code>setIdentity</code> twice with different uids and see what happens. You cannot teach a tool you have only been shown.</li>
     <li><b>Learn one client's numbers before their tool</b> Reg-to-FTD, deposit success, NGR per active, D7 retention. Walk in already knowing which of those is their problem.</li>
     <li><b>Run the error-click exercise on day one of capture</b> Top five error signatures, sessions affected, downstream conversion gap. It is thirty minutes of work and it is the most reliable first win in this vertical.</li>
@@ -2415,6 +2421,31 @@ FS(<span class="s">'trackEvent'</span>, {
   <div class="callout warn">
     <div class="ci">Date</div>
     <div class="cc"><p>Product facts below were checked against Fullstory's live help centre and developer documentation on <strong>13 September 2026</strong>. Fullstory ships continuously. Before anything goes in front of a client, re-check the specific claim &mdash; and treat any statement here that is more than a quarter old as needing a look.</p></div>
+  </div>
+
+  <h2 class="st">Go to the source</h2>
+  <p>Four official Fullstory properties. Bookmark all of them: two settle arguments, two make you certified.</p>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Resource</th><th>What it is</th><th>Use it for</th></tr></thead>
+    <tbody>
+      <tr><td><a href="https://help.fullstory.com/hc/en-us" target="_blank" rel="noopener"><strong>Help Centre</strong></a><br><span class="mono">help.fullstory.com</span></td><td>Product documentation for the people using the app &mdash; privacy rules, segments, funnels, roles, settings.</td><td>Settling a factual dispute with a client. Send the link, not your slide.</td></tr>
+      <tr><td><a href="https://developer.fullstory.com/" target="_blank" rel="noopener"><strong>Developer Guide</strong></a><br><span class="mono">developer.fullstory.com</span></td><td>The API surface: <a href="https://developer.fullstory.com/browser/getting-started/" target="_blank" rel="noopener">Browser SDK</a>, <a href="https://developer.fullstory.com/server/v2/getting-started/" target="_blank" rel="noopener">Server API</a>, the mobile SDKs, the data model and the warehouse destinations.</td><td>Writing an instrumentation spec. Check every call signature here before it reaches a developer &mdash; this is the authority, not this platform.</td></tr>
+      <tr><td><a href="https://learn.fullstory.com/app" target="_blank" rel="noopener"><strong>Fullstory Learn</strong></a><br><span class="mono">learn.fullstory.com</span></td><td>Official on-demand training: video courses, hands-on modules and certification exams.</td><td>Getting certified &mdash; and checking this platform's build recipes against the real interface.</td></tr>
+      <tr><td><a href="https://fullstorianlearn.fullstory.com/app" target="_blank" rel="noopener"><strong>Partner Learn</strong></a><br><span class="mono">fullstorianlearn.fullstory.com</span></td><td>A separate learning portal for Fullstory partners.</td><td>If your firm is a Fullstory partner, ask whether you have access. Partner tracks tend to cover positioning and implementation as well as product.</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>Get certified before you need to be</h3>
+  <p>Fullstory runs certification through Learn. As of the date above the published set includes a <a href="https://learn.fullstory.com/app/learning_paths/944a0a2b-4830-4e0a-9dab-379f6d848382" target="_blank" rel="noopener">Fundamental Product Certification</a> &mdash; 35 multiple-choice and true/false questions, 80% to pass, unlimited attempts &mdash; a Product Analytics certification on the same threshold, and a Guides &amp; Surveys track built from short courses plus a hands-on assignment.</p>
+  <ul>
+    <li><strong>Do the Fundamentals certification before your first client session.</strong> It is the cheapest credibility available to you: a few hours, unlimited attempts, and a verifiable credential to put in front of a sceptical Head of Digital.</li>
+    <li><strong>Use it to close this platform's biggest known gap.</strong> The 153 build recipes here are reasoned from the data model, not checked against live screens. Working through Learn's hands-on modules with this open alongside is the fastest way to verify the specific UI steps &mdash; and to correct them in <span class="mono">data-kpi-build.js</span> where they have drifted.</li>
+    <li><strong>Their training is canonical; this is not.</strong> Where Fullstory Learn and this platform disagree about the product, Fullstory is right and this needs fixing.</li>
+  </ul>
+
+  <div class="callout tip">
+    <div class="ci">The split</div>
+    <div class="cc"><p>Fullstory's own training teaches <strong>the product, correctly and canonically</strong>. It does not teach you GGR, wagering requirements, UKGC verification sequencing, what a white-label deployment boundary does to your scope, or how to price a rage-click cluster in NGR. That is what this platform is for. Do both &mdash; they are complementary, and the combination is what makes you useful to a gambling client rather than merely trained.</p></div>
   </div>
 
   <h2 class="st">Three tiers of claim</h2>
