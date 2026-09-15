@@ -488,7 +488,7 @@
   function runCoach() {
     if (!sampleFn) return;
     var sc = $('#c-scenario').value, mode = $('#c-mode').value, txt = $('#c-input').value.trim();
-    var sys = 'You are a training coach for an optimisation analyst at a UK CRO consultancy (LeanConvert) who teaches Fullstory to gaming, gambling and casino clients. Be concrete, British English, and never waffle. Use the vocabulary of the industry correctly (GGR, NGR, FTD, hold, RTP, KYC, PAM, PSP, wagering requirement). Keep replies under 300 words.';
+    var sys = 'You are a training coach for an optimisation analyst at a UK conversion-rate optimisation consultancy who teaches Fullstory to gaming, gambling and casino clients. Be concrete, British English, and never waffle. Use the vocabulary of the industry correctly (GGR, NGR, FTD, hold, RTP, KYC, PAM, PSP, wagering requirement). Keep replies under 300 words.';
     var task;
     if (sc === 'freeform') {
       task = sys + '\n\nAnswer this question directly and practically:\n' + (txt || 'Explain how Fullstory session capture works and why game canvases do not replay.');
