@@ -40,6 +40,7 @@ ORDER = [
     'p3.html',      # Part III — framework, archetypes, discovery, training, health
     'ptpl.html',    # Part III — deliverable templates
     'p4a.html',     # Part III generator + Part IV requirements library
+    'pexp.html',    # Part IV — from insight to experiment
     'pkb.html',     # Part V — the nine build patterns
     'p4b.html',     # Part V KPI encyclopedia + Part VI drills, coach, glossary
     'plab.html',    # Part VI — the hands-on lab

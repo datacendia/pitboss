@@ -206,3 +206,34 @@ window.QUIZ = (window.QUIZ || []).concat([
  o:["A journey analysis of the homepage","Top error clicks ranked by sessions affected, with the downstream conversion gap","A heatmap of the lobby","A full funnel suite"],a:1,
  w:"Error clicks have the highest ratio of genuine, fixable, revenue-affecting defects of any signal. Thirty minutes of work, and it is the exercise that most reliably produces a credible win inside two weeks."}
 ]);
+
+/* --- experimentation methodology --- */
+window.QUIZ = window.QUIZ.concat([
+{c:"experiment",q:"A client wants to detect a 5% relative lift on a step with a 5% baseline conversion rate. Roughly what sample do they need per variant?",
+ o:["About 3,000","About 30,000","About 120,000","About 500"],a:2,
+ w:"Low baselines are brutally expensive. At a 5% baseline, a 5% relative MDE needs over 120,000 sessions per variant. The same relative lift on deposit success at a 90% baseline needs under 3,000. This is why gambling CRO concentrates on the cashier — dense traffic, high baseline, immediate money, and tests that actually conclude."},
+{c:"experiment",q:"A 50/50 test is delivering a 48/52 split on 200,000 sessions. What do you do?",
+ o:["Nothing — it is close enough","Stop: sample ratio mismatch invalidates the test, so find the cause first","Weight the results to correct for it","Extend the test until it balances"],a:1,
+ w:"SRM means the randomisation or the measurement is broken — a redirect, a caching layer, an uneven bot filter, or the tag firing late on one variant. It invalidates the result entirely. Check it before you look at the outcome, every time, and never reason about a result from a test that failed it."},
+{c:"experiment",q:"A variant wins strongly in week one and the lift decays in week two. What is the most likely explanation?",
+ o:["The test is broken","A novelty effect among returning players","Seasonality","The sample was too small"],a:1,
+ w:"Returning players react to change as change. Segment new versus returning and read them separately — if the lift holds for new users and decays for returning ones, it is novelty. The inverse pattern, a dip that recovers, is a primacy effect."},
+{c:"experiment",q:"Which clause of a hypothesis do teams most often omit, and why does it matter most?",
+ o:["The metric — without it you cannot measure","The mechanism and the falsification condition — without them a flat result gets rationalised into a partial win","The MDE — without it you cannot size the test","The owner — without one nothing ships"],a:1,
+ w:"All four matter, but 'we will know we are wrong if…' is the one that gets skipped, and its absence is why flat tests produce no learning. A hypothesis with a real mechanism teaches you something even when it loses."},
+{c:"experiment",q:"Why should a gambling test always run in whole weeks?",
+ o:["Statistical convention","Traffic has a violent weekly shape — weekends, evenings, fixtures — so a part-week means the variants saw different populations","To give the client time to review","Because platforms bill weekly"],a:1,
+ w:"Stop mid-week and your variant and control have seen different mixes of weekday and weekend traffic. Two full weeks is the practical minimum, and you check the fixture calendar before you start — a single major event can multiply traffic and change its composition completely."},
+{c:"experiment",q:"A client proposes an A/B test on their VIP segment of 400 players. What is your answer?",
+ o:["Run it with a longer duration","The population is far too small to reach useful precision — test on everyone and use replay to watch how VIPs experienced the variant","Lower the confidence threshold to 80%","Test on VIPs and a matched control"],a:1,
+ w:"A few hundred players cannot support a test to any useful precision, whatever the duration. Say so before three weeks are spent on it. The honest alternative is quantitative evidence from the whole population plus qualitative evidence from watching VIP sessions."},
+{c:"experiment",q:"Which of these may legitimately be A/B tested on a UK-licensed gambling site?",
+ o:["Whether the deposit limit link appears in the footer or not at all","The wording of a decline message in the cashier","Whether age verification happens before or after first deposit","Whether the reality-check prompt is shown"],a:1,
+ w:"Decline-message copy is ordinary UX. The other three all weaken or remove a regulatory control. Keep a standing exclusions list in the test plan template so the question is settled before someone proposes one in a workshop."},
+{c:"experiment",q:"Your test is flat overall. Mobile won by 8%, desktop lost by 7%. What is the correct framing?",
+ o:["Ship it to mobile only — the data supports it","Report it as exploratory: it generates the next hypothesis, it does not rescue this result","Call it a win with a caveat","Re-run the test on mobile with the same design"],a:1,
+ w:"Post-hoc segmentation is exploratory, not confirmatory — slice enough ways and something looks significant by chance. Use it to design the next test, say 'this is exploratory' in writing, and do not let a flat result be relabelled a win."},
+{c:"experiment",q:"When should an experiment-exposure event fire?",
+ o:["On page load, so nobody is missed","At the moment the player is genuinely exposed to the tested element","When the session ends","When the player converts"],a:1,
+ w:"Firing on load counts players who never scrolled to the tested element, which dilutes the effect and makes a real win look flat. Fire on genuine exposure — and send the variant as both a user property, so every segment filters by it, and an event, so you have exposure timing and a denominator for your own SRM check."}
+]);

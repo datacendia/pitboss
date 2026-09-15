@@ -83,7 +83,20 @@
     if (chip) chip.setAttribute('aria-label', d + ' of ' + trackable.length + ' modules completed');
   }
 
+  /* Hash is "#view", or "#view~term" to deep-link into a filtered list.
+     Module navigation PUSHES history, so Back walks back through the
+     modules instead of leaving the site. */
+  function parseHash() {
+    var h = (location.hash || '').replace(/^#/, ''), i = h.indexOf('~');
+    if (i < 0) return { id: h, find: '' };
+    var find = h.slice(i + 1);
+    try { find = decodeURIComponent(find); } catch (e) { }
+    return { id: h.slice(0, i), find: find };
+  }
+  function hashFor(id, find) { return '#' + id + (find ? '~' + encodeURIComponent(find) : ''); }
+
   function go(id, opts) {
+    opts = opts || {};
     var v = document.getElementById(id);
     if (!v) return;
     views.forEach(function (s) { s.classList.toggle('active', s === v); });
@@ -92,15 +105,33 @@
       b.classList.toggle('active', on);
       if (on) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current');
     });
-    if (!opts || !opts.keepScroll) window.scrollTo(0, 0);
-    history.replaceState(null, '', '#' + id);
+    if (!opts.keepScroll) window.scrollTo(0, 0);
+    var hash = hashFor(id, opts.find);
+    if (opts.replace) history.replaceState({ v: id }, '', hash);
+    else if (location.hash !== hash) history.pushState({ v: id }, '', hash);
     closeRail();
     var active = $('.navitem.active', rail);
     if (active && active.scrollIntoView) active.scrollIntoView({ block: 'nearest' });
     var h = $('h1.vt', v);
-    if (h) { h.setAttribute('tabindex', '-1'); if (opts && opts.focus) h.focus(); }
+    if (h) { h.setAttribute('tabindex', '-1'); if (opts.focus) h.focus(); }
     announce(v.getAttribute('data-nav'));
   }
+
+  /* Apply a deep-linked term to whichever filtered list the view owns. */
+  function applyFind(viewId, term) {
+    if (!term) return;
+    if (viewId === 'v-kpis') { $('#k-search').value = term; kCat = 'all'; setChips('data-kfilter', 'all'); filterKpis(); }
+    else if (viewId === 'v-requirements') { $('#r-search').value = term; reqTheme = 'all'; setChips('data-rfilter', 'all'); filterReqs(); }
+    else if (viewId === 'v-glossary') { $('#g-search').value = term; gCat = 'all'; setChips('data-gfilter', 'all'); filterGloss(); }
+  }
+
+  function applyHash() {
+    var p = parseHash();
+    if (!document.getElementById(p.id)) p.id = views[0].id;
+    go(p.id, { replace: true, find: p.find });
+    applyFind(p.id, p.find);
+  }
+  window.addEventListener('popstate', applyHash);
 
   var live = document.createElement('div');
   live.className = 'sr-only'; live.setAttribute('aria-live', 'polite'); live.setAttribute('aria-atomic', 'true');
@@ -579,13 +610,8 @@
   function openHit(h) {
     if (!h) return;
     resBox.hidden = true; searchEl.blur();
-    go(h.view);
-    if (h.find) {
-      if (h.view === 'v-kpis') { $('#k-search').value = h.find; kCat = 'all'; setChips('data-kfilter', 'all'); filterKpis(); }
-      if (h.view === 'v-requirements') { $('#r-search').value = h.find; reqTheme = 'all'; setChips('data-rfilter', 'all'); filterReqs(); }
-      if (h.view === 'v-glossary') { $('#g-search').value = h.find; gCat = 'all'; setChips('data-gfilter', 'all'); filterGloss(); }
-      return;
-    }
+    go(h.view, { find: h.find });
+    if (h.find) { applyFind(h.view, h.find); return; }
     if (h.el) {
       setTimeout(function () {
         var d = h.el.closest('details'); if (d) d.open = true;
@@ -733,6 +759,18 @@
     syncTheme();
   });
 
-  var start = (location.hash || '').replace('#', '');
-  go(document.getElementById(start) ? start : views[0].id);
+  applyHash();
+
+  /* Keep the address bar pointing at whatever card is open, so the URL is
+     always shareable. replaceState, so browsing cards does not fill history. */
+  ['#k-list', '#r-list'].forEach(function (sel) {
+    var host = $(sel); if (!host) return;
+    host.addEventListener('toggle', function (e) {
+      var d = e.target; if (!d || d.tagName !== 'DETAILS' || !d.open) return;
+      var label = $('.kname', d) || $('.rq', d);
+      if (!label) return;
+      var term = (label.childNodes[0] && label.childNodes[0].textContent || label.textContent).trim();
+      history.replaceState({ v: $('.view.active').id }, '', hashFor($('.view.active').id, term));
+    }, true);
+  });
 })();

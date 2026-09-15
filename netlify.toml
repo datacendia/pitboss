@@ -20,15 +20,20 @@
     Content-Type = "text/html; charset=utf-8"
     Cache-Control = "public, max-age=0, must-revalidate"
 
+# Filenames are not content-hashed, so the browser must revalidate them
+# on every load. Without this a returning visitor can get new HTML against
+# a cached older script after a deploy, which fails silently.
 [[headers]]
   for = "/*.js"
   [headers.values]
     Content-Type = "application/javascript; charset=utf-8"
+    Cache-Control = "public, max-age=0, must-revalidate"
 
 [[headers]]
   for = "/*.css"
   [headers.values]
     Content-Type = "text/css; charset=utf-8"
+    Cache-Control = "public, max-age=0, must-revalidate"
 
 # artifact.html is the wrapper-less source for the hosted Artifact.
 # It must never be served: no doctype means quirks mode.

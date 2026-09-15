@@ -1,0 +1,161 @@
+<section class="view" id="v-experiment" data-part="IV &middot; Insight to change" data-nav="From insight to experiment">
+  <span class="eyebrow">Part IV &middot; Method</span>
+  <h1 class="vt">The finding is not the deliverable. The change is.</h1>
+  <p class="lede">Everything before this module teaches you to find things. This one is about what happens next &mdash; because at a conversion consultancy the research instrument is not the product. The tested, measured, shipped change is. Fullstory sits at both ends of that loop: it generates the hypothesis and it explains the result.</p>
+
+  <h2 class="st">Where Fullstory sits in the cycle</h2>
+  <ol class="steps">
+    <li><b>Research</b> Quantify where the loss is and watch why it happens. <span class="tag a">Fullstory</span> Funnels, frustration signals, journeys, replay. This is where most of this platform lives.</li>
+    <li><b>Hypothesise</b> Convert the observation into a falsifiable claim with a named mechanism.</li>
+    <li><b>Prioritise</b> Rank against effort, confidence and reach so the roadmap is defensible rather than loudest-voice-wins.</li>
+    <li><b>Design and build</b> The variant. Not your job, but your spec decides whether it can be measured.</li>
+    <li><b>Run</b> With a pre-registered metric, a pre-calculated sample size and a fixed end date. <span class="tag a">Fullstory</span> Variant as a session property, from day one.</li>
+    <li><b>Analyse</b> Beyond the primary metric, to the money. <span class="tag a">Fullstory</span> Watch the losing variant &mdash; the thing no test platform can do.</li>
+    <li><b>Learn</b> Record the result whether it won or lost, and feed it back into research. The archive of losses is the most undervalued asset any CRO team owns.</li>
+  </ol>
+
+  <div class="callout tip">
+    <div class="ci">The pitch</div>
+    <div class="cc"><p>"Your test platform tells you which variant won. It cannot tell you why the loser lost, and it cannot tell you what to test next. That is the half we do."</p></div>
+  </div>
+
+  <h2 class="st">Writing a hypothesis that can fail</h2>
+  <p>A hypothesis that cannot be wrong is a plan, not a hypothesis. The shape that works:</p>
+<pre><code>BECAUSE  [evidence — quantified, with the source]
+WE BELIEVE THAT  [specific change]
+WILL CAUSE  [primary metric] to move [direction] by [at least MDE]
+BECAUSE  [mechanism — why the change causes the effect]
+WE WILL KNOW WE ARE WRONG IF  [what a null or negative result looks like]
+
+Worked example
+  BECAUSE  38% of failed first deposits show a generic "unable to
+           process" message and 61% of those players never retry
+           (4,100 sessions/month, Fullstory deposit funnel, Aug)
+  WE BELIEVE THAT  mapping the top six decline reasons to a specific
+           next step, with an alternative method offered inline
+  WILL CAUSE  retry rate after decline to rise from 44% to at least 52%
+  BECAUSE  players currently cannot tell whether the fault is theirs,
+           ours or their bank, so they assume refusal and leave
+  WE WILL KNOW WE ARE WRONG IF  retry rate moves less than 5 points,
+           or retries rise but successful deposits do not</code></pre>
+  <p>The last line is the one people skip and the one that matters. Without it, a flat result gets rationalised into a partial win and the team learns nothing.</p>
+
+  <div class="callout warn">
+    <div class="ci">Mechanism</div>
+    <div class="cc"><p>Insist on the mechanism clause. "Because players will like it more" is not a mechanism. "Because the current copy does not distinguish a bank refusal from a typo" is. A hypothesis with a real mechanism produces a useful lesson even when it loses, because you learn the mechanism was wrong. One without a mechanism produces nothing either way.</p></div>
+  </div>
+
+  <h2 class="st">Prioritisation</h2>
+  <p>Named public frameworks &mdash; ICE, PIE and PXL are the common ones. They matter less for their arithmetic than for forcing the conversation into the open. Whichever you use, apply it consistently and publish the scores.</p>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Framework</th><th>Scores on</th><th>Strength</th><th>Weakness</th></tr></thead>
+    <tbody>
+      <tr><td><strong>ICE</strong></td><td>Impact, Confidence, Ease</td><td>Fast; anyone can apply it in a workshop</td><td>Entirely subjective &mdash; three opinions dressed as a number</td></tr>
+      <tr><td><strong>PIE</strong></td><td>Potential, Importance, Ease</td><td>Adds traffic weighting through Importance</td><td>Still subjective; "Potential" and "Impact" collapse into each other</td></tr>
+      <tr><td><strong>PXL</strong></td><td>Binary yes/no questions, weighted</td><td>Much harder to fudge; asks whether the change is above the fold, whether it removes a step, whether it is backed by research</td><td>Slower, and the question set needs adapting per client</td></tr>
+    </tbody>
+  </table></div>
+  <p><strong>Use PXL-style binary questions on a gambling account.</strong> Two of its questions do real work here: <em>is this backed by user research</em> and <em>does this remove friction from a money journey</em>. Both push the roadmap toward the cashier and away from homepage hero rotations, which is where it should be pointing anyway.</p>
+  <p>Add one question of your own that PXL does not have: <strong>does this touch a regulated journey?</strong> If yes, it does not get scored on conversion at all &mdash; it goes to a separate clarity backlog with compliance in the room.</p>
+
+  <h2 class="st">Sample size: the maths that decides whether a test is worth running</h2>
+  <p>Most tests that "fail to reach significance" were never capable of reaching it. Run the numbers before the ticket is written, not after the result disappoints.</p>
+  <p>A standard approximation for a two-variant test at 95% confidence and 80% power:</p>
+<pre><code>n per variant  =  16 &times; p(1&minus;p) / &delta;&sup2;
+
+  p  baseline conversion rate, as a proportion
+  &delta;  absolute change you want to detect
+     ( = p &times; relative MDE, so a 10% relative lift on a 30%
+       baseline is &delta; = 0.03 )</code></pre>
+  <p>Which gives, for baselines that look like a gambling funnel:</p>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Where in the funnel</th><th class="num">Baseline</th><th class="num">Detect 20% rel.</th><th class="num">Detect 10% rel.</th><th class="num">Detect 5% rel.</th></tr></thead>
+    <tbody>
+      <tr><td>Landing &rarr; registration started</td><td class="num">5%</td><td class="num">7,600</td><td class="num">30,400</td><td class="num">121,600</td></tr>
+      <tr><td>Registration started &rarr; FTD</td><td class="num">10%</td><td class="num">3,600</td><td class="num">14,400</td><td class="num">57,600</td></tr>
+      <tr><td>Cashier open &rarr; deposit attempt</td><td class="num">30%</td><td class="num">933</td><td class="num">3,733</td><td class="num">14,933</td></tr>
+      <tr><td>Registration completion</td><td class="num">50%</td><td class="num">400</td><td class="num">1,600</td><td class="num">6,400</td></tr>
+      <tr><td>Deposit success rate</td><td class="num">90%</td><td class="num">178</td><td class="num">711</td><td class="num">2,844</td></tr>
+    </tbody>
+  </table></div>
+  <p class="savestate">Per variant, for 95% confidence and 80% power. An approximation, and it assumes one primary metric, a fixed horizon and independent observations. Use your test platform's calculator for the number that goes in the document &mdash; use this table to know, in the meeting, whether the idea is viable at all.</p>
+
+  <div class="callout crit">
+    <div class="ci">Read this</div>
+    <div class="cc">
+      <p><strong>The single most useful consequence:</strong> high-baseline metrics are cheap to test and low-baseline metrics are brutally expensive. Detecting a 5% relative improvement on deposit success at a 90% baseline takes under 3,000 sessions per variant. Detecting the same relative improvement at the top of the acquisition funnel takes over 120,000.</p>
+      <p>This is why so much gambling CRO work quietly concentrates on the cashier: it is where the traffic is dense, the baseline is high, the money is immediate &mdash; and the tests actually conclude.</p>
+    </div>
+  </div>
+
+  <h3>The VIP problem</h3>
+  <p>The population that produces most of the revenue is far too small to test on. A brand with a few hundred VIPs cannot run a VIP-only experiment to any useful precision, ever. What you can do instead: run the test on the whole population, then use Fullstory to <em>watch</em> how VIPs experienced the variant, and treat that as qualitative evidence alongside the quantitative result on everyone else. Say this out loud when someone proposes a VIP test, before three weeks are spent on it.</p>
+
+  <h2 class="st">Test duration and the gambling calendar</h2>
+  <ul>
+    <li><strong>Always run whole weeks.</strong> Gambling traffic has a violent weekly shape &mdash; weekends, evenings, fixture days. Stopping mid-week means your variant saw a different week than your control.</li>
+    <li><strong>Two full weeks is the practical minimum</strong>, even if the sample arrives sooner, so a weekly cycle is covered twice.</li>
+    <li><strong>Check the fixture calendar before you start.</strong> A Grand National, a World Cup match or a large jackpot can multiply traffic and change its composition completely. A test that spans one and not the other is comparing two different populations.</li>
+    <li><strong>Watch for promotional overlap.</strong> A CRM campaign launched mid-test is a confound nobody will tell you about. Ask the retention team for their calendar and put it next to yours.</li>
+    <li><strong>Do not stop early because it looks good.</strong> Peeking at a fixed-horizon test inflates false positives substantially. If the client insists on monitoring, agree in advance that only the pre-set end date can stop it &mdash; or use a platform with proper sequential testing and let it do the correction.</li>
+  </ul>
+
+  <h2 class="st">Validity checks, in the order you should run them</h2>
+  <ol class="steps">
+    <li><b>Sample Ratio Mismatch</b> Did the split land where you set it? A 50/50 test that delivers 48/52 on large numbers is usually a bug &mdash; a redirect, a caching layer, a bot filter applied unevenly, or the tag firing late on one variant. <strong>SRM invalidates the test entirely.</strong> Check it first, every time, and if it fails, stop and find the cause rather than reasoning about the result.</li>
+    <li><b>Instrumentation parity</b> Did both variants fire the same events? Use Fullstory to confirm that the variant's own tracking works &mdash; a variant that under-reports its own success is a classic and embarrassing false negative.</li>
+    <li><b>Novelty and primacy</b> Returning players react to change as change. A lift in week one that decays in week two is novelty; a dip that recovers is primacy. Segment new versus returning and look at both separately.</li>
+    <li><b>Segment consistency</b> If the overall result is flat but mobile won heavily and desktop lost heavily, the headline is hiding two findings. Look before you conclude nothing happened.</li>
+    <li><b>Downstream effects</b> The tested step is not the business. A variant that increases cashier opens but not successful deposits has moved a number, not the money.</li>
+  </ol>
+
+  <div class="callout warn">
+    <div class="ci">Honesty</div>
+    <div class="cc"><p>Segment analysis after the fact is <strong>exploratory, not confirmatory</strong>. Slice enough ways and something will look significant by chance. Use post-hoc segments to generate the next hypothesis, never to rescue a flat result. Say "this is exploratory" in the deck, in writing &mdash; it is the difference between an analyst who is trusted with the numbers and one who is managed.</p></div>
+  </div>
+
+  <h2 class="st">What Fullstory does that the test platform cannot</h2>
+  <div class="grid g2">
+    <div class="card"><h3>Watch the loser</h3><p>Push the variant into Fullstory as a session property, then watch sessions from the losing variant that reached the tested step and failed. Nine times out of ten there is a visible reason &mdash; a control that moved under the thumb, a message that reads as an error, a layout that pushed the action below the keyboard. The test platform reports the loss; only replay explains it.</p></div>
+    <div class="card"><h3>Explain a flat result</h3><p>A null result usually means one of three things: nobody noticed the change, they noticed and did not care, or the change broke for a subset. Those are completely different lessons and they look identical in aggregate data. Frustration signals and replay separate them in an afternoon.</p></div>
+    <div class="card"><h3>Catch a broken variant</h3><p>Filter JavaScript errors and error clicks by variant. A variant that throws on one browser will drag its numbers down for reasons that have nothing to do with the hypothesis, and the test platform has no idea.</p></div>
+    <div class="card"><h3>Find the next test</h3><p>Segment comparison between converters and non-converters <em>within the winning variant</em> tells you what is still failing after the fix. The best source of the next hypothesis is almost always the residue of the last one.</p></div>
+  </div>
+
+  <h2 class="st">Things you cannot test on a gambling account</h2>
+  <ul>
+    <li><strong>Anything that weakens age or identity verification.</strong> Not even as a variant, not even briefly.</li>
+    <li><strong>Responsible-gambling tool prominence, in the direction of less.</strong> You may test clearer; you may not test quieter.</li>
+    <li><strong>Mandated messaging presence.</strong> Wording changes may be testable with compliance sign-off; presence is not.</li>
+    <li><strong>Affordability and RG interruptions, optimised for pass rate.</strong> Comprehension and speed only, with the objective stated as such in the test document.</li>
+    <li><strong>Anything that differentiates by inferred vulnerability.</strong> Including, quietly, a targeting rule that happens to correlate with it.</li>
+  </ul>
+  <p>Put these in the test plan template as a standing exclusions list, so the question is answered before someone proposes one in a workshop. It also demonstrates to a compliance officer that the programme has guardrails designed in rather than applied afterwards.</p>
+
+  <h2 class="st">The instrumentation that makes all of this possible</h2>
+<pre><code><span class="c">// On exposure — fire once per session, per experiment.</span>
+FS(<span class="s">'setProperties'</span>, {
+  type: <span class="s">'user'</span>,
+  properties: {
+    <span class="c">// one property per running experiment, namespaced</span>
+    exp_cashierDeclineCopy: <span class="s">'variant_b'</span>
+  }
+});
+
+FS(<span class="s">'trackEvent'</span>, {
+  name: <span class="s">'Experiment Exposure'</span>,
+  properties: {
+    experimentId: <span class="s">'EXP-114'</span>,
+    experimentName: <span class="s">'Cashier decline copy'</span>,
+    variant: <span class="s">'variant_b'</span>,
+    isControl: <span class="k">false</span>
+  }
+});</code></pre>
+  <p>Two forms on purpose. The <strong>user property</strong> makes every segment and funnel in the account filterable by variant with one click, which is what makes the analysis fast. The <strong>event</strong> gives you exposure timing and a countable denominator, which is what lets you check for sample ratio mismatch from Fullstory's side as well as the test platform's.</p>
+  <p>Fire exposure at the moment the player is genuinely exposed, not on page load. Counting people who never scrolled to the tested element dilutes the effect and makes a real win look flat.</p>
+
+  <div class="callout tip">
+    <div class="ci">Deliverable</div>
+    <div class="cc"><p>Every test gets a one-page document before it starts: hypothesis in the five-line form, primary metric, baseline, MDE, calculated sample size, planned duration in whole weeks, the exclusions check, and the analysis plan. Pre-registering it is what stops the post-hoc rationalisation that destroys programme credibility &mdash; and it takes twenty minutes.</p></div>
+  </div>
+</section>
