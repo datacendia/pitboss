@@ -3,6 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="A training platform for teaching Fullstory to gaming, gambling and casino clients: 35 modules, 153 KPIs each with a build recipe, 35 worked client requirements, deliverable templates, a hands-on lab and a spaced-repetition drill deck.">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#E7EAE4" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#101410" media="(prefers-color-scheme: dark)">
+<meta property="og:title" content="Fullstory Pit Boss">
+<meta property="og:description" content="Teaching Fullstory to gaming, gambling and casino clients — 35 modules, 153 KPIs with build recipes, onboarding playbooks and a hands-on lab.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27%3E%F0%9F%8E%B2%3C/text%3E%3C/svg%3E">
 <style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
 </head>
 <body>
@@ -27,6 +35,16 @@
   </div>
 </div>
 
+<noscript>
+  <div class="noscript">
+    <h2>This page needs JavaScript</h2>
+    <p>Fullstory Pit Boss builds its navigation, search index and 153 KPI cards in the
+    browser, so with scripting disabled there is nothing to show. Enable JavaScript for
+    this page and reload. Nothing is sent anywhere &mdash; your progress and notes stay
+    in this browser.</p>
+  </div>
+</noscript>
+
 <div class="scrim" id="scrim"></div>
 <nav class="rail" id="rail" aria-label="Curriculum"></nav>
 <main id="main">
@@ -46,12 +64,12 @@
 
   <h2 class="st">How this is organised</h2>
   <div class="grid g2">
-    <div class="card"><h4>Part I &mdash; The Product</h4><p>Eleven modules on Fullstory itself: the capture engine, instrumentation, identity, the event data model, privacy controls, replay craft, segments, funnels, journeys, frustration signals, warehouse export, and administration. This is the part that makes you credible in a room.</p></div>
-    <div class="card"><h4>Part II &mdash; The Client's Data</h4><p>What a gambling operator actually measures and why. Money mechanics, the player lifecycle, the systems landscape behind every brand, the event taxonomy you will implement, and the regulatory lines you must not cross.</p></div>
-    <div class="card"><h4>Part III &mdash; Onboarding</h4><p>A six-phase framework, six client archetypes with week-by-week plans, a discovery questionnaire, a role-by-role training curriculum and an account health check. Plus a generator that assembles a plan from a client profile &mdash; and flags where the profile contradicts itself &mdash; and nine copy-ready deliverable templates.</p></div>
-    <div class="card"><h4>Part IV &mdash; Requirements Library</h4><p>Thirty-five requirements clients actually voice, each decoded into segments, funnels, events, the KPI it moves, and the deliverable you hand back.</p></div>
-    <div class="card"><h4>Part V &mdash; KPI Encyclopedia</h4><p>Nine build patterns, then every metric across acquisition, casino, sportsbook, poker and bingo, social gaming, payments, KYC, retention, responsible gambling, performance and support. Open any KPI for its full build recipe: prerequisites, numbered steps, the cuts to segment by, and the trap.</p></div>
-    <div class="card"><h4>Part VI &mdash; Drills</h4><p>A spaced-repetition question bank in three formats, a glossary, a hands-on lab with a sandbox site containing eight planted defects, and a scenario coach that role-plays a hostile Head of Digital. Plus a sources page and how to run it all offline.</p></div>
+    <div class="card"><h3>Part I &mdash; The Product</h3><p>Eleven modules on Fullstory itself: the capture engine, instrumentation, identity, the event data model, privacy controls, replay craft, segments, funnels, journeys, frustration signals, warehouse export, and administration. This is the part that makes you credible in a room.</p></div>
+    <div class="card"><h3>Part II &mdash; The Client's Data</h3><p>What a gambling operator actually measures and why. Money mechanics, the player lifecycle, the systems landscape behind every brand, the event taxonomy you will implement, and the regulatory lines you must not cross.</p></div>
+    <div class="card"><h3>Part III &mdash; Onboarding</h3><p>A six-phase framework, six client archetypes with week-by-week plans, a discovery questionnaire, a role-by-role training curriculum and an account health check. Plus a generator that assembles a plan from a client profile &mdash; and flags where the profile contradicts itself &mdash; and nine copy-ready deliverable templates.</p></div>
+    <div class="card"><h3>Part IV &mdash; Requirements Library</h3><p>Thirty-five requirements clients actually voice, each decoded into segments, funnels, events, the KPI it moves, and the deliverable you hand back.</p></div>
+    <div class="card"><h3>Part V &mdash; KPI Encyclopedia</h3><p>Nine build patterns, then every metric across acquisition, casino, sportsbook, poker and bingo, social gaming, payments, KYC, retention, responsible gambling, performance and support. Open any KPI for its full build recipe: prerequisites, numbered steps, the cuts to segment by, and the trap.</p></div>
+    <div class="card"><h3>Part VI &mdash; Drills</h3><p>A spaced-repetition question bank in three formats, a glossary, a hands-on lab with a sandbox site containing eight planted defects, and a scenario coach that role-plays a hostile Head of Digital. Plus a sources page and how to run it all offline.</p></div>
   </div>
 
   <div class="callout warn">
@@ -82,10 +100,10 @@
   <p>Playback reconstructs the page in an isolated iframe by replaying those mutations against the original snapshot, and draws a synthetic cursor from the input track. Nothing is rasterised at capture time. That single fact drives almost everything else:</p>
 
   <div class="grid g2">
-    <div class="card"><h4>Why the payload is small</h4><p>A text diff is bytes; a video frame is kilobytes. Capture typically adds a low-single-digit percentage to page weight and the script loads asynchronously, so it should not block rendering. When a client says "we cannot add another tag, the site is heavy" this is your answer &mdash; but get the number from their own RUM rather than quoting a brochure figure.</p></div>
-    <div class="card"><h4>Why you can inspect elements in replay</h4><p>Because the page is real DOM, not pixels, you can open the element inspector mid-replay, read CSS selectors, and click through to console and network panels. This is the single biggest advantage over video-based tools and the demo moment that wins rooms.</p></div>
-    <div class="card"><h4>Why some things do not replay</h4><p>Anything drawn outside the DOM is invisible to a DOM recorder. That means <strong>&lt;canvas&gt; and WebGL render as blank</strong>, cross-origin iframes you do not control are not captured, video elements show as a box, and Shadow DOM needs explicit support. For casino clients this is the headline caveat: <em>the slot game itself will not replay</em>. See the module on lobby and game instrumentation for how to work around it.</p></div>
-    <div class="card"><h4>Why replay can look "wrong"</h4><p>Playback fetches CSS and images from their live URLs at the time you watch. If a stylesheet has since been redeployed, or an asset sits behind auth or a short-lived CDN signature, the replay renders with the new styling or with gaps. Fullstory mitigates this by capturing stylesheet contents where it can, but on heavily personalised or aggressively cache-busted sites expect some drift, and expect a client to point at it.</p></div>
+    <div class="card"><h3>Why the payload is small</h3><p>A text diff is bytes; a video frame is kilobytes. Capture typically adds a low-single-digit percentage to page weight and the script loads asynchronously, so it should not block rendering. When a client says "we cannot add another tag, the site is heavy" this is your answer &mdash; but get the number from their own RUM rather than quoting a brochure figure.</p></div>
+    <div class="card"><h3>Why you can inspect elements in replay</h3><p>Because the page is real DOM, not pixels, you can open the element inspector mid-replay, read CSS selectors, and click through to console and network panels. This is the single biggest advantage over video-based tools and the demo moment that wins rooms.</p></div>
+    <div class="card"><h3>Why some things do not replay</h3><p>Anything drawn outside the DOM is invisible to a DOM recorder. That means <strong>&lt;canvas&gt; and WebGL render as blank</strong>, cross-origin iframes you do not control are not captured, video elements show as a box, and Shadow DOM needs explicit support. For casino clients this is the headline caveat: <em>the slot game itself will not replay</em>. See the module on lobby and game instrumentation for how to work around it.</p></div>
+    <div class="card"><h3>Why replay can look "wrong"</h3><p>Playback fetches CSS and images from their live URLs at the time you watch. If a stylesheet has since been redeployed, or an asset sits behind auth or a short-lived CDN signature, the replay renders with the new styling or with gaps. Fullstory mitigates this by capturing stylesheet contents where it can, but on heavily personalised or aggressively cache-busted sites expect some drift, and expect a client to point at it.</p></div>
   </div>
 
   <h2 class="st">The unit hierarchy</h2>
@@ -127,10 +145,10 @@
 
   <h2 class="st">The four ways in</h2>
   <div class="grid g2">
-    <div class="card"><h4>1. Direct snippet <span class="tag p">best</span></h4><p>Paste the capture snippet high in <code>&lt;head&gt;</code>, before other tags where possible. Earliest initialisation means you capture the pre-render state and the errors that happen during boot. Requires a release from the client's dev team.</p></div>
-    <div class="card"><h4>2. npm package</h4><p><code>@fullstory/browser</code> for SPAs. Gives typed helpers, a clean init call in your app bootstrap, and version control. Preferred by any operator with a modern React or Vue front end.</p></div>
-    <div class="card"><h4>3. Google Tag Manager <span class="tag w">compromise</span></h4><p>Fast to deploy and the usual answer when dev capacity is zero. Costs you: later initialisation (you miss early errors), dependence on GTM's own load, and a consent layer that frequently suppresses the tag. Acceptable for a proof of value, not for the long term.</p></div>
-    <div class="card"><h4>4. CDP / tag platform</h4><p>Segment, mParticle or Tealium can carry Fullstory as a destination. Attractive when the client already routes identity through a CDP, because identity and events arrive consistently. Watch for the CDP stripping or renaming properties in transit.</p></div>
+    <div class="card"><h3>1. Direct snippet <span class="tag p">best</span></h3><p>Paste the capture snippet high in <code>&lt;head&gt;</code>, before other tags where possible. Earliest initialisation means you capture the pre-render state and the errors that happen during boot. Requires a release from the client's dev team.</p></div>
+    <div class="card"><h3>2. npm package</h3><p><code>@fullstory/browser</code> for SPAs. Gives typed helpers, a clean init call in your app bootstrap, and version control. Preferred by any operator with a modern React or Vue front end.</p></div>
+    <div class="card"><h3>3. Google Tag Manager <span class="tag w">compromise</span></h3><p>Fast to deploy and the usual answer when dev capacity is zero. Costs you: later initialisation (you miss early errors), dependence on GTM's own load, and a consent layer that frequently suppresses the tag. Acceptable for a proof of value, not for the long term.</p></div>
+    <div class="card"><h3>4. CDP / tag platform</h3><p>Segment, mParticle or Tealium can carry Fullstory as a destination. Attractive when the client already routes identity through a CDP, because identity and events arrive consistently. Watch for the CDP stripping or renaming properties in transit.</p></div>
   </div>
 
   <h3>The snippet, annotated</h3>
@@ -407,7 +425,7 @@ FS('shutdown');           // stops capture for this session
   <h2 class="st">The gambling exclusion list</h2>
   <p>Walk this with the client's DPO and get sign-off in writing. Everything here should be excluded or masked before a single production session is captured.</p>
   <div class="grid g2">
-    <div class="card"><h4><span class="tag c">Exclude</span> Never capture</h4><ul>
+    <div class="card"><h3><span class="tag c">Exclude</span> Never capture</h3><ul>
       <li>Card number, expiry, CVV, cardholder name &mdash; also a PCI-DSS scope question, not only GDPR</li>
       <li>Bank account and sort code, IBAN</li>
       <li>National insurance / social security / tax ID numbers</li>
@@ -417,7 +435,7 @@ FS('shutdown');           // stops capture for this session
       <li>Passwords, security answers, one-time codes</li>
       <li>Free-text support chat content typed by the player</li>
     </ul></div>
-    <div class="card"><h4><span class="tag w">Mask</span> Capture structure only</h4><ul>
+    <div class="card"><h3><span class="tag w">Mask</span> Capture structure only</h3><ul>
       <li>Player name and username wherever rendered</li>
       <li>Account balance, bonus balance, withdrawable balance</li>
       <li>Transaction history amounts and bet history stakes and returns</li>
@@ -487,10 +505,10 @@ FS('shutdown');           // stops capture for this session
 
   <h2 class="st">Gaming-specific replay realities</h2>
   <div class="grid g2">
-    <div class="card"><h4>The game is a black box</h4><p>Slots, live dealer and most sportsbook in-play widgets render in canvas or a third-party iframe. Replay will show a blank rectangle. You instrument the <em>edges</em>: launch requested, load succeeded or failed, time to playable, exit, and the return-to-lobby state. That is where the UX problems actually live anyway &mdash; almost no losses happen inside the game, they happen getting into it and getting money in.</p></div>
-    <div class="card"><h4>Sessions are long and bursty</h4><p>A casino session can run for hours with long idle periods. Use event-timeline jumps rather than scrubbing, and be careful quoting "average session duration" to a client &mdash; in gambling it correlates with spend but it is also the metric most contaminated by idle tabs.</p></div>
-    <div class="card"><h4>Balance is masked, so infer</h4><p>You will not see the player's balance. Infer state from behaviour: repeated cashier opens, a deposit attempt immediately after a game exit, stake-size changes. Instrument a <code>balanceBucket</code> property if the client will allow it &mdash; it is a powerful segmentation dimension and it is not directly identifying.</p></div>
-    <div class="card"><h4>Multi-tab play is normal</h4><p>Serious players run several games at once, sometimes across tabs. Fullstory captures each tab; sessions can look fragmentary. Do not interpret a "half-finished" journey as abandonment without checking whether the player continued in another tab.</p></div>
+    <div class="card"><h3>The game is a black box</h3><p>Slots, live dealer and most sportsbook in-play widgets render in canvas or a third-party iframe. Replay will show a blank rectangle. You instrument the <em>edges</em>: launch requested, load succeeded or failed, time to playable, exit, and the return-to-lobby state. That is where the UX problems actually live anyway &mdash; almost no losses happen inside the game, they happen getting into it and getting money in.</p></div>
+    <div class="card"><h3>Sessions are long and bursty</h3><p>A casino session can run for hours with long idle periods. Use event-timeline jumps rather than scrubbing, and be careful quoting "average session duration" to a client &mdash; in gambling it correlates with spend but it is also the metric most contaminated by idle tabs.</p></div>
+    <div class="card"><h3>Balance is masked, so infer</h3><p>You will not see the player's balance. Infer state from behaviour: repeated cashier opens, a deposit attempt immediately after a game exit, stake-size changes. Instrument a <code>balanceBucket</code> property if the client will allow it &mdash; it is a powerful segmentation dimension and it is not directly identifying.</p></div>
+    <div class="card"><h3>Multi-tab play is normal</h3><p>Serious players run several games at once, sometimes across tabs. Fullstory captures each tab; sessions can look fragmentary. Do not interpret a "half-finished" journey as abandonment without checking whether the player continued in another tab.</p></div>
   </div>
 
   <h2 class="st">Playlists and the deliverable</h2>
@@ -566,10 +584,10 @@ FS('shutdown');           // stops capture for this session
 
   <h3>The four funnels every gambling client needs</h3>
   <div class="grid g2">
-    <div class="card"><h4>Acquisition to first deposit</h4><p>Landing &rarr; Registration Started &rarr; Registration Completed &rarr; KYC Passed &rarr; Cashier Opened &rarr; Deposit Attempted &rarr; Deposit Success. Seven steps, usually 2&ndash;6% end-to-end from landing. This funnel is the client's entire acquisition economics in one picture.</p></div>
-    <div class="card"><h4>Deposit (returning player)</h4><p>Cashier Opened &rarr; Method Selected &rarr; Deposit Attempted &rarr; Deposit Success. Short, high-volume, and the highest-leverage thing you will ever optimise for these clients. A point of deposit success rate is worth more than most redesigns.</p></div>
-    <div class="card"><h4>Game engagement (casino)</h4><p>Lobby Viewed &rarr; Game Tile Clicked &rarr; Game Launched &rarr; Game Load Success &rarr; First Spin. The drop between launch and load success is a technical KPI you can hand to the provider-management team with real leverage.</p></div>
-    <div class="card"><h4>Betslip (sportsbook)</h4><p>Event Viewed &rarr; Selection Added &rarr; Stake Entered &rarr; Bet Placed &rarr; Bet Accepted. The gap between Placed and Accepted is price-change rejection &mdash; a metric most sportsbooks under-measure and one that quietly destroys in-play conversion.</p></div>
+    <div class="card"><h3>Acquisition to first deposit</h3><p>Landing &rarr; Registration Started &rarr; Registration Completed &rarr; KYC Passed &rarr; Cashier Opened &rarr; Deposit Attempted &rarr; Deposit Success. Seven steps, usually 2&ndash;6% end-to-end from landing. This funnel is the client's entire acquisition economics in one picture.</p></div>
+    <div class="card"><h3>Deposit (returning player)</h3><p>Cashier Opened &rarr; Method Selected &rarr; Deposit Attempted &rarr; Deposit Success. Short, high-volume, and the highest-leverage thing you will ever optimise for these clients. A point of deposit success rate is worth more than most redesigns.</p></div>
+    <div class="card"><h3>Game engagement (casino)</h3><p>Lobby Viewed &rarr; Game Tile Clicked &rarr; Game Launched &rarr; Game Load Success &rarr; First Spin. The drop between launch and load success is a technical KPI you can hand to the provider-management team with real leverage.</p></div>
+    <div class="card"><h3>Betslip (sportsbook)</h3><p>Event Viewed &rarr; Selection Added &rarr; Stake Entered &rarr; Bet Placed &rarr; Bet Accepted. The gap between Placed and Accepted is price-change rejection &mdash; a metric most sportsbooks under-measure and one that quietly destroys in-play conversion.</p></div>
   </div>
 
   <div class="callout warn">
@@ -631,10 +649,10 @@ FS('shutdown');           // stops capture for this session
 
   <h2 class="st">How to read them without embarrassing yourself</h2>
   <div class="grid g2">
-    <div class="card"><h4>Rage clicks are not all rage</h4><p>Rapid clicking is also how people interact with steppers, quick-stake buttons, "+&pound;10" chips and spin buttons. A sportsbook's stake stepper will generate enormous rage-click volume that means nothing. <strong>Always exclude known repeat-click controls</strong> &mdash; Fullstory supports suppressing the signal on specific elements, and if you do not do this your top rage-click element will be the spin button and your first report will be laughed at.</p></div>
-    <div class="card"><h4>Dead clicks include the harmless</h4><p>Clicking on whitespace, on a heading, on an image &mdash; people click things. The signal matters when it clusters on an element that <em>looks</em> like a control. Filter to elements with button-like or link-like styling before you report anything.</p></div>
-    <div class="card"><h4>Error clicks are the gold</h4><p>Of all the signals, error clicks have the highest ratio of genuine, fixable, revenue-affecting defects. Start every new engagement here: sort error clicks by affected sessions, take the top five, quantify the downstream conversion loss for each, and hand engineering a ranked list. This is the exercise that most reliably produces a win inside two weeks.</p></div>
-    <div class="card"><h4>Frustration is a rate, not a count</h4><p>Report frustration as a percentage of sessions on that page, trended, segmented by device. Raw counts just tell you which page has the most traffic &mdash; which will be the lobby, every time, and tells you nothing.</p></div>
+    <div class="card"><h3>Rage clicks are not all rage</h3><p>Rapid clicking is also how people interact with steppers, quick-stake buttons, "+&pound;10" chips and spin buttons. A sportsbook's stake stepper will generate enormous rage-click volume that means nothing. <strong>Always exclude known repeat-click controls</strong> &mdash; Fullstory supports suppressing the signal on specific elements, and if you do not do this your top rage-click element will be the spin button and your first report will be laughed at.</p></div>
+    <div class="card"><h3>Dead clicks include the harmless</h3><p>Clicking on whitespace, on a heading, on an image &mdash; people click things. The signal matters when it clusters on an element that <em>looks</em> like a control. Filter to elements with button-like or link-like styling before you report anything.</p></div>
+    <div class="card"><h3>Error clicks are the gold</h3><p>Of all the signals, error clicks have the highest ratio of genuine, fixable, revenue-affecting defects. Start every new engagement here: sort error clicks by affected sessions, take the top five, quantify the downstream conversion loss for each, and hand engineering a ranked list. This is the exercise that most reliably produces a win inside two weeks.</p></div>
+    <div class="card"><h3>Frustration is a rate, not a count</h3><p>Report frustration as a percentage of sessions on that page, trended, segmented by device. Raw counts just tell you which page has the most traffic &mdash; which will be the lobby, every time, and tells you nothing.</p></div>
   </div>
 
   <h2 class="st">Turning a signal into money</h2>
@@ -694,12 +712,12 @@ FS('shutdown');           // stops capture for this session
 
   <h2 class="st">Integrations worth wiring</h2>
   <div class="grid g2">
-    <div class="card"><h4>Support &mdash; Zendesk, Salesforce, Intercom</h4><p>Attach the session replay link to the ticket automatically via <code>FS('getSession')</code>. Agents stop asking "what browser are you on". Handle time drops measurably. This is the easiest adoption win in the entire product and it converts a whole department in a week.</p></div>
-    <div class="card"><h4>Engineering &mdash; Jira, Sentry, Slack</h4><p>Replay link on every bug ticket; Fullstory session attached to Sentry error. Removes the reproduction step that eats developer time and kills the "cannot reproduce" close reason.</p></div>
-    <div class="card"><h4>Experimentation &mdash; Optimizely, VWO, AB Tasty, Adobe Target</h4><p>Push the variant as a session property. You can then watch the losing variant's sessions and find out <em>why</em> it lost &mdash; which is the single most useful thing an optimisation analyst can do and the thing the test platform cannot tell you.</p></div>
-    <div class="card"><h4>Analytics &mdash; GA4, Amplitude, Adobe</h4><p>Two-way: send the Fullstory session URL into the analytics tool as a dimension, and send analytics identifiers into Fullstory. Lets a GA4 user jump from an anomalous segment straight to the replays.</p></div>
-    <div class="card"><h4>CRM &mdash; Optimove, Xtremepush, Braze, Fast Track</h4><p>Gambling-specific and underrated. Feed a Fullstory segment ("failed first deposit in last 24h") into the CRM as a trigger audience. The client's retention team suddenly has a behavioural trigger they could not build before.</p></div>
-    <div class="card"><h4>Voice of customer &mdash; Qualtrics, Medallia, Usabilla</h4><p>Join the survey response to the session. A low NPS score with a watchable session behind it is worth ten without.</p></div>
+    <div class="card"><h3>Support &mdash; Zendesk, Salesforce, Intercom</h3><p>Attach the session replay link to the ticket automatically via <code>FS('getSession')</code>. Agents stop asking "what browser are you on". Handle time drops measurably. This is the easiest adoption win in the entire product and it converts a whole department in a week.</p></div>
+    <div class="card"><h3>Engineering &mdash; Jira, Sentry, Slack</h3><p>Replay link on every bug ticket; Fullstory session attached to Sentry error. Removes the reproduction step that eats developer time and kills the "cannot reproduce" close reason.</p></div>
+    <div class="card"><h3>Experimentation &mdash; Optimizely, VWO, AB Tasty, Adobe Target</h3><p>Push the variant as a session property. You can then watch the losing variant's sessions and find out <em>why</em> it lost &mdash; which is the single most useful thing an optimisation analyst can do and the thing the test platform cannot tell you.</p></div>
+    <div class="card"><h3>Analytics &mdash; GA4, Amplitude, Adobe</h3><p>Two-way: send the Fullstory session URL into the analytics tool as a dimension, and send analytics identifiers into Fullstory. Lets a GA4 user jump from an anomalous segment straight to the replays.</p></div>
+    <div class="card"><h3>CRM &mdash; Optimove, Xtremepush, Braze, Fast Track</h3><p>Gambling-specific and underrated. Feed a Fullstory segment ("failed first deposit in last 24h") into the CRM as a trigger audience. The client's retention team suddenly has a behavioural trigger they could not build before.</p></div>
+    <div class="card"><h3>Voice of customer &mdash; Qualtrics, Medallia, Usabilla</h3><p>Join the survey response to the session. A low NPS score with a watchable session behind it is worth ten without.</p></div>
   </div>
 
   <h2 class="st">Fullstory AI</h2>
@@ -727,10 +745,10 @@ FS('shutdown');           // stops capture for this session
   <h2 class="st">Multi-brand and multi-market structure</h2>
   <p>Four viable patterns, and the choice is consequential.</p>
   <div class="grid g2">
-    <div class="card"><h4>One org, brand as a property <span class="tag p">usually right</span></h4><p>All brands in one workspace, distinguished by a <code>brand</code> user and session property. Cross-brand analysis is trivial, licences are pooled, segments are shared. Requires discipline: every segment must filter by brand or the numbers are nonsense.</p></div>
-    <div class="card"><h4>Umbrella over separate accounts <span class="tag b">multi-brand groups</span></h4><p>Fullstory supports an <strong>Umbrella</strong> structure: several distinct accounts governed together, with an Umbrella Manager able to administer users across all of them. This is the pattern purpose-built for a gambling group that needs per-brand separation without losing central administration. Ask about it by name &mdash; most clients do not know it exists.</p></div>
-    <div class="card"><h4>Separate orgs per brand</h4><p>Hard isolation with no shared administration. Necessary when brands are legally separate entities, when a regulator requires data segregation, or when one brand is a joint venture. Costs you cross-brand analysis entirely and multiplies admin work.</p></div>
-    <div class="card"><h4>Split by regulatory region</h4><p>One org per data-residency regime. Often forced by law rather than chosen. Plan for the reporting overhead &mdash; someone will have to combine numbers manually, and it should not be you every month.</p></div>
+    <div class="card"><h3>One org, brand as a property <span class="tag p">usually right</span></h3><p>All brands in one workspace, distinguished by a <code>brand</code> user and session property. Cross-brand analysis is trivial, licences are pooled, segments are shared. Requires discipline: every segment must filter by brand or the numbers are nonsense.</p></div>
+    <div class="card"><h3>Umbrella over separate accounts <span class="tag b">multi-brand groups</span></h3><p>Fullstory supports an <strong>Umbrella</strong> structure: several distinct accounts governed together, with an Umbrella Manager able to administer users across all of them. This is the pattern purpose-built for a gambling group that needs per-brand separation without losing central administration. Ask about it by name &mdash; most clients do not know it exists.</p></div>
+    <div class="card"><h3>Separate orgs per brand</h3><p>Hard isolation with no shared administration. Necessary when brands are legally separate entities, when a regulator requires data segregation, or when one brand is a joint venture. Costs you cross-brand analysis entirely and multiplies admin work.</p></div>
+    <div class="card"><h3>Split by regulatory region</h3><p>One org per data-residency regime. Often forced by law rather than chosen. Plan for the reporting overhead &mdash; someone will have to combine numbers manually, and it should not be you every month.</p></div>
   </div>
 
   <h2 class="st">Session quotas and sampling</h2>
@@ -783,14 +801,14 @@ FS('shutdown');           // stops capture for this session
 
   <h2 class="st">Where sportsbook and casino players differ behaviourally</h2>
   <div class="grid g2">
-    <div class="card"><h4>Sportsbook</h4><ul>
+    <div class="card"><h3>Sportsbook</h3><ul>
       <li>Demand is event-driven and spiky &mdash; the Grand National, a derby, a title fight. Traffic can go up tenfold in an hour.</li>
       <li>Extreme time pressure in-play. A two-second delay is a lost bet, not a mild annoyance.</li>
       <li>Deep navigation: sport &rarr; competition &rarr; event &rarr; market &rarr; selection. Lots of places to lose people.</li>
       <li>Multiples and accumulators are hugely profitable and disproportionately mobile.</li>
       <li>Price changes between selection and placement cause rejections that players experience as the site "cheating" them.</li>
     </ul></div>
-    <div class="card"><h4>Casino</h4><ul>
+    <div class="card"><h3>Casino</h3><ul>
       <li>Demand is steadier, with evening and late-night peaks and a strong weekend pattern.</li>
       <li>Discovery is the core problem: hundreds or thousands of games, most of which are never launched.</li>
       <li>Sessions are long, repetitive and often multi-tab.</li>
@@ -1056,10 +1074,10 @@ FS('shutdown');           // stops capture for this session
   <h2 class="st">Where regulation creates genuine opportunity</h2>
   <p>The constraint is also the opening. Compliance-mandated journeys are almost universally badly designed, because they were built to satisfy a legal requirement at minimum cost and nobody has revisited them since.</p>
   <div class="grid g2">
-    <div class="card"><h4>Make required friction legible</h4><p>Players abandon KYC because nobody told them why it is happening or how long it takes. A single explanatory sentence and a progress indicator can lift completion substantially <em>without</em> weakening the check &mdash; the player is still verified, they just understand what is happening. This is the cleanest kind of win available on a gambling account.</p></div>
-    <div class="card"><h4>Make RG tools genuinely usable</h4><p>Deposit limits are typically buried in account settings behind punitive language. Presenting them neutrally and accessibly increases adoption, which reduces harm, reduces regulatory risk, and correlates with longer, healthier player lifetimes. You can argue this commercially and ethically at the same time, which is rare.</p></div>
-    <div class="card"><h4>Prove compliance with evidence</h4><p>Operators must show that required messaging was displayed. Fullstory can evidence that an RG message rendered, was in the viewport, and was interacted with &mdash; genuine, dated, session-level proof. Offer this to the compliance team early; it is a use case they did not know existed and it wins you an internal champion in an unexpected department.</p></div>
-    <div class="card"><h4>Instrument the geolocation check</h4><p>In US states, the geolocation check fails routinely &mdash; VPNs, poor GPS, desktop browsers, corporate networks. Each failure is a lost session and a support contact. Nobody measures it. Instrument attempt, outcome, reason and retry, and you will have found a meaningful loss inside a week.</p></div>
+    <div class="card"><h3>Make required friction legible</h3><p>Players abandon KYC because nobody told them why it is happening or how long it takes. A single explanatory sentence and a progress indicator can lift completion substantially <em>without</em> weakening the check &mdash; the player is still verified, they just understand what is happening. This is the cleanest kind of win available on a gambling account.</p></div>
+    <div class="card"><h3>Make RG tools genuinely usable</h3><p>Deposit limits are typically buried in account settings behind punitive language. Presenting them neutrally and accessibly increases adoption, which reduces harm, reduces regulatory risk, and correlates with longer, healthier player lifetimes. You can argue this commercially and ethically at the same time, which is rare.</p></div>
+    <div class="card"><h3>Prove compliance with evidence</h3><p>Operators must show that required messaging was displayed. Fullstory can evidence that an RG message rendered, was in the viewport, and was interacted with &mdash; genuine, dated, session-level proof. Offer this to the compliance team early; it is a use case they did not know existed and it wins you an internal champion in an unexpected department.</p></div>
+    <div class="card"><h3>Instrument the geolocation check</h3><p>In US states, the geolocation check fails routinely &mdash; VPNs, poor GPS, desktop browsers, corporate networks. Each failure is a lost session and a support contact. Nobody measures it. Instrument attempt, outcome, reason and retry, and you will have found a meaningful loss inside a week.</p></div>
   </div>
 </section>
 
@@ -1069,8 +1087,9 @@ FS('shutdown');           // stops capture for this session
   <h1 class="vt">Six phases, ninety days</h1>
   <p class="lede">One framework, adapted per client. The sequence matters more than the timings: skipping discovery to get the tag live faster is the most common and most expensive mistake in this work, because every wrong decision made in week one is still being paid for in month six.</p>
 
+  <h2 class="st">The six phases</h2>
   <div class="bout">
-    <div class="phase"><h4><span class="wk">Week 0&ndash;1</span> Phase 1 &mdash; Discover</h4><div class="pb">
+    <div class="phase"><h3><span class="wk">Week 0&ndash;1</span> Phase 1 &mdash; Discover</h3><div class="pb">
       <p><strong>Goal:</strong> know the business, the stack, the politics and the constraints before touching anything.</p>
       <ul>
         <li>Commercial discovery: verticals, markets, brands, revenue mix, the two or three numbers the board watches</li>
@@ -1083,7 +1102,7 @@ FS('shutdown');           // stops capture for this session
       <p><strong>Output:</strong> Discovery summary, stakeholder map, constraints register, draft success criteria.</p>
     </div></div>
 
-    <div class="phase"><h4><span class="wk">Week 1&ndash;2</span> Phase 2 &mdash; Design</h4><div class="pb">
+    <div class="phase"><h3><span class="wk">Week 1&ndash;2</span> Phase 2 &mdash; Design</h3><div class="pb">
       <p><strong>Goal:</strong> decide everything before a developer writes a line, so the build is a single pass.</p>
       <ul>
         <li>Account structure: one org or several, brand and market property model, environment separation</li>
@@ -1096,7 +1115,7 @@ FS('shutdown');           // stops capture for this session
       <p><strong>Output:</strong> Instrumentation spec, Data Capture Statement, measurement plan, signed privacy design.</p>
     </div></div>
 
-    <div class="phase"><h4><span class="wk">Week 2&ndash;4</span> Phase 3 &mdash; Deploy</h4><div class="pb">
+    <div class="phase"><h3><span class="wk">Week 2&ndash;4</span> Phase 3 &mdash; Deploy</h3><div class="pb">
       <p><strong>Goal:</strong> capture running correctly and provably safely.</p>
       <ul>
         <li>Snippet or SDK to staging; CSP and CMP configured</li>
@@ -1109,7 +1128,7 @@ FS('shutdown');           // stops capture for this session
       <p><strong>Output:</strong> Capture live, QA report, privacy audit evidence pack.</p>
     </div></div>
 
-    <div class="phase"><h4><span class="wk">Week 4&ndash;6</span> Phase 4 &mdash; Validate</h4><div class="pb">
+    <div class="phase"><h3><span class="wk">Week 4&ndash;6</span> Phase 4 &mdash; Validate</h3><div class="pb">
       <p><strong>Goal:</strong> prove the data is trustworthy before anyone makes a decision on it.</p>
       <ul>
         <li>Build the day-one segment library and the four core funnels</li>
@@ -1121,7 +1140,7 @@ FS('shutdown');           // stops capture for this session
       <p><strong>Output:</strong> Reconciliation note, segment and funnel library, dashboards, first quantified finding.</p>
     </div></div>
 
-    <div class="phase"><h4><span class="wk">Week 5&ndash;9</span> Phase 5 &mdash; Enable</h4><div class="pb">
+    <div class="phase"><h3><span class="wk">Week 5&ndash;9</span> Phase 5 &mdash; Enable</h3><div class="pb">
       <p><strong>Goal:</strong> make it theirs. This is the phase that determines renewal.</p>
       <ul>
         <li>Role-based training: separate sessions for analysts, product, engineering, support, executives</li>
@@ -1133,7 +1152,7 @@ FS('shutdown');           // stops capture for this session
       <p><strong>Output:</strong> Trained teams, quick-reference cards, live integrations, named champions.</p>
     </div></div>
 
-    <div class="phase"><h4><span class="wk">Week 8&ndash;12+</span> Phase 6 &mdash; Embed</h4><div class="pb">
+    <div class="phase"><h3><span class="wk">Week 8&ndash;12+</span> Phase 6 &mdash; Embed</h3><div class="pb">
       <p><strong>Goal:</strong> turn a tool into a working rhythm.</p>
       <ul>
         <li>A recurring insight cadence &mdash; fortnightly findings, monthly review, quarterly business review</li>
@@ -1160,12 +1179,12 @@ FS('shutdown');           // stops capture for this session
   <details class="req" open><summary><span class="rnum">A</span><span class="rq">Tier-1 multi-brand group<em>Several brands, several markets, in-house engineering, a mature BI function, and a compliance team with veto power.</em></span></summary>
     <div class="dbody">
       <div class="reqgrid">
-        <div><h5>Shape</h5><p>Sportsbook plus casino, 3&ndash;8 brands, in-house React front end, own platform or deep platform partnership, Snowflake, a real data team. Hundreds of people could use the tool.</p></div>
-        <div><h5>What is hard</h5><p>Politics, not technology. Every brand has its own product owner and its own view. Compliance sign-off is a real gate with a real queue. Nothing ships without going through change management.</p></div>
-        <div><h5>Emphasis</h5><p>Spend double the normal time in Discover and Design. Get the account structure and the brand property model right &mdash; migrating later is brutal. Win the BI lead early; they decide whether this becomes strategic or stays a UX toy.</p></div>
-        <div><h5>Timeline</h5><p>12&ndash;16 weeks to Embed. Do not promise faster; you will miss it and spend the rest of the engagement apologising.</p></div>
-        <div><h5>First win</h5><p>A cross-brand comparison nobody has ever been able to run &mdash; the same funnel, five brands, side by side. It is politically explosive and commercially irresistible.</p></div>
-        <div><h5>Risk</h5><p>Becoming the tool of one department. Insist on a cross-functional steering group from week one, or you will be renewed by one budget holder and cancelled by their successor.</p></div>
+        <div><p class="flabel">Shape</p><p>Sportsbook plus casino, 3&ndash;8 brands, in-house React front end, own platform or deep platform partnership, Snowflake, a real data team. Hundreds of people could use the tool.</p></div>
+        <div><p class="flabel">What is hard</p><p>Politics, not technology. Every brand has its own product owner and its own view. Compliance sign-off is a real gate with a real queue. Nothing ships without going through change management.</p></div>
+        <div><p class="flabel">Emphasis</p><p>Spend double the normal time in Discover and Design. Get the account structure and the brand property model right &mdash; migrating later is brutal. Win the BI lead early; they decide whether this becomes strategic or stays a UX toy.</p></div>
+        <div><p class="flabel">Timeline</p><p>12&ndash;16 weeks to Embed. Do not promise faster; you will miss it and spend the rest of the engagement apologising.</p></div>
+        <div><p class="flabel">First win</p><p>A cross-brand comparison nobody has ever been able to run &mdash; the same funnel, five brands, side by side. It is politically explosive and commercially irresistible.</p></div>
+        <div><p class="flabel">Risk</p><p>Becoming the tool of one department. Insist on a cross-functional steering group from week one, or you will be renewed by one budget holder and cancelled by their successor.</p></div>
       </div>
     </div>
   </details>
@@ -1173,12 +1192,12 @@ FS('shutdown');           // stops capture for this session
   <details class="req"><summary><span class="rnum">B</span><span class="rq">Mid-market casino on a white-label platform<em>One or two brands, marketing-led, minimal in-house dev, and a platform provider who owns the cashier.</em></span></summary>
     <div class="dbody">
       <div class="reqgrid">
-        <div><h5>Shape</h5><p>Casino only, one or two markets, small team, everything outsourced. The client owns the CMS pages and the brand skin; the provider owns registration, cashier and the game launcher.</p></div>
-        <div><h5>What is hard</h5><p>You cannot deploy where the money is. The provider has no contractual incentive to help and will quote for the work.</p></div>
-        <div><h5>Emphasis</h5><p>Establish the deployment boundary in the first call. Then maximise what GTM can reach, and instrument the <em>edges</em> of the black box: every entry into the cashier and every return from it, with the outcome the page displays. Build the business case for provider cooperation with the data you can get.</p></div>
-        <div><h5>Timeline</h5><p>4&ndash;6 weeks to Validate, then a long tail waiting on the provider.</p></div>
-        <div><h5>First win</h5><p>Lobby and game discovery &mdash; entirely within the client's control, immediately actionable, and usually badly broken. Zero-result searches and dead promotional tiles are reliable finds.</p></div>
-        <div><h5>Risk</h5><p>Scope frustration. Be explicit and repeated about what is out of reach, in writing, or you will be blamed for the provider's boundary.</p></div>
+        <div><p class="flabel">Shape</p><p>Casino only, one or two markets, small team, everything outsourced. The client owns the CMS pages and the brand skin; the provider owns registration, cashier and the game launcher.</p></div>
+        <div><p class="flabel">What is hard</p><p>You cannot deploy where the money is. The provider has no contractual incentive to help and will quote for the work.</p></div>
+        <div><p class="flabel">Emphasis</p><p>Establish the deployment boundary in the first call. Then maximise what GTM can reach, and instrument the <em>edges</em> of the black box: every entry into the cashier and every return from it, with the outcome the page displays. Build the business case for provider cooperation with the data you can get.</p></div>
+        <div><p class="flabel">Timeline</p><p>4&ndash;6 weeks to Validate, then a long tail waiting on the provider.</p></div>
+        <div><p class="flabel">First win</p><p>Lobby and game discovery &mdash; entirely within the client's control, immediately actionable, and usually badly broken. Zero-result searches and dead promotional tiles are reliable finds.</p></div>
+        <div><p class="flabel">Risk</p><p>Scope frustration. Be explicit and repeated about what is out of reach, in writing, or you will be blamed for the provider's boundary.</p></div>
       </div>
     </div>
   </details>
@@ -1186,12 +1205,12 @@ FS('shutdown');           // stops capture for this session
   <details class="req"><summary><span class="rnum">C</span><span class="rq">App-first sportsbook<em>Native iOS and Android carry most of the revenue; in-play is the product; release cycles are slow.</em></span></summary>
     <div class="dbody">
       <div class="reqgrid">
-        <div><h5>Shape</h5><p>70&ndash;85% of turnover through the apps. A hybrid build with native shell and webviews for cashier and account. Traffic spikes violently around fixtures.</p></div>
-        <div><h5>What is hard</h5><p>Mobile instrumentation ships with app releases, so you get one shot per cycle. Webview and native session linkage is fiddly. Privacy defaults on mobile are the opposite of web and must be audited carefully.</p></div>
-        <div><h5>Emphasis</h5><p>Front-load the mobile event schema and get it fully reviewed &mdash; you cannot iterate weekly. Instrument betslip and in-play latency above everything else. Plan capture volume around the fixture calendar.</p></div>
-        <div><h5>Timeline</h5><p>Web in 4 weeks; app instrumentation paced to their release train, realistically 8&ndash;14 weeks.</p></div>
-        <div><h5>First win</h5><p>Betslip abandonment on mobile web, delivered while the app work is in the release queue. Also: price-change rejection rate, which almost no sportsbook measures from the player's side.</p></div>
-        <div><h5>Risk</h5><p>Quota burn on a big fixture weekend. Configure sampling and alerts before the first major event, not after.</p></div>
+        <div><p class="flabel">Shape</p><p>70&ndash;85% of turnover through the apps. A hybrid build with native shell and webviews for cashier and account. Traffic spikes violently around fixtures.</p></div>
+        <div><p class="flabel">What is hard</p><p>Mobile instrumentation ships with app releases, so you get one shot per cycle. Webview and native session linkage is fiddly. Privacy defaults on mobile are the opposite of web and must be audited carefully.</p></div>
+        <div><p class="flabel">Emphasis</p><p>Front-load the mobile event schema and get it fully reviewed &mdash; you cannot iterate weekly. Instrument betslip and in-play latency above everything else. Plan capture volume around the fixture calendar.</p></div>
+        <div><p class="flabel">Timeline</p><p>Web in 4 weeks; app instrumentation paced to their release train, realistically 8&ndash;14 weeks.</p></div>
+        <div><p class="flabel">First win</p><p>Betslip abandonment on mobile web, delivered while the app work is in the release queue. Also: price-change rejection rate, which almost no sportsbook measures from the player's side.</p></div>
+        <div><p class="flabel">Risk</p><p>Quota burn on a big fixture weekend. Configure sampling and alerts before the first major event, not after.</p></div>
       </div>
     </div>
   </details>
@@ -1199,12 +1218,12 @@ FS('shutdown');           // stops capture for this session
   <details class="req"><summary><span class="rnum">D</span><span class="rq">Social / free-to-play game studio<em>No real-money gambling, so lighter regulation &mdash; and completely different economics.</em></span></summary>
     <div class="dbody">
       <div class="reqgrid">
-        <div><h5>Shape</h5><p>Mobile-first, sometimes web canvas. Revenue from IAP and rewarded advertising. 1&ndash;3% of players pay. Product managers are already fluent in analytics.</p></div>
-        <div><h5>What is hard</h5><p>The game itself is canvas or engine-rendered, so replay shows almost nothing of gameplay. The team has a sophisticated event pipeline already and will ask what Fullstory adds.</p></div>
-        <div><h5>Emphasis</h5><p>Position Fullstory around the <em>non-game</em> surfaces &mdash; onboarding, the store, offers, settings, support &mdash; which is where monetisation and churn actually break and where their existing telemetry is thinnest. Focus on first-session experience and the IAP funnel.</p></div>
-        <div><h5>Timeline</h5><p>3&ndash;5 weeks; these teams move fast and have their own instrumentation habits.</p></div>
-        <div><h5>First win</h5><p>First-session drop-off at a specific tutorial step, with replays showing exactly what confused people. Their aggregate funnel already shows the drop; nobody has been able to see the cause.</p></div>
-        <div><h5>Risk</h5><p>Being treated as a duplicate of their existing analytics. Draw the line hard: aggregate tools tell them where, this tells them why.</p></div>
+        <div><p class="flabel">Shape</p><p>Mobile-first, sometimes web canvas. Revenue from IAP and rewarded advertising. 1&ndash;3% of players pay. Product managers are already fluent in analytics.</p></div>
+        <div><p class="flabel">What is hard</p><p>The game itself is canvas or engine-rendered, so replay shows almost nothing of gameplay. The team has a sophisticated event pipeline already and will ask what Fullstory adds.</p></div>
+        <div><p class="flabel">Emphasis</p><p>Position Fullstory around the <em>non-game</em> surfaces &mdash; onboarding, the store, offers, settings, support &mdash; which is where monetisation and churn actually break and where their existing telemetry is thinnest. Focus on first-session experience and the IAP funnel.</p></div>
+        <div><p class="flabel">Timeline</p><p>3&ndash;5 weeks; these teams move fast and have their own instrumentation habits.</p></div>
+        <div><p class="flabel">First win</p><p>First-session drop-off at a specific tutorial step, with replays showing exactly what confused people. Their aggregate funnel already shows the drop; nobody has been able to see the cause.</p></div>
+        <div><p class="flabel">Risk</p><p>Being treated as a duplicate of their existing analytics. Draw the line hard: aggregate tools tell them where, this tells them why.</p></div>
       </div>
     </div>
   </details>
@@ -1212,12 +1231,12 @@ FS('shutdown');           // stops capture for this session
   <details class="req"><summary><span class="rnum">E</span><span class="rq">Challenger brand, single market<em>Small, fast, ambitious, under-resourced, and desperate for growth.</em></span></summary>
     <div class="dbody">
       <div class="reqgrid">
-        <div><h5>Shape</h5><p>One brand, one market, 20&ndash;80 people. Probably a platform partner. The CEO is in the kick-off call and will stay in every call.</p></div>
-        <div><h5>What is hard</h5><p>No dedicated analyst, no BI team, no spare dev capacity. Enthusiasm is high and follow-through is thin.</p></div>
-        <div><h5>Emphasis</h5><p>Ruthless minimum viable instrumentation &mdash; registration, KYC, deposit, game launch, and nothing else until those are working. Pre-build everything: segments, funnels, dashboards. Assume they will not build their own.</p></div>
-        <div><h5>Timeline</h5><p>3&ndash;4 weeks to first value. Speed is the whole proposition here.</p></div>
-        <div><h5>First win</h5><p>Registration and KYC funnel drop-off with named causes. For a challenger, every lost registration is money they cannot spare and the CEO will act on it that week.</p></div>
-        <div><h5>Risk</h5><p>Usage collapses the moment you stop pushing. Build a lightweight recurring rhythm &mdash; one 30-minute fortnightly session &mdash; and defend it.</p></div>
+        <div><p class="flabel">Shape</p><p>One brand, one market, 20&ndash;80 people. Probably a platform partner. The CEO is in the kick-off call and will stay in every call.</p></div>
+        <div><p class="flabel">What is hard</p><p>No dedicated analyst, no BI team, no spare dev capacity. Enthusiasm is high and follow-through is thin.</p></div>
+        <div><p class="flabel">Emphasis</p><p>Ruthless minimum viable instrumentation &mdash; registration, KYC, deposit, game launch, and nothing else until those are working. Pre-build everything: segments, funnels, dashboards. Assume they will not build their own.</p></div>
+        <div><p class="flabel">Timeline</p><p>3&ndash;4 weeks to first value. Speed is the whole proposition here.</p></div>
+        <div><p class="flabel">First win</p><p>Registration and KYC funnel drop-off with named causes. For a challenger, every lost registration is money they cannot spare and the CEO will act on it that week.</p></div>
+        <div><p class="flabel">Risk</p><p>Usage collapses the moment you stop pushing. Build a lightweight recurring rhythm &mdash; one 30-minute fortnightly session &mdash; and defend it.</p></div>
       </div>
     </div>
   </details>
@@ -1225,12 +1244,12 @@ FS('shutdown');           // stops capture for this session
   <details class="req"><summary><span class="rnum">F</span><span class="rq">B2B platform or aggregator<em>Your client's customers are operators. Their UX is a product feature they sell.</em></span></summary>
     <div class="dbody">
       <div class="reqgrid">
-        <div><h5>Shape</h5><p>Supplies the platform, cashier, or game aggregation to many operator brands. Their "users" are both operator staff (back office) and end players (white-labelled front end).</p></div>
-        <div><h5>What is hard</h5><p>Multi-tenancy. One codebase, many skins, many operators, and data-segregation obligations between them. An operator must never see another operator's sessions.</p></div>
-        <div><h5>Emphasis</h5><p>Tenant identification as a first-class session property from day one, and an access model that enforces separation. Two distinct measurement programmes: back-office efficiency for operator staff, and conversion for end players.</p></div>
-        <div><h5>Timeline</h5><p>8&ndash;12 weeks; the access and segregation design is the long pole.</p></div>
-        <div><h5>First win</h5><p>Back-office usability. Operator staff use these tools all day, they are usually dreadful, and improvements are immediately felt by the client's own paying customers &mdash; which is a commercial story, not just a UX one.</p></div>
-        <div><h5>Risk</h5><p>A data-segregation mistake is an existential incident for them. Design the access model before capture goes live, and have it reviewed.</p></div>
+        <div><p class="flabel">Shape</p><p>Supplies the platform, cashier, or game aggregation to many operator brands. Their "users" are both operator staff (back office) and end players (white-labelled front end).</p></div>
+        <div><p class="flabel">What is hard</p><p>Multi-tenancy. One codebase, many skins, many operators, and data-segregation obligations between them. An operator must never see another operator's sessions.</p></div>
+        <div><p class="flabel">Emphasis</p><p>Tenant identification as a first-class session property from day one, and an access model that enforces separation. Two distinct measurement programmes: back-office efficiency for operator staff, and conversion for end players.</p></div>
+        <div><p class="flabel">Timeline</p><p>8&ndash;12 weeks; the access and segregation design is the long pole.</p></div>
+        <div><p class="flabel">First win</p><p>Back-office usability. Operator staff use these tools all day, they are usually dreadful, and improvements are immediately felt by the client's own paying customers &mdash; which is a commercial story, not just a UX one.</p></div>
+        <div><p class="flabel">Risk</p><p>A data-segregation mistake is an existential incident for them. Design the access model before capture goes live, and have it reviewed.</p></div>
       </div>
     </div>
   </details>
@@ -1769,6 +1788,7 @@ APPENDIX  Metric definitions · Data Capture Statement · Evidence</code></pre>
   <h1 class="vt">Onboarding plan generator</h1>
   <p class="lede">Describe the client; get a sequenced plan, a scoped instrumentation list, the KPI set, the requirements most likely to come up, and the risks to raise in the kick-off. Adjust it, do not obey it &mdash; it encodes judgement, not law.</p>
 
+  <h2 class="st">Describe the client</h2>
   <div class="builder">
     <div class="bform">
       <div class="bfield"><label for="b-vertical">Primary vertical</label>
@@ -2007,11 +2027,11 @@ APPENDIX  Metric definitions · Data Capture Statement · Evidence</code></pre>
   <h2 class="st">How much to trust each range</h2>
   <p>Every KPI carries a confidence tag next to its range. <strong>Read it before you say a number out loud in a meeting.</strong> Most of these ranges are estimates; the tag tells you which are not.</p>
   <div class="grid g2">
-    <div class="card"><h4><span class="tag p">published</span> Citable</h4><p>A documented standard &mdash; a web performance threshold or a card-scheme rule. Safe to state, with the source named.</p></div>
-    <div class="card"><h4><span class="tag i">industry</span> Contextual</h4><p>Widely reported across the industry and consistent with published operator reporting. Offer it as context, never as a target.</p></div>
-    <div class="card"><h4><span class="tag b">requirement</span> Not a benchmark</h4><p>A regulatory or operational requirement. The number is what the rule demands; a shortfall is a defect, not a performance gap.</p></div>
-    <div class="card"><h4><span class="tag w">client only</span> Not comparable</h4><p>No honest external comparison exists. Use the client's own trailing baseline.</p></div>
-    <div class="card" style="grid-column:1/-1;border-color:color-mix(in srgb,var(--crit) 40%,transparent)"><h4><span class="tag c">estimate</span> Smell test only &mdash; the default</h4><p>My estimate from how these businesses typically behave. Use it to judge whether a client's figure is roughly normal or obviously broken. <strong>Never quote it to a client as a benchmark</strong>, and never put it in a deck as a target. Anything without another tag is one of these.</p></div>
+    <div class="card"><h3><span class="tag p">published</span> Citable</h3><p>A documented standard &mdash; a web performance threshold or a card-scheme rule. Safe to state, with the source named.</p></div>
+    <div class="card"><h3><span class="tag i">industry</span> Contextual</h3><p>Widely reported across the industry and consistent with published operator reporting. Offer it as context, never as a target.</p></div>
+    <div class="card"><h3><span class="tag b">requirement</span> Not a benchmark</h3><p>A regulatory or operational requirement. The number is what the rule demands; a shortfall is a defect, not a performance gap.</p></div>
+    <div class="card"><h3><span class="tag w">client only</span> Not comparable</h3><p>No honest external comparison exists. Use the client's own trailing baseline.</p></div>
+    <div class="card" style="grid-column:1/-1;border-color:color-mix(in srgb,var(--crit) 40%,transparent)"><h3><span class="tag c">estimate</span> Smell test only &mdash; the default</h3><p>My estimate from how these businesses typically behave. Use it to judge whether a client's figure is roughly normal or obviously broken. <strong>Never quote it to a client as a benchmark</strong>, and never put it in a deck as a target. Anything without another tag is one of these.</p></div>
   </div>
 
   <div class="toolbar">
@@ -2236,9 +2256,9 @@ APPENDIX  Metric definitions · Data Capture Statement · Evidence</code></pre>
 
   <h2 class="st">Three tiers of claim</h2>
   <div class="grid g3">
-    <div class="card" style="border-top:3px solid var(--pos)"><h4><span class="tag p">Verified</span></h4><p>Checked against Fullstory's own documentation on the date above. Safe to state to a client. Listed below with the source.</p></div>
-    <div class="card" style="border-top:3px solid var(--info)"><h4><span class="tag i">Reasoned</span></h4><p>Follows from how the product demonstrably works &mdash; the nine build patterns, the capture model's consequences, the analytical method. Stable, because it does not depend on a menu label. Say it with confidence; expect to explain your reasoning.</p></div>
-    <div class="card" style="border-top:3px solid var(--warn)"><h4><span class="tag w">Judgement</span></h4><p>Consulting experience encoded as advice: onboarding sequencing, archetype risks, benchmark ranges, what to say in a room. Useful, arguable, and <strong>not</strong> to be presented as fact. Attribute it to yourself, not to a source.</p></div>
+    <div class="card" style="border-top:3px solid var(--pos)"><h3><span class="tag p">Verified</span></h3><p>Checked against Fullstory's own documentation on the date above. Safe to state to a client. Listed below with the source.</p></div>
+    <div class="card" style="border-top:3px solid var(--info)"><h3><span class="tag i">Reasoned</span></h3><p>Follows from how the product demonstrably works &mdash; the nine build patterns, the capture model's consequences, the analytical method. Stable, because it does not depend on a menu label. Say it with confidence; expect to explain your reasoning.</p></div>
+    <div class="card" style="border-top:3px solid var(--warn)"><h3><span class="tag w">Judgement</span></h3><p>Consulting experience encoded as advice: onboarding sequencing, archetype risks, benchmark ranges, what to say in a room. Useful, arguable, and <strong>not</strong> to be presented as fact. Attribute it to yourself, not to a source.</p></div>
   </div>
 
   <h2 class="st">Verified product facts and where they came from</h2>
@@ -2318,7 +2338,7 @@ APPENDIX  Metric definitions · Data Capture Statement · Evidence</code></pre>
 
   <h2 class="st">What changes when you run it locally</h2>
   <div class="grid g2">
-    <div class="card"><h4><span class="tag p">Works</span> Everything structural</h4><ul>
+    <div class="card"><h3><span class="tag p">Works</span> Everything structural</h3><ul>
       <li>Every module and every word of content</li>
       <li>Global search across lessons, KPIs, requirements and glossary</li>
       <li>All filters, the drill deck and scoring</li>
@@ -2326,7 +2346,7 @@ APPENDIX  Metric definitions · Data Capture Statement · Evidence</code></pre>
       <li>Light and dark themes, and the keyboard shortcuts</li>
       <li>Your progress, notes and quiz score &mdash; saved in that browser</li>
     </ul></div>
-    <div class="card"><h4><span class="tag w">Differs</span> Three things</h4><ul>
+    <div class="card"><h3><span class="tag w">Differs</span> Three things</h3><ul>
       <li><strong>The scenario coach is hidden.</strong> It needs the hosted runtime to reach Claude, so the local copy disables it rather than showing a broken button.</li>
       <li><strong>Progress is per-browser, not per-person.</strong> The hosted version syncs your notes and ticks across devices; the local copy stores them in that one browser's storage. Use Chrome on the laptop and Edge on the desktop and you will have two separate sets of notes.</li>
       <li><strong>Fonts need the internet on first load.</strong> Offline, the page falls back to system fonts. It reads perfectly well, it just looks plainer.</li>

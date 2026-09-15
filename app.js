@@ -167,11 +167,11 @@
       '<summary><span class="rnum">' + (r.n < 10 ? '0' : '') + r.n + '</span><span class="rq">' + esc(r.t) +
       '<em>&ldquo;' + esc(r.q) + '&rdquo;</em></span><span class="tag b">' + r.theme + '</span></summary>' +
       '<div class="reqgrid">' +
-      '<div><h5>What it really means</h5><p>' + r.means + '</p></div>' +
-      '<div><h5>How you build it</h5><ul>' + r.fs.map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ul></div>' +
-      '<div><h5>KPI it moves</h5><p>' + r.kpi + '</p></div>' +
-      '<div><h5>Deliverable</h5><p>' + r.del + '</p></div>' +
-      '<div style="grid-column:1/-1"><h5>The gotcha</h5><p>' + r.got + '</p></div>' +
+      '<div><p class="flabel">What it really means</p><p>' + r.means + '</p></div>' +
+      '<div><p class="flabel">How you build it</p><ul>' + r.fs.map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ul></div>' +
+      '<div><p class="flabel">KPI it moves</p><p>' + r.kpi + '</p></div>' +
+      '<div><p class="flabel">Deliverable</p><p>' + r.del + '</p></div>' +
+      '<div style="grid-column:1/-1"><p class="flabel">The gotcha</p><p>' + r.got + '</p></div>' +
       '</div></details>';
   }
   function renderReqs() { $('#r-list').innerHTML = window.REQS.map(reqCard).join(''); filterReqs(); }
@@ -216,12 +216,12 @@
       '<div class="kbody">' +
       (pat ? '<p class="kpat"><strong>Pattern &mdash; ' + pat[0] + '.</strong> ' + pat[1] + '</p>' : '') +
       '<div class="kcols">' +
-      '<div><h5>Instrumentation needed first</h5><p>' + (b ? b.pre : '&mdash;') + '</p>' +
-      (b && b.cut ? '<h5 style="margin-top:14px">Always split by</h5><p>' + esc(b.cut) + '</p>' : '') +
-      '<h5 style="margin-top:14px">Benchmark confidence</h5><p><span class="tag ' + cf.cls + '">' + cf.label + '</span> ' + cf.d + '</p></div>' +
-      '<div><h5>Build it</h5>' + (b ? '<ol class="ksteps">' + b.steps.map(function (s) { return '<li>' + s + '</li>'; }).join('') + '</ol>' : '<p>&mdash;</p>') + '</div>' +
+      '<div><p class="flabel">Instrumentation needed first</p><p>' + (b ? b.pre : '&mdash;') + '</p>' +
+      (b && b.cut ? '<p class="flabel" style="margin-top:14px">Always split by</p><p>' + esc(b.cut) + '</p>' : '') +
+      '<p class="flabel" style="margin-top:14px">Benchmark confidence</p><p><span class="tag ' + cf.cls + '">' + cf.label + '</span> ' + cf.d + '</p></div>' +
+      '<div><p class="flabel">Build it</p>' + (b ? '<ol class="ksteps">' + b.steps.map(function (s) { return '<li>' + s + '</li>'; }).join('') + '</ol>' : '<p>&mdash;</p>') + '</div>' +
       '</div>' +
-      '<div class="knote"><h5>In practice</h5><p>' + (b && b.note ? b.note : k.fs) + '</p></div>' +
+      '<div class="knote"><p class="flabel">In practice</p><p>' + (b && b.note ? b.note : k.fs) + '</p></div>' +
       '</div></details>';
   }
   function renderKpis() {
@@ -377,20 +377,20 @@
 
     $('#b-out').innerHTML =
       (p.conflicts && p.conflicts.length ?
-        '<div class="phase conflict"><h4><span class="wk">Check</span>This profile contains contradictions</h4><div class="pb"><ul>' +
+        '<div class="phase conflict"><h3><span class="wk">Check</span>This profile contains contradictions</h3><div class="pb"><ul>' +
         p.conflicts.map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ul></div></div>' : '') +
-      '<div class="phase"><h4><span class="wk">Overall</span>Plan shape</h4><div class="pb">' +
+      '<div class="phase"><h3><span class="wk">Overall</span>Plan shape</h3><div class="pb">' +
       '<p style="margin-top:0"><strong>Time to embedded: ' + p.weeks + '.</strong> Six phases, adapted to this profile. Everything below is a starting point to argue with, not a script.</p></div></div>' +
       p.phases.map(function (ph) {
-        return '<div class="phase"><h4><span class="wk">' + ph.w + '</span>' + ph.t + '</h4><div class="pb"><ul>' +
+        return '<div class="phase"><h3><span class="wk">' + ph.w + '</span>' + ph.t + '</h3><div class="pb"><ul>' +
           ph.items.map(function (i) { return '<li>' + i + '</li>'; }).join('') + '</ul></div></div>';
       }).join('') +
-      '<div class="phase"><h4><span class="wk">Scope</span>Instrumentation to specify</h4><div class="pb"><ul>' +
+      '<div class="phase"><h3><span class="wk">Scope</span>Instrumentation to specify</h3><div class="pb"><ul>' +
       p.instr.map(function (i) { return '<li>' + esc(i) + '</li>'; }).join('') + '</ul></div></div>' +
-      '<div class="phase"><h4><span class="wk">Measure</span>KPI set for this client</h4><div class="pb"><ul>' +
+      '<div class="phase"><h3><span class="wk">Measure</span>KPI set for this client</h3><div class="pb"><ul>' +
       p.kpis.map(function (i) { return '<li>' + esc(i) + '</li>'; }).join('') + '</ul></div></div>' +
-      (reqTitles ? '<div class="phase"><h4><span class="wk">Expect</span>Requirements most likely to come up</h4><div class="pb"><ul>' + reqTitles + '</ul></div></div>' : '') +
-      '<div class="phase"><h4><span class="wk">Raise early</span>Risks for the kick-off</h4><div class="pb"><ul>' +
+      (reqTitles ? '<div class="phase"><h3><span class="wk">Expect</span>Requirements most likely to come up</h3><div class="pb"><ul>' + reqTitles + '</ul></div></div>' : '') +
+      '<div class="phase"><h3><span class="wk">Raise early</span>Risks for the kick-off</h3><div class="pb"><ul>' +
       p.risks.map(function (i) { return '<li>' + i + '</li>'; }).join('') + '</ul></div></div>';
     lastPlan = $('#b-out').innerText;
   }

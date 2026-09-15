@@ -49,11 +49,21 @@ ORDER = [
     'p9.html',      # closing tags + script includes
 ]
 
+# Head for the served build only. The Artifact publisher supplies its own
+# head, favicon and title, so none of this belongs in artifact.html.
 DOCUMENT_HEAD = """<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="A training platform for teaching Fullstory to gaming, gambling and casino clients: 35 modules, 153 KPIs each with a build recipe, 35 worked client requirements, deliverable templates, a hands-on lab and a spaced-repetition drill deck.">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#E7EAE4" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#101410" media="(prefers-color-scheme: dark)">
+<meta property="og:title" content="Fullstory Pit Boss">
+<meta property="og:description" content="Teaching Fullstory to gaming, gambling and casino clients — 35 modules, 153 KPIs with build recipes, onboarding playbooks and a hands-on lab.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27%3E%F0%9F%8E%B2%3C/text%3E%3C/svg%3E">
 <style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
 </head>
 <body>
