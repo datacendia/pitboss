@@ -2,7 +2,7 @@
 
 A self-contained training platform for teaching **Fullstory** to gaming, gambling and casino clients.
 
-Thirty-five modules, a 153-entry KPI encyclopedia where every entry carries a build recipe, thirty-five worked client requirements, nine copy-ready deliverable templates, a hands-on lab with a sandbox site containing eight planted defects, and an 88-question spaced-repetition drill deck.
+Thirty-seven modules, a 153-entry KPI encyclopedia where every entry carries a build recipe, thirty-five worked client requirements, nine copy-ready deliverable templates, an interactive segment builder with ten marked exercises, a hands-on lab with a sandbox site containing eight planted defects, and a 97-question spaced-repetition drill deck.
 
 Built for an optimisation analyst working with real-money iGaming operators — sportsbook, casino, poker and bingo, lottery, and free-to-play social gaming.
 
@@ -36,9 +36,9 @@ No build step, no dependencies, no package manager. Works offline apart from the
 | **I — The Product** | Eleven modules on Fullstory itself: the capture architecture, installation across snippet / npm / GTM / CDP, identity and the pseudonymous `uid`, the event data model, privacy and masking, replay craft, segments, funnels and journeys, frustration signals, the warehouse sync and APIs, and multi-brand administration. |
 | **II — The Client's Data** | Six modules on what a gambling operator actually measures: the five verticals and their different economics, money mechanics (GGR, NGR, hold, RTP, wagering requirements), the twelve-stage player lifecycle with failure modes, the vendor stack behind every brand, a full event taxonomy per vertical, and the regulatory lines. |
 | **III — Onboarding** | A six-phase 90-day framework, six client archetypes worked through week by week, a 35-question discovery script, a role-by-role training curriculum, an account health check, nine deliverable templates, and a plan generator that assembles a programme from a client profile — and flags where that profile contradicts itself. |
-| **IV — Requirements** | Thirty-five requirements clients actually voice, each decoded into what it really means, the exact segments and funnels to build, the events to instrument, the KPI it moves, the deliverable, and the trap. |
+| **IV — Insight to change** | Thirty-five requirements clients actually voice, each decoded into what it really means, the exact segments and funnels to build, the events to instrument, the KPI it moves, the deliverable, and the trap. Then the experimentation method: falsifiable hypotheses, prioritisation, sample size at gambling funnel baselines, test duration against the fixture calendar, validity checks, and what must never be tested on a licensed site. |
 | **V — KPIs** | The nine build patterns every metric reduces to, then 153 KPIs across twelve domains. Each carries its formula, an indicative range with a confidence tag, its pattern, the instrumentation it needs first, numbered build steps, the cuts to segment by, and what goes wrong. |
-| **VI — Practice** | An 88-question drill deck in three formats with spaced repetition, a glossary, a hands-on lab, a scenario coach, and a sources page. |
+| **VI — Practice** | A 97-question drill deck in three formats with spaced repetition, an interactive segment builder that marks your logic and explains each mistake, a glossary, a hands-on lab, a scenario coach, and a sources page. |
 
 ---
 
@@ -78,6 +78,8 @@ data-kpi-build.js build recipe for every KPI, keyed by name
 data-kpi-conf.js  benchmark confidence tiers
 data-quiz.js      the expanded drill deck
 data-lab.js       the lab sandbox site, as a single downloadable file
+data-drill.js     the segment composition drills and their answers
+drill.js          the interactive segment builder and its checker
 ```
 
 After any change:
@@ -111,7 +113,7 @@ Both reference the same sibling CSS, JS and data files, so there is exactly one 
 | **Local clone** — `index.html` | browser storage | hidden | copy blocks |
 | **Hosted Artifact** | across devices | yes | yes |
 
-The Artifact build adds three things a static host cannot do: progress and notes that sync across devices, a scenario coach that role-plays a client, and file downloads for the templates and the lab sandbox. Everywhere else falls back to per-browser storage, hides the coach rather than showing a dead button, and offers the same content as copyable blocks. All 35 modules and every word of content are identical in all three.
+The Artifact build adds three things a static host cannot do: progress and notes that sync across devices, a scenario coach that role-plays a client, and file downloads for the templates and the lab sandbox. Everywhere else falls back to per-browser storage, hides the coach rather than showing a dead button, and offers the same content as copyable blocks. All 37 modules and every word of content are identical in all three.
 
 Use the hosted Artifact for notes, the Netlify link for sharing and for reading on a phone, and the clone for client sites where guest wifi is locked down and having the KPI encyclopedia offline in a meeting is worth the duplication.
 

@@ -43,6 +43,7 @@ ORDER = [
     'pexp.html',    # Part IV — from insight to experiment
     'pkb.html',     # Part V — the nine build patterns
     'p4b.html',     # Part V KPI encyclopedia + Part VI drills, coach, glossary
+    'pdrill.html',  # Part VI — segment composition drills
     'plab.html',    # Part VI — the hands-on lab
     'pfw.html',     # Close — your first week
     'psrc.html',    # Close — sources & confidence

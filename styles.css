@@ -417,3 +417,39 @@ pre.qcode{margin:0 0 14px;border-left-color:var(--info);font-size:12px}
   .tablewrap,pre{overflow:visible!important}
   table{font-size:9.5pt}
 }
+
+/* ---------- segment composition drills ---------- */
+.drill{background:var(--surface);border:1px solid var(--rule);border-radius:9px;padding:18px 20px;margin:18px 0}
+.drillhead{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.drillhead .mono{font-family:var(--f-mono);font-size:11px;color:var(--ink-3);margin-left:8px}
+.drillnav{margin-left:auto;display:flex;gap:8px}
+.d-brief{font-family:var(--f-display);font-size:18px;font-weight:600;line-height:1.35;margin:0 0 6px;max-width:64ch}
+.d-context{font-size:14.5px;color:var(--ink-2);margin:0;max-width:64ch}
+.dgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;margin-top:18px}
+.dfield label{font-family:var(--f-mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink-3);display:block;margin-bottom:5px}
+.drow{display:grid;grid-template-columns:22px minmax(0,1.1fr) minmax(0,1.6fr) 64px minmax(0,1.4fr) 28px;
+  gap:8px;align-items:center;margin-bottom:8px}
+.drow .dnum{font-family:var(--f-mono);font-size:11px;color:var(--brass);text-align:center}
+.drow select,.drow input{height:32px;padding:0 8px;border-radius:6px;border:1px solid var(--rule-2);
+  background:var(--surface-2);color:var(--ink);font-family:var(--f-display);font-size:12.5px;
+  width:100%;min-width:0;text-overflow:ellipsis}
+.drow input[hidden],.drow select[hidden]{display:none}
+.drm{width:28px;height:28px;border-radius:6px;border:1px solid var(--rule-2);background:var(--surface-2);
+  color:var(--ink-3);cursor:pointer;line-height:1;font-size:15px}
+.drm:hover{border-color:var(--crit);color:var(--crit)}
+@media(max-width:1000px){
+  .drow{grid-template-columns:22px 1fr;row-gap:6px;padding-bottom:10px;
+    border-bottom:1px solid var(--rule);margin-bottom:10px}
+  .drow .dnum{grid-row:span 4;align-self:start;padding-top:8px}
+  .drow .drm{justify-self:end;margin-top:-34px}
+}
+.dfeedback{margin-top:18px;padding:14px 16px;border-radius:8px;border:1px solid var(--rule-2);background:var(--surface-2)}
+.dfeedback[hidden]{display:none}
+.dfeedback.ok{background:var(--pos-soft);border-color:color-mix(in srgb,var(--pos) 40%,transparent)}
+.dfeedback.no{background:var(--warn-soft);border-color:color-mix(in srgb,var(--warn) 40%,transparent)}
+.dverdict{font-family:var(--f-display);font-weight:700;font-size:15px;margin:0 0 8px}
+.dfeedback ul{margin:8px 0 0;padding-left:20px;max-width:none}
+.dfeedback li{margin:7px 0;font-size:14.5px;line-height:1.5}
+.dfeedback p{font-size:14.5px;line-height:1.55;max-width:none}
+.dfeedback pre{margin:8px 0 12px}

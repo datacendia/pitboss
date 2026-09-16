@@ -2290,6 +2290,68 @@ FS(<span class="s">'trackEvent'</span>, {
 </section>
 
 
+<section class="view" id="v-segdrill" data-part="VI &middot; Drills" data-nav="Segment builder drills">
+  <span class="eyebrow">Part VI &middot; Practice</span>
+  <h1 class="vt">Compose the segment, not the screenshot</h1>
+  <p class="lede">Read the brief, build the definition, get it marked. Ten exercises covering the errors that actually cost people: session scope where user scope was needed, co-occurrence mistaken for sequence, a missing negative, a missing property filter.</p>
+
+  <div class="callout warn">
+    <div class="ci">Read this</div>
+    <div class="cc"><p><strong>This is not a mock of Fullstory's interface, on purpose.</strong> The build recipes in this platform are reasoned from the data model rather than checked against live screens, so a convincing replica would teach you a layout that may not exist. What it drills instead is the part that does not depend on their layout: the <em>logic</em> of a segment. Learn the arrangement of the real controls from <a href="https://learn.fullstory.com/app" target="_blank" rel="noopener">Fullstory Learn</a>; learn what to put in them here.</p></div>
+  </div>
+
+  <div class="drill" id="drillbox">
+    <div class="drillhead">
+      <div>
+        <span class="tag b" id="d-level">&mdash;</span>
+        <span class="mono" id="d-progress"></span>
+      </div>
+      <div class="drillnav">
+        <button class="btn ghost" type="button" id="d-prev">&larr; Previous</button>
+        <button class="btn ghost" type="button" id="d-next">Next &rarr;</button>
+      </div>
+    </div>
+
+    <p class="d-brief" id="d-brief">&mdash;</p>
+    <p class="d-context" id="d-context"></p>
+
+    <div class="dgrid">
+      <div class="dfield">
+        <label for="d-scope">Scope</label>
+        <select id="d-scope">
+          <option value="session">Session &mdash; which visits had this shape</option>
+          <option value="user">User &mdash; which people ever did this</option>
+        </select>
+      </div>
+      <div class="dfield">
+        <label for="d-window">Window</label>
+        <select id="d-window"></select>
+      </div>
+    </div>
+
+    <p class="flabel" style="margin:18px 0 8px">Conditions</p>
+    <div id="d-rows"></div>
+    <button class="btn ghost" type="button" id="d-add" style="margin-top:10px">+ Add condition</button>
+
+    <div class="viewfoot" style="margin-top:22px">
+      <button class="btn" type="button" id="d-check">Check my segment</button>
+      <button class="btn ghost" type="button" id="d-reveal">Show the answer</button>
+      <button class="btn ghost" type="button" id="d-reset">Clear</button>
+      <span class="scoreline" id="d-score"></span>
+    </div>
+
+    <div class="dfeedback" id="d-feedback" role="status" aria-live="polite" hidden></div>
+  </div>
+
+  <h2 class="st">What these drills are checking</h2>
+  <div class="grid g2">
+    <div class="card"><h3>Scope</h3><p>Session scope asks "which visits had this shape". User scope asks "which people ever did this". Anything containing the words <em>never</em>, <em>has ever</em> or <em>across sessions</em> is user scope, and getting it wrong does not produce an error &mdash; it produces a plausible number that answers a different question.</p></div>
+    <div class="card"><h3>Sequence</h3><p>The single most common segment-building error. <em>A and B</em> is not <em>A then B</em>. Without ordering, "failed then retried" also matches a player who succeeded and later deposited again. Whenever a brief contains the word "then", reach for the sequence operator.</p></div>
+    <div class="card"><h3>Negatives</h3><p>Nearly every valuable gambling segment is a negative: deposited but never wagered, registered but never verified, searched but never launched. On a dual-product operator you usually need <em>two</em> negatives, or you quietly include every sports bettor in your "did not play" population.</p></div>
+    <div class="card"><h3>Property filters</h3><p>The filter is often where the entire meaning lives. <span class="mono">Lobby Search</span> is every search; <span class="mono">Lobby Search where hadZeroResults = true</span> is the finding. A KYC Outcome of "referred" is not a pass, and an in-play bet is not a pre-match one.</p></div>
+  </div>
+</section>
+
 <section class="view" id="v-lab" data-part="VI &middot; Drills" data-nav="The hands-on lab">
   <span class="eyebrow">Part VI &middot; Practice</span>
   <h1 class="vt">Break something, then watch yourself break it</h1>
@@ -2558,4 +2620,6 @@ FS(<span class="s">'trackEvent'</span>, {
 <script src="data-kpi-conf.js"></script>
 <script src="data-quiz.js"></script>
 <script src="data-lab.js"></script>
+<script src="data-drill.js"></script>
 <script src="app.js"></script>
+<script src="drill.js"></script>
